@@ -41,6 +41,7 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "^11.0.3",
+    "@zyy/pivot-table": "^0.0.27",
     "ant-design-vue": "^4.2.3",
     "dayjs": "^1.11.13",
     "pinia": "2.2.2",

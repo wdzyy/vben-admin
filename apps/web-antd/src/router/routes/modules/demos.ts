@@ -23,6 +23,15 @@ const routes: RouteRecordRaw[] = [
         path: '/demos/ant-design',
         component: () => import('#/views/demos/antd/index.vue'),
       },
+      {
+        name: 'Pivot',
+        path: '/v-table/pivot',
+        component: () => import('#/views/demos/v-table/index.vue'),
+        meta: {
+          icon: 'lucide:copyright',
+          title: '透视图',
+        },
+      },
     ],
   },
 ];
