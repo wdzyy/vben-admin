@@ -1087,6 +1087,31 @@ importers:
         specifier: ^4.4.4
         version: 4.4.4(vue@3.5.4(typescript@5.6.2))
 
+  packages/effects/pivot-table:
+    dependencies:
+      '@visactor/vtable':
+        specifier: ^1.7.6
+        version: 1.7.6
+      ant-design-vue:
+        specifier: ^4.2.3
+        version: 4.2.3(vue@3.5.4(typescript@5.6.2))
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      vue:
+        specifier: 3.5.4
+        version: 3.5.4(typescript@5.6.2)
+    devDependencies:
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
+      '@vitejs/plugin-vue':
+        specifier: ^5.1.3
+        version: 5.1.3(vite@5.4.4(@types/node@22.5.4)(less@4.2.0)(sass@1.78.0)(terser@5.32.0))(vue@3.5.4(typescript@5.6.2))
+      vite-plugin-dts:
+        specifier: 4.2.1
+        version: 4.2.1(@types/node@22.5.4)(rollup@4.21.3)(typescript@5.6.2)(vite@5.4.4(@types/node@22.5.4)(less@4.2.0)(sass@1.78.0)(terser@5.32.0))
+
   packages/effects/plugins:
     dependencies:
       '@vben/preferences':

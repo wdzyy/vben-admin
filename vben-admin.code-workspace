@@ -121,6 +121,10 @@
       "path": "packages/effects/layouts",
     },
     {
+      "name": "@zyy/pivot-table",
+      "path": "packages/effects/pivot-table",
+    },
+    {
       "name": "@vben/plugins",
       "path": "packages/effects/plugins",
     },
