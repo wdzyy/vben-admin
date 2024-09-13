@@ -1,6 +1,6 @@
 {
   "name": "@zyy/pivot-table",
-  "version": "0.0.27",
+  "version": "0.0.1",
   "description": "A Vue3 component for pivot table",
   "keywords": [
     "vue3",
