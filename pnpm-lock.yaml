@@ -72,7 +72,7 @@ importers:
         specifier: ^8.14.2
         version: 8.14.2
       husky:
-        specifier: ^9.1.5
+        specifier: ^9.1.6
         version: 9.1.6
       is-ci:
         specifier: ^3.0.1
@@ -87,7 +87,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       tailwindcss:
-        specifier: ^3.4.10
+        specifier: ^3.4.11
         version: 3.4.11
       turbo:
         specifier: ^2.1.1
@@ -102,7 +102,7 @@ importers:
         specifier: ^5.4.3
         version: 5.4.4(@types/node@22.5.4)(less@4.2.0)(sass@1.78.0)(terser@5.32.0)
       vitest:
-        specifier: ^2.0.5
+        specifier: ^2.1.0
         version: 2.1.0(@types/node@22.5.4)(jsdom@25.0.0)(less@4.2.0)(sass@1.78.0)(terser@5.32.0)
       vue:
         specifier: 3.5.4
@@ -332,8 +332,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/styles
       lucide-vue-next:
-        specifier: ^0.439.0
-        version: 0.439.0(vue@3.5.4(typescript@5.6.2))
+        specifier: ^0.441.0
+        version: 0.441.0(vue@3.5.4(typescript@5.6.2))
       medium-zoom:
         specifier: ^1.1.0
         version: 1.1.0
@@ -472,7 +472,7 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(stylelint@16.9.0(typescript@5.6.2))
       stylelint-scss:
-        specifier: ^6.5.1
+        specifier: ^6.6.0
         version: 6.6.0(stylelint@16.9.0(typescript@5.6.2))
     devDependencies:
       postcss:
@@ -585,7 +585,7 @@ importers:
         specifier: ^10.0.3
         version: 10.0.3(postcss@8.4.45)
       tailwindcss:
-        specifier: ^3.4.10
+        specifier: ^3.4.11
         version: 3.4.11
       tailwindcss-animate:
         specifier: ^1.0.7
@@ -665,7 +665,7 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
       rollup:
-        specifier: ^4.21.2
+        specifier: ^4.21.3
         version: 4.21.3
       rollup-plugin-visualizer:
         specifier: ^5.12.0
@@ -694,8 +694,8 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(vue@3.5.4(typescript@5.6.2))
       lucide-vue-next:
-        specifier: ^0.439.0
-        version: 0.439.0(vue@3.5.4(typescript@5.6.2))
+        specifier: ^0.441.0
+        version: 0.441.0(vue@3.5.4(typescript@5.6.2))
       vue:
         specifier: 3.5.4
         version: 3.5.4(typescript@5.6.2)
@@ -708,6 +708,9 @@ importers:
       '@tanstack/vue-store':
         specifier: ^0.5.5
         version: 0.5.5(vue@3.5.4(typescript@5.6.2))
+      '@vue/reactivity':
+        specifier: ^3.5.4
+        version: 3.5.4
       '@vue/shared':
         specifier: ^3.5.4
         version: 3.5.4
@@ -900,8 +903,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       lucide-vue-next:
-        specifier: ^0.439.0
-        version: 0.439.0(vue@3.5.4(typescript@5.6.2))
+        specifier: ^0.441.0
+        version: 0.441.0(vue@3.5.4(typescript@5.6.2))
       radix-vue:
         specifier: ^1.9.5
         version: 1.9.5(vue@3.5.4(typescript@5.6.2))
@@ -923,6 +926,9 @@ importers:
       '@vben-core/shadcn-ui':
         specifier: workspace:*
         version: link:../shadcn-ui
+      '@vben-core/shared':
+        specifier: workspace:*
+        version: link:../../base/shared
       '@vben-core/typings':
         specifier: workspace:*
         version: link:../../base/typings
@@ -1196,7 +1202,7 @@ importers:
   playground:
     dependencies:
       '@tanstack/vue-query':
-        specifier: ^5.55.4
+        specifier: ^5.56.2
         version: 5.56.2(vue@3.5.4(typescript@5.6.2))
       '@vben/access':
         specifier: workspace:*
@@ -7238,8 +7244,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-vue-next@0.439.0:
-    resolution: {integrity: sha512-XZ4KbYoEbVvAYxSuFjzZ/9oGTpCSK0CXWV6bUXe3PVN7tkSxRaoiYz+p8d/2vk43pxxOb6BSwAMfsxwbOzFk0Q==}
+  lucide-vue-next@0.441.0:
+    resolution: {integrity: sha512-WaPNRjH5O74mD3hVgKB4HtMYsjAuQSuOcNAeK8h6s8GqySkpsBnd2tmuc+EooNkogNv6l8UNmwgBANZVZ6SHqQ==}
     peerDependencies:
       vue: 3.5.4
 
@@ -16880,7 +16886,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-vue-next@0.439.0(vue@3.5.4(typescript@5.6.2)):
+  lucide-vue-next@0.441.0(vue@3.5.4(typescript@5.6.2)):
     dependencies:
       vue: 3.5.4(typescript@5.6.2)
 
