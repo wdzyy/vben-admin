@@ -29,6 +29,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/demos/v-table/index.vue'),
         meta: {
           icon: 'lucide:copyright',
+          keepAlive: true,
           title: '透视图',
         },
       },

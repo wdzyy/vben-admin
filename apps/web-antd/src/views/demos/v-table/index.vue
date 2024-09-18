@@ -4,7 +4,9 @@ import type { PivotTableOptions } from '@zyy/pivot-table';
 import { ref } from 'vue';
 
 import { PivotTable as ZPivotTable } from '@zyy/pivot-table';
-import { Button } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
+
+import { useVbenForm } from '#/adapter';
 
 import '@zyy/pivot-table/lib/style.css';
 
@@ -2138,14 +2140,81 @@ const data = ref<any>([
     styleNo: 'XHR--9114',
   },
 ]);
-const getData = () => {
+const onSubmit = (values: Record<string, any>) => {
+  message.success({
+    content: `form values: ${JSON.stringify(values)}`,
+  });
   if (zPivotRef.value) zPivotRef.value.setData(data.value);
 };
+const onReset = (values: Record<string, any>) => {
+  message.success({
+    content: `form values: ${JSON.stringify(values)}`,
+  });
+  if (zPivotRef.value) zPivotRef.value.setData([]);
+};
+const [QueryForm] = useVbenForm({
+  // 默认展开
+  collapsed: false,
+  // 所有表单项共用，可单独在表单内覆盖
+  commonConfig: {
+    // 所有表单项
+    componentProps: {
+      class: 'w-full',
+    },
+  },
+  // 重置函数
+  handleReset: onReset,
+  // 提交函数
+  handleSubmit: onSubmit,
+  // 垂直布局，label和input在不同行，值为vertical
+  layout: 'horizontal',
+  // 使用 tailwindcss grid布局
+  // 水平布局，label和input在同一行
+  schema: [
+    {
+      // 组件需要在 #/adapter.ts内注册，并加上类型
+      component: 'Input',
+      // 对应组件的参数
+      componentProps: {
+        placeholder: '请输入款号',
+      },
+      // 字段名
+      fieldName: 'styleNo',
+      // 界面显示的label
+      label: '款号',
+    },
+    {
+      component: 'InputPassword',
+      fieldName: 'styleName',
+      label: '款名',
+    },
+    {
+      component: 'InputNumber',
+      componentProps: {
+        placeholder: '请输入',
+      },
+      fieldName: 'moNo',
+      label: '制单号',
+    },
+    {
+      component: 'DatePicker',
+      fieldName: 'datePicker',
+      label: '日期选择框',
+    },
+  ],
+  // 是否可展开
+  showCollapseButton: true,
+  submitButtonOptions: {
+    text: '查询',
+  },
+  // 大屏一行显示3个，中屏一行显示2个，小屏一行显示1个
+  wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+});
 </script>
 
 <template>
   <div class="mx-4 mt-4 rounded-md bg-white p-4">
-    <Button type="primary" @click="getData">获取数据</Button>
+    <QueryForm />
     <ZPivotTable ref="zPivotRef" :options="options" />
   </div>
 </template>
