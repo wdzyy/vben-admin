@@ -11,7 +11,7 @@ import viteVueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 import viteVue from '@vitejs/plugin-vue';
 import viteVueJsx from '@vitejs/plugin-vue-jsx';
 import { visualizer as viteVisualizerPlugin } from 'rollup-plugin-visualizer';
-import viteCompressPlugin from 'vite-plugin-compression';
+import viteCompressPlugin from 'vite-plugin-compression2';
 import viteDtsPlugin from 'vite-plugin-dts';
 import { createHtmlPlugin as viteHtmlPlugin } from 'vite-plugin-html';
 import { libInjectCss as viteLibInjectCss } from 'vite-plugin-lib-inject-css';
@@ -173,12 +173,20 @@ async function loadApplicationPlugins(
         const compressPlugins: PluginOption[] = [];
         if (compressTypes?.includes('brotli')) {
           compressPlugins.push(
-            viteCompressPlugin({ deleteOriginFile: false, ext: '.br' }),
+            viteCompressPlugin({
+              algorithm: 'brotliCompress',
+              deleteOriginalAssets: false,
+              exclude: [/\.(br)$/, /\.(gz)$/],
+            }),
           );
         }
         if (compressTypes?.includes('gzip')) {
           compressPlugins.push(
-            viteCompressPlugin({ deleteOriginFile: false, ext: '.gz' }),
+            viteCompressPlugin({
+              algorithm: 'gzip',
+              deleteOriginalAssets: false,
+              exclude: [/\.(br)$/, /\.(gz)$/],
+            }),
           );
         }
         return compressPlugins;
