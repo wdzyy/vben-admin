@@ -58,6 +58,7 @@ export type CustomRenderType = (() => Component | string) | string;
 
 export type FormSchemaRuleType =
   | 'required'
+  | 'selectRequired'
   | null
   | (Record<never, never> & string)
   | ZodTypeAny;
@@ -87,12 +88,12 @@ export interface FormItemDependencies {
    * 是否禁用
    * @returns 是否禁用
    */
-  disabled?: FormItemDependenciesCondition;
+  disabled?: boolean | FormItemDependenciesCondition;
   /**
    * 是否渲染（删除dom）
    * @returns 是否渲染
    */
-  if?: FormItemDependenciesCondition;
+  if?: boolean | FormItemDependenciesCondition;
   /**
    * 是否必填
    * @returns 是否必填
@@ -106,7 +107,7 @@ export interface FormItemDependencies {
    * 是否隐藏(Css)
    * @returns 是否隐藏
    */
-  show?: FormItemDependenciesCondition;
+  show?: boolean | FormItemDependenciesCondition;
   /**
    * 任意触发都会执行
    */
@@ -140,7 +141,7 @@ export interface FormCommonConfig {
   disabled?: boolean;
   /**
    * 所有表单项的控件样式
-   * @default ""
+   * @default {}
    */
   formFieldProps?: Partial<typeof Field>;
   /**
@@ -160,7 +161,7 @@ export interface FormCommonConfig {
   hideRequiredMark?: boolean;
   /**
    * 所有表单项的label样式
-   * @default "w-[100px]"
+   * @default ""
    */
   labelClass?: string;
   /**
@@ -294,6 +295,7 @@ export interface VbenFormProps<
 
   /**
    * 是否显示默认操作按钮
+   * @default true
    */
   showDefaultActions?: boolean;
 
@@ -319,6 +321,11 @@ export interface VbenFormAdapterOptions<
   };
   defineRules?: {
     required?: (
+      value: any,
+      params: any,
+      ctx: Record<string, any>,
+    ) => boolean | string;
+    selectRequired?: (
       value: any,
       params: any,
       ctx: Record<string, any>,

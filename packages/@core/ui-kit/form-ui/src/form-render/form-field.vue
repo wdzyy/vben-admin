@@ -85,7 +85,15 @@ const currentRules = computed(() => {
   return dynamicRules.value || rules;
 });
 
+const visible = computed(() => {
+  return isIf.value && isShow.value;
+});
+
 const shouldRequired = computed(() => {
+  if (!visible.value) {
+    return false;
+  }
+
   if (!currentRules.value) {
     return isRequired.value;
   }
@@ -95,7 +103,7 @@ const shouldRequired = computed(() => {
   }
 
   if (isString(currentRules.value)) {
-    return currentRules.value === 'required';
+    return ['required', 'selectRequired'].includes(currentRules.value);
   }
 
   let isOptional = currentRules?.value?.isOptional?.();
@@ -113,6 +121,10 @@ const shouldRequired = computed(() => {
 });
 
 const fieldRules = computed(() => {
+  if (!visible.value) {
+    return null;
+  }
+
   let rules = currentRules.value;
   if (!rules) {
     return isRequired.value ? 'required' : null;
@@ -264,7 +276,7 @@ function createComponentProps(slotProps: Record<string, any>) {
             <component
               :is="fieldComponent"
               :class="{
-                'border-destructive focus:border-destructive hover:border-destructive/80':
+                'border-destructive focus:border-destructive hover:border-destructive/80 focus:shadow-[0_0_0_2px_rgba(255,38,5,0.06)]':
                   isInValid,
               }"
               v-bind="createComponentProps(slotProps)"

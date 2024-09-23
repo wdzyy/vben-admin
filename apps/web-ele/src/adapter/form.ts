@@ -73,8 +73,14 @@ setupVbenForm<FormComponentType>({
   },
   defineRules: {
     required: (value, _params, ctx) => {
-      if ((!value && value !== 0) || value.length === 0) {
+      if (value === undefined || value === null || value.length === 0) {
         return $t('formRules.required', [ctx.label]);
+      }
+      return true;
+    },
+    selectRequired: (value, _params, ctx) => {
+      if (value === undefined || value === null) {
+        return $t('formRules.selectRequired', [ctx.label]);
       }
       return true;
     },
