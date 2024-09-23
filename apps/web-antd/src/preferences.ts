@@ -7,7 +7,22 @@ import { defineOverridesPreferences } from '@vben/preferences';
 export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
-    // accessMode: 'backend',
+    accessMode: 'frontend', // frontend\backend
+    defaultAvatar: 'https://minio.qzeyu.fun/zy-admin/logo-z.svg',
+    enableRefreshToken: true,
+    layout: 'mixed-nav',
+    loginExpiredMode: 'modal',
     name: import.meta.env.VITE_APP_TITLE,
+  },
+  footer: {
+    enable: false,
+  },
+  logo: {
+    source: 'https://minio.qzeyu.fun/zy-admin/logo-z.svg',
+  },
+  theme: {
+    colorPrimary: 'hsl(214 92% 61%)',
+    mode: 'light',
+    semiDarkSidebar: true,
   },
 });

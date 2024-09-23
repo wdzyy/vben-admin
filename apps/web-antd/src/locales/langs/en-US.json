@@ -4,5 +4,9 @@
       "title": "Demos",
       "antd": "Ant Design Vue"
     }
+  },
+  "authentication": {
+    "pageTitle": "Jack Haning System",
+    "pageDesc": "Hanging in my hand, I have everything in the world"
   }
 }

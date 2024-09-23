@@ -4,5 +4,9 @@
       "title": "演示",
       "antd": "Ant Design Vue"
     }
+  },
+  "authentication": {
+    "pageTitle": "杰克吊挂系统",
+    "pageDesc": "吊挂在手，天下我有"
   }
 }
