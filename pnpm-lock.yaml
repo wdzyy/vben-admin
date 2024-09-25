@@ -28,7 +28,7 @@ catalogs:
       specifier: ^9.11.0
       version: 9.11.1
     '@iconify/json':
-      specifier: ^2.2.251
+      specifier: ^2.2.252
       version: 2.2.252
     '@iconify/tailwind':
       specifier: ^1.1.3
@@ -37,10 +37,10 @@ catalogs:
       specifier: ^4.1.2
       version: 4.1.2
     '@intlify/core-base':
-      specifier: ^10.0.2
+      specifier: ^10.0.3
       version: 10.0.3
     '@intlify/unplugin-vue-i18n':
-      specifier: ^5.0.0
+      specifier: ^5.2.0
       version: 5.2.0
     '@jspm/generator':
       specifier: ^2.3.1
@@ -58,7 +58,7 @@ catalogs:
       specifier: ^1.0.0
       version: 1.0.0
     '@stylistic/stylelint-plugin':
-      specifier: ^3.0.1
+      specifier: ^3.1.0
       version: 3.1.0
     '@tailwindcss/nesting':
       specifier: 0.0.0-insiders.565cd3e
@@ -220,7 +220,7 @@ catalogs:
       specifier: ^3.2.0
       version: 3.2.0
     eslint-plugin-import-x:
-      specifier: ^4.2.1
+      specifier: ^4.3.0
       version: 4.3.0
     eslint-plugin-jsdoc:
       specifier: ^50.2.4
@@ -337,7 +337,7 @@ catalogs:
       specifier: ^16.1.0
       version: 16.1.0
     postcss-preset-env:
-      specifier: ^10.0.3
+      specifier: ^10.0.5
       version: 10.0.5
     postcss-scss:
       specifier: ^4.0.9
@@ -463,7 +463,7 @@ catalogs:
       specifier: ^9.4.3
       version: 9.4.3
     vue-i18n:
-      specifier: ^10.0.2
+      specifier: ^10.0.3
       version: 10.0.3
     vue-router:
       specifier: ^4.4.5
