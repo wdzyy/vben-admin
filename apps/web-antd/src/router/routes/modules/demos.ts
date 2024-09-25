@@ -33,6 +33,16 @@ const routes: RouteRecordRaw[] = [
           title: '透视图',
         },
       },
+      {
+        name: 'ListTable',
+        path: '/v-table/list-table',
+        component: () => import('#/views/demos/v-table/list-table.vue'),
+        meta: {
+          icon: 'lucide:copyright',
+          keepAlive: true,
+          title: '报表',
+        },
+      },
     ],
   },
 ];
