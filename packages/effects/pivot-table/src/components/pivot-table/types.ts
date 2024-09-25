@@ -6,7 +6,7 @@ import type {
 } from '@visactor/vtable/es/ts-types';
 
 // 导出所有导入的类型
-export * from '@visactor/vtable/es/ts-types';
+// export * from '@visactor/vtable/es/ts-types';
 
 export type CheckedType = boolean | number | string;
 export interface Options {
