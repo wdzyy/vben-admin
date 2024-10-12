@@ -136,3 +136,4 @@ export { useVbenForm, z };
 
 export type VbenFormSchema = FormSchema<FormComponentType>;
 export type { VbenFormProps };
+export type FormSchemaGetter = () => VbenFormSchema[];

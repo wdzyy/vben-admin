@@ -3,6 +3,10 @@
     "demos": {
       "title": "Demos",
       "antd": "Ant Design Vue"
+    },
+    "system": {
+      "title": "System Management",
+      "menu": "Menu Management"
     }
   }
 }

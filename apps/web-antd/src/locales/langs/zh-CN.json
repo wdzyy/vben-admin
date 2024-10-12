@@ -1,8 +1,19 @@
 {
   "page": {
+    "common": {
+      "collapse": "收起",
+      "expand": "展开",
+      "add": "新增",
+      "edit": "编辑",
+      "delete": "删除"
+    },
     "demos": {
       "title": "演示",
       "antd": "Ant Design Vue"
+    },
+    "system": {
+      "title": "系统管理",
+      "menu": "菜单管理"
     }
   }
 }

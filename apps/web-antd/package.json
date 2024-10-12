@@ -43,9 +43,18 @@
     "@vueuse/core": "catalog:",
     "@zyy/pivot-table": "^0.0.2",
     "ant-design-vue": "catalog:",
+    "cropperjs": "^1.6.2",
+    "crypto-js": "^4.2.0",
     "dayjs": "catalog:",
+    "echarts": "^5.5.1",
+    "jsencrypt": "^3.3.2",
+    "lodash-es": "^4.17.21",
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/lodash-es": "^4.17.12"
   }
 }

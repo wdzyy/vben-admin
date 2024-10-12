@@ -89,6 +89,14 @@ export class DrawerApi {
     }
   }
 
+  drawerLoading(loading: boolean) {
+    this.store.setState((prev) => ({
+      ...prev,
+      confirmLoading: loading,
+      loading,
+    }));
+  }
+
   getData<T extends object = Record<string, any>>() {
     return (this.sharedData?.payload ?? {}) as T;
   }

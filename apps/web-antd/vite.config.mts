@@ -4,6 +4,16 @@ export default defineConfig(async () => {
   return {
     application: {},
     vite: {
+      optimizeDeps: {
+        include: [
+          'echarts/core',
+          'echarts/charts',
+          'echarts/components',
+          'echarts/renderers',
+          'ant-design-vue/es/locale/zh_CN',
+          'ant-design-vue/es/locale/en_US',
+        ],
+      },
       server: {
         proxy: {
           '/api': {
@@ -13,6 +23,9 @@ export default defineConfig(async () => {
             target: 'http://localhost:5320/api',
             ws: true,
           },
+        },
+        warmup: {
+          clientFiles: ['./index.html', './src/{views,components}/*'],
         },
       },
     },
