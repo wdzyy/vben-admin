@@ -5,6 +5,7 @@
       "register": "Register",
       "codeLogin": "Code Login",
       "qrcodeLogin": "Qr Code Login",
+      "oauthLogin": "Oauth Login",
       "forgetPassword": "Forget Password"
     },
     "dashboard": {
@@ -52,7 +53,12 @@
       "unauthorized": "Unauthorized. Please log in to continue.",
       "forbidden": "Forbidden. You do not have permission to access this resource.",
       "notFound": "Not Found. The requested resource could not be found.",
-      "internalServerError": "Internal Server Error. Something went wrong on our end. Please try again later."
+      "internalServerError": "Internal Server Error. Something went wrong on our end. Please try again later.",
+      "apiRequestFailed": "The interface request failed, please try again later!",
+      "operationSuccess": "Operation Success",
+      "operationFailed": "Operation failed",
+      "errorTip": "Error Tip",
+      "successTip": "Success Tip"
     }
   },
   "formRules": {
@@ -65,6 +71,7 @@
   },
   "widgets": {
     "document": "Document",
+    "profile": "Profile",
     "qa": "Q&A",
     "setting": "Settings",
     "logoutTip": "Do you want to logout?",
@@ -105,9 +112,11 @@
     "selectAccount": "Quick Select Account",
     "username": "Username",
     "password": "Password",
+    "captcha": "Captcha",
     "usernameTip": "Please enter username",
     "passwordErrorTip": "Password is incorrect",
     "passwordTip": "Please enter password",
+    "captchaTip": "Please enter captcha",
     "verifyRequiredTip": "Please complete the verification first",
     "rememberMe": "Remember Me",
     "createAnAccount": "Create an Account",

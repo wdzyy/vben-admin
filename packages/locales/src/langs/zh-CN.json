@@ -1,10 +1,11 @@
 {
   "page": {
     "core": {
-      "login": "登陆",
+      "login": "登录",
       "register": "注册",
-      "codeLogin": "验证码登陆",
-      "qrcodeLogin": "二维码登陆",
+      "codeLogin": "验证码登录",
+      "qrcodeLogin": "二维码登录",
+      "oauthLogin": "第三方登录",
       "forgetPassword": "忘记密码"
     },
     "dashboard": {
@@ -52,7 +53,12 @@
       "unauthorized": "登录认证过期，请重新登录后继续。",
       "forbidden": "禁止访问, 您没有权限访问此资源。",
       "notFound": "未找到, 请求的资源不存在。",
-      "internalServerError": "内部服务器错误，请稍后再试。"
+      "internalServerError": "内部服务器错误，请稍后再试。",
+      "apiRequestFailed": "请求出错，请稍候重试",
+      "operationSuccess": "操作成功",
+      "operationFailed": "操作失败",
+      "errorTip": "错误提示",
+      "successTip": "成功提示"
     }
   },
   "formRules": {
@@ -65,6 +71,7 @@
   },
   "widgets": {
     "document": "文档",
+    "profile": "个人中心",
     "qa": "问题 & 帮助",
     "setting": "设置",
     "logoutTip": "是否退出登录？",
@@ -105,8 +112,10 @@
     "selectAccount": "快速选择账号",
     "username": "账号",
     "password": "密码",
-    "usernameTip": "请输入用户名",
+    "captcha": "验证码",
+    "usernameTip": "请输入账号",
     "passwordTip": "请输入密码",
+    "captchaTip": "请输入验证码",
     "verifyRequiredTip": "请先完成验证",
     "passwordErrorTip": "密码错误",
     "rememberMe": "记住账号",

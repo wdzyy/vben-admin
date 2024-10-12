@@ -50,3 +50,52 @@
 .ant-app .form-valid-error .ant-picker-focused {
   box-shadow: 0 0 0 2px rgb(255 38 5 / 6%);
 }
+
+/** 前后置小圆点样式 */
+.dot-before-common {
+  @apply before:relative before:top-[-2px] before:mr-[5px] before:inline-block before:size-[6px] before:rounded-full before:content-[''];
+}
+
+.dot-before-red {
+  @apply dot-before-common before:bg-red-500;
+}
+
+.dot-before-green {
+  @apply dot-before-common before:bg-green-500;
+}
+
+/**
+vxe表格右上角toolbar元素之间的间距
+*/
+.vxe-button + .vxe-button.type--button {
+  margin-left: 8px !important;
+}
+
+/**
+vxe表格右上角toolbar和左边元素的间距
+*/
+.vxe-tools--operate {
+  margin-left: 8px;
+}
+
+/**
+覆盖vxe-table的toolbar样式 由于默认已经有了padding 需要去除上边的padding
+*/
+.vxe-toolbar {
+  padding: 0 0 0.6em !important;
+}
+
+/**
+vxe默认圆角
+*/
+html {
+  --vxe-ui-border-radius: 8px !important;
+}
+
+/**
+vxe表格头部背景色 与antd保持一致 只需要处理light模式 夜间模式用vxe默认的
+*/
+html[data-vxe-ui-theme='light'] {
+  /** 只支持hsl格式 */
+  --vxe-ui-table-header-background-color: hsl(0deg 0% 98%) !important;
+}

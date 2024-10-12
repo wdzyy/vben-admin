@@ -12,7 +12,18 @@ export interface VbenAdminProAppConfigRaw {
 }
 
 export interface ApplicationConfig {
+  // 后端接口地址
   apiURL: string;
+  // 客户端key
+  clientId?: string;
+  // 全局加密开关(即开启了加解密功能才会生效 不是全部接口加密 需要和后端对应)
+  enableEncrypt?: boolean;
+  // RSA响应解密私钥
+  rsaPrivateKey?: string;
+  // RSA请求加密公钥
+  rsaPublicKey?: string;
+  // 是否开启websocket
+  websocketEnable?: boolean;
 }
 
 declare global {

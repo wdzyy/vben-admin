@@ -69,6 +69,20 @@ class RequestClient {
   }
 
   /**
+   * DELETE请求方法 成功会弹出msg
+   */
+  public deleteWithMsg<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      method: 'DELETE',
+      successMessageMode: 'message',
+    });
+  }
+
+  /**
    * GET请求方法
    */
   public get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
@@ -87,6 +101,22 @@ class RequestClient {
   }
 
   /**
+   * POST请求方法 成功会弹出msg
+   */
+  public postWithMsg<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      data,
+      method: 'POST',
+      successMessageMode: 'message',
+    });
+  }
+
+  /**
    * PUT请求方法
    */
   public put<T = any>(
@@ -95,6 +125,22 @@ class RequestClient {
     config?: AxiosRequestConfig,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'PUT' });
+  }
+
+  /**
+   * PUT请求方法 成功会弹出msg
+   */
+  public putWithMsg<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      data,
+      method: 'PUT',
+      successMessageMode: 'message',
+    });
   }
 
   /**
