@@ -75,6 +75,8 @@ const [Form, formApi] = useTableForm({
   showCollapseButton: true,
   submitButtonOptions: {
     content: $t('common.query'),
+    // antd 按钮原生类型 需要设置为submit才能在输入框回车提交
+    htmlType: 'submit',
   },
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
 });
