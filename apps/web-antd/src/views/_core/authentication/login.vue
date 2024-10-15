@@ -2,9 +2,9 @@
 import type { VbenFormSchema } from '@vben/common-ui';
 import type { BasicOption } from '@vben/types';
 
-import { computed, markRaw } from 'vue';
+import { computed } from 'vue';
 
-import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
+import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useAuthStore } from '#/store';
@@ -78,13 +78,13 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
+    /* {
       component: markRaw(SliderCaptcha),
       fieldName: 'captcha',
       rules: z.boolean().refine((value) => value, {
         message: $t('authentication.verifyRequiredTip'),
       }),
-    },
+    }, */
   ];
 });
 </script>
@@ -93,6 +93,30 @@ const formSchema = computed((): VbenFormSchema[] => {
   <AuthenticationLogin
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
+    :show-code-login="false"
+    :show-forget-password="false"
+    :show-qrcode-login="false"
+    :show-third-party-login="false"
+    sub-title="欢迎回来"
+    title="杰克智能吊挂系统👋"
     @submit="authStore.authLogin"
   />
+  <!--
+
+   codeLoginPath: '/auth/code-login',
+  forgetPasswordPath: '/auth/forget-password',
+  formSchema: () => [],
+  loading: false,
+  qrCodeLoginPath: '/auth/qrcode-login',
+  registerPath: '/auth/register',
+  showCodeLogin: true,
+  showForgetPassword: true,
+  showQrcodeLogin: true,
+  showRegister: true,
+  showRememberMe: true,
+  showThirdPartyLogin: true,
+  submitButtonText: '',
+  subTitle: '',
+  title: '',
+   -->
 </template>

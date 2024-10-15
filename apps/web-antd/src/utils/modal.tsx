@@ -24,7 +24,7 @@ export function confirmDeleteModal(props: ConfirmModalProps) {
         message: '校验不通过',
         required: true,
         trigger: 'change',
-        validator(_, value) {
+        validator(_: any, value: any) {
           if (value !== confirmText) {
             return Promise.reject(new Error('校验不通过'));
           }

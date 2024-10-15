@@ -103,6 +103,14 @@ export class ModalApi {
     return (this.sharedData?.payload ?? {}) as T;
   }
 
+  modalLoading(loading: boolean) {
+    this.store.setState((prev) => ({
+      ...prev,
+      confirmLoading: loading,
+      loading,
+    }));
+  }
+
   /**
    * 取消操作
    */

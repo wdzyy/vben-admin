@@ -19,7 +19,7 @@ export async function downloadExcel(
   requestData: any = {},
   withRandomName = true,
 ) {
-  const hideLoading = message.loading($t('pages.common.downloadLoading'), 0);
+  const hideLoading = message.loading($t('page.common.downloadLoading'), 0);
   try {
     const data = await func(requestData);
     downloadExcelFile(data, fileName, withRandomName);

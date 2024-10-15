@@ -7,7 +7,7 @@ import { eachTree, getPopupContainer } from '@vben/utils';
 
 import { Button, Popconfirm, Space, Tooltip } from 'ant-design-vue';
 
-import { useVbenVxeGrid, type VxeGridProps } from '#/adapter';
+import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
 
 import { columns, querySchema } from './data';
 import menuDrawer from './menu-drawer.vue';

@@ -5,7 +5,7 @@ import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { addFullName, getPopupContainer, listToTree } from '@vben/utils';
 
-import { useVbenForm } from '#/adapter';
+import { useVbenForm } from '#/adapter/form';
 
 import { drawerSchema } from './data';
 import { data as mockData } from './mock-data';

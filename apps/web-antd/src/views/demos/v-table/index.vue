@@ -6,7 +6,7 @@ import { ref } from 'vue';
 import { PivotTable as ZPivotTable } from '@zyy/pivot-table';
 import { message } from 'ant-design-vue';
 
-import { useVbenForm } from '#/adapter';
+import { useVbenForm } from '#/adapter/form';
 
 import '@zyy/pivot-table/lib/style.css';
 

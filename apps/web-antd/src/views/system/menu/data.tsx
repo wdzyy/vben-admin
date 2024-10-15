@@ -1,14 +1,8 @@
 import { getPopupContainer } from '@vben/utils';
 
-import { type FormSchemaGetter, type VxeGridProps, z } from '#/adapter';
+import { type FormSchemaGetter, z } from '#/adapter/form';
+import { type VxeGridProps } from '#/adapter/vxe-table';
 import { renderDictTag, renderIcon } from '#/utils/render';
-
-export enum DictEnum {
-  SYS_NORMAL_DISABLE = 'sys_normal_disable',
-  SYS_SHOW_HIDE = 'sys_show_hide', // 显示状态
-  SYS_USER_SEX = 'sys_user_sex', // 性别
-  SYS_YES_NO = 'sys_yes_no', // 是否
-}
 
 // 菜单类型（M目录 C菜单 F按钮）
 export const menuTypeOptions = [
