@@ -244,7 +244,7 @@ const exportExcel = () => {
                 :get-popup-container="getPopupContainer"
                 placement="left"
                 title="确认删除？"
-                @confirm="handleDelete(row)"
+                @confirm="handleDelete"
               >
                 <ghost-button danger @click.stop="">
                   {{ $t('page.common.delete') }}

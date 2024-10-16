@@ -23,6 +23,23 @@ setupVbenVxeTable({
           showActiveMsg: true,
           showResponseMsg: false,
         },
+        rowConfig: {
+          // 鼠标移入行显示 hover 样式
+          isHover: true,
+          // 点击行高亮
+          isCurrent: true,
+        },
+        columnConfig: {
+          // 可拖拽列宽
+          resizable: true,
+        },
+        // 右上角工具栏
+        toolbarConfig: {
+          // 自定义列
+          custom: true,
+          // 刷新
+          refresh: true,
+        },
         round: true,
         size: 'small',
       },
