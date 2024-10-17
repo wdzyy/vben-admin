@@ -39,6 +39,7 @@ setupVbenVxeTable({
           custom: true,
           // 刷新
           refresh: true,
+          zoom: true,
         },
         round: true,
         size: 'small',

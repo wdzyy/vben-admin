@@ -171,9 +171,6 @@ const exportExcel = () => {
   <Page :auto-content-height="true">
     <BasicTable>
       <template #toolbar-actions>
-        <span class="pl-[7px] text-[16px]">角色列表</span>
-      </template>
-      <template #toolbar-tools>
         <Space>
           <a-button @click="exportExcel">
             {{ $t('page.common.export') }}

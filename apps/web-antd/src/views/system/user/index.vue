@@ -200,9 +200,6 @@ const exportExcel = () => {
       <DeptTree v-model:select-dept-id="selectDeptId" class="w-[260px]" />
       <BasicTable class="flex-1 overflow-hidden">
         <template #toolbar-actions>
-          <span class="pl-[7px] text-[16px]">用户列表</span>
-        </template>
-        <template #toolbar-tools>
           <Space>
             <a-button @click="exportExcel">
               {{ $t('page.common.export') }}

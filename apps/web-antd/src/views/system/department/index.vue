@@ -103,14 +103,11 @@ function setExpandOrCollapse(expand: boolean) {
   <Page :auto-content-height="true">
     <BasicTable>
       <template #toolbar-actions>
-        <div class="flex items-center gap-[6px]">
-          <span class="pl-[7px] text-[16px]">部门列表</span>
+        <div class="mr-2">
           <Tooltip title="提示：双击展开/收起子菜单">
             <CircleHelp class="size-4 text-center" />
           </Tooltip>
         </div>
-      </template>
-      <template #toolbar-tools>
         <Space>
           <a-button @click="setExpandOrCollapse(false)">
             {{ $t('page.common.collapse') }}
