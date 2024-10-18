@@ -51,6 +51,16 @@ const routes: RouteRecordRaw[] = [
         path: '/system/dept',
         component: () => import('#/views/system/department/index.vue'),
       },
+
+      {
+        name: 'Dict',
+        path: '/system/dict',
+        component: () => import('#/views/system/dict/index.vue'),
+        meta: {
+          title: 'menu.system.dict',
+          icon: 'fluent-mdl2:dictionary',
+        },
+      },
       {
         meta: {
           icon: 'icon-park-twotone:setting-two',
