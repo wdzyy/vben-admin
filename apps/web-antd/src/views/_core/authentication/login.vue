@@ -42,7 +42,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         .string()
         .min(1, { message: $t('authentication.selectAccount') })
         .optional()
-        .default('vben'),
+        .default('admin'),
     },
     {
       component: 'VbenInput',
@@ -97,8 +97,8 @@ const formSchema = computed((): VbenFormSchema[] => {
     :show-forget-password="false"
     :show-qrcode-login="false"
     :show-third-party-login="false"
-    sub-title="欢迎回来"
-    title="杰克智能吊挂系统👋"
+    :sub-title="$t('page.auth.sub-title')"
+    :title="$t('page.auth.title')"
     @submit="authStore.authLogin"
   />
   <!--

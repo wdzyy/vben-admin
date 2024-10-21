@@ -1,0 +1,17 @@
+{
+  "title": "Demos",
+  "antd": "Ant Design Vue",
+  "vben": {
+    "title": "Project",
+    "about": "About",
+    "document": "Document",
+    "antdv": "Ant Design Vue Version",
+    "naive-ui": "Naive UI Version",
+    "element-plus": "Element Plus Version"
+  },
+  "vtable": {
+    "title": "VTable",
+    "pivot-table": "Pivot Table",
+    "list-table": "List Table"
+  }
+}

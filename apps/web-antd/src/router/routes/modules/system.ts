@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'eos-icons:system-group',
       keepAlive: true,
       order: 2000,
-      title: $t('menu.system.title'),
+      title: $t('page.menu.system.title'),
     },
     name: 'System',
     path: '/system',
@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           icon: 'ph:user-duotone',
-          title: $t('menu.system.user'),
+          title: $t('page.menu.system.user'),
         },
         name: 'User',
         path: '/system/user',
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           icon: 'eos-icons:role-binding-outlined',
-          title: $t('menu.system.role'),
+          title: $t('page.menu.system.role'),
         },
         name: 'Role',
         path: '/system/role',
@@ -36,7 +36,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           icon: 'ic:round-menu',
-          title: $t('menu.system.menu'),
+          title: $t('page.menu.system.menu'),
         },
         name: 'Menus',
         path: '/system/menu',
@@ -45,7 +45,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           icon: 'mingcute:department-line',
-          title: $t('menu.system.department'),
+          title: $t('page.menu.system.department'),
         },
         name: 'Dept',
         path: '/system/dept',
@@ -57,14 +57,14 @@ const routes: RouteRecordRaw[] = [
         path: '/system/dict',
         component: () => import('#/views/system/dict/index.vue'),
         meta: {
-          title: 'menu.system.dict',
+          title: $t('page.menu.system.dict'),
           icon: 'fluent-mdl2:dictionary',
         },
       },
       {
         meta: {
           icon: 'icon-park-twotone:setting-two',
-          title: $t('menu.system.config'),
+          title: $t('page.menu.system.config'),
         },
         name: 'ConfigItem',
         path: '/system/config-item',
@@ -75,7 +75,7 @@ const routes: RouteRecordRaw[] = [
         path: 'notice',
         component: () => import('#/views/system/notice/index.vue'),
         meta: {
-          title: 'menu.system.notice',
+          title: $t('page.menu.system.notice'),
           icon: 'fe:notice-push',
         },
       },
@@ -83,7 +83,7 @@ const routes: RouteRecordRaw[] = [
         name: 'Log',
         path: '/log',
         meta: {
-          title: 'menu.system.log.root',
+          title: $t('page.menu.system.log.root'),
           icon: 'material-symbols:logo-dev-outline',
         },
         children: [
@@ -92,7 +92,7 @@ const routes: RouteRecordRaw[] = [
             path: '/operatelog',
             component: () => import('#/views/system/log/operate-log.vue'),
             meta: {
-              title: 'menu.system.log.operation',
+              title: $t('page.menu.system.log.operation'),
               icon: 'arcticons:one-hand-operation',
             },
           },
@@ -101,7 +101,7 @@ const routes: RouteRecordRaw[] = [
             path: '/loginLog',
             component: () => import('#/views/system/log/login-log.vue'),
             meta: {
-              title: 'menu.system.log.login',
+              title: $t('page.menu.system.log.login'),
               icon: 'streamline:interface-login-dial-pad-finger-password-dial-pad-dot-finger',
             },
           },

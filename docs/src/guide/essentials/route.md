@@ -105,7 +105,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'ic:baseline-view-in-ar',
       keepAlive: true,
       order: 1000,
-      title: $t('page.demos.title'),
+      title: $t('demos.title'),
     },
     name: 'Demos',
     path: '/demos',
@@ -115,7 +115,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           icon: 'ic:round-menu',
-          title: $t('page.demos.nested.title'),
+          title: $t('demos.nested.title'),
         },
         name: 'NestedDemos',
         path: '/demos/nested',
@@ -128,7 +128,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'ic:round-menu',
               keepAlive: true,
-              title: $t('page.demos.nested.menu1'),
+              title: $t('demos.nested.menu1'),
             },
           },
           {
@@ -137,7 +137,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'ic:round-menu',
               keepAlive: true,
-              title: $t('page.demos.nested.menu2'),
+              title: $t('demos.nested.menu2'),
             },
             redirect: '/demos/nested/menu2/menu2-1',
             children: [
@@ -148,7 +148,7 @@ const routes: RouteRecordRaw[] = [
                 meta: {
                   icon: 'ic:round-menu',
                   keepAlive: true,
-                  title: $t('page.demos.nested.menu2_1'),
+                  title: $t('demos.nested.menu2_1'),
                 },
               },
             ],
@@ -158,7 +158,7 @@ const routes: RouteRecordRaw[] = [
             path: '/demos/nested/menu3',
             meta: {
               icon: 'ic:round-menu',
-              title: $t('page.demos.nested.menu3'),
+              title: $t('demos.nested.menu3'),
             },
             redirect: '/demos/nested/menu3/menu3-1',
             children: [
@@ -169,7 +169,7 @@ const routes: RouteRecordRaw[] = [
                 meta: {
                   icon: 'ic:round-menu',
                   keepAlive: true,
-                  title: $t('page.demos.nested.menu3_1'),
+                  title: $t('demos.nested.menu3_1'),
                 },
               },
               {
@@ -177,7 +177,7 @@ const routes: RouteRecordRaw[] = [
                 path: 'menu3-2',
                 meta: {
                   icon: 'ic:round-menu',
-                  title: $t('page.demos.nested.menu3_2'),
+                  title: $t('demos.nested.menu3_2'),
                 },
                 redirect: '/demos/nested/menu3/menu3-2/menu3-2-1',
                 children: [
@@ -189,7 +189,7 @@ const routes: RouteRecordRaw[] = [
                     meta: {
                       icon: 'ic:round-menu',
                       keepAlive: true,
-                      title: $t('page.demos.nested.menu3_2_1'),
+                      title: $t('demos.nested.menu3_2_1'),
                     },
                   },
                 ],
@@ -387,6 +387,10 @@ interface RouteMeta {
    */
   order?: number;
   /**
+   * 菜单所携带的参数
+   */
+  query?: Recordable;
+  /**
    * 标题名称
    */
   title: string;
@@ -541,6 +545,15 @@ interface RouteMeta {
 - 默认值：`0`
 
 用于配置页面的排序，用于路由到菜单排序。
+
+_注意:_ 排序仅针对一级菜单有效，二级菜单的排序需要在对应的一级菜单中按代码顺序设置。
+
+### query
+
+- 类型：`Recordable`
+- 默认值：`{}`
+
+用于配置页面的菜单参数，会在菜单中传递给页面。
 
 ## 路由刷新
 

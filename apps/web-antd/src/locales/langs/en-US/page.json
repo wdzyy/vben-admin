@@ -1,0 +1,54 @@
+{
+  "auth": {
+    "title": "Welcome Back👋",
+    "sub-title": "Please enter your account information to start managing your project",
+    "login": "Login",
+    "register": "Register",
+    "codeLogin": "Code Login",
+    "qrcodeLogin": "Qr Code Login",
+    "forgetPassword": "Forget Password"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "analytics": "Analytics",
+    "workspace": "Workspace"
+  },
+  "common": {
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "more": "More",
+    "search": "Search",
+    "reset": "Reset",
+    "import": "Import",
+    "export": "Export",
+    "info": "Info",
+    "clear": "Clear",
+    "unlock": "Unlock",
+    "download": "Download",
+    "sync": "Sync",
+    "refresh": "Refresh",
+    "generate": "Generate",
+    "downloadLoading": "Downloading... Please wait.",
+    "preview": "Preview"
+  },
+  "menu": {
+    "system": {
+      "title": "System Management",
+      "menu": "Menu Management",
+      "department": "Department Management",
+      "dict": "Dictionary Management",
+      "user": "User Management",
+      "role": "Role Management",
+      "config": "Configuration Item Management",
+      "log": {
+        "root": "Log Management",
+        "operation": "Operation Log",
+        "login": "Login Log"
+      },
+      "notice": "Notice"
+    }
+  }
+}

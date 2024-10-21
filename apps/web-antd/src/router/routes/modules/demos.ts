@@ -10,38 +10,46 @@ const routes: RouteRecordRaw[] = [
       icon: 'ic:baseline-view-in-ar',
       keepAlive: true,
       order: 1000,
-      title: $t('page.demos.title'),
+      title: $t('demos.title'),
     },
     name: 'Demos',
     path: '/demos',
     children: [
       {
         meta: {
-          title: $t('page.demos.antd'),
+          title: $t('demos.antd'),
         },
         name: 'AntDesignDemos',
         path: '/demos/ant-design',
         component: () => import('#/views/demos/antd/index.vue'),
       },
       {
-        name: 'Pivot',
-        path: '/v-table/pivot',
-        component: () => import('#/views/demos/v-table/index.vue'),
         meta: {
-          icon: 'lucide:copyright',
-          keepAlive: true,
-          title: '透视图',
+          title: $t('demos.vtable.title'),
+          icon: 'lucide:table',
         },
-      },
-      {
-        name: 'ListTable',
-        path: '/v-table/list-table',
-        component: () => import('#/views/demos/v-table/list-table.vue'),
-        meta: {
-          icon: 'lucide:copyright',
-          keepAlive: true,
-          title: '报表',
-        },
+        name: 'VTable',
+        path: '/v-table',
+        children: [
+          {
+            name: 'Pivot',
+            path: '/v-table/pivot',
+            component: () => import('#/views/demos/v-table/index.vue'),
+            meta: {
+              keepAlive: true,
+              title: $t('demos.vtable.pivot-table'),
+            },
+          },
+          {
+            name: 'ListTable',
+            path: '/v-table/list-table',
+            component: () => import('#/views/demos/v-table/list-table.vue'),
+            meta: {
+              keepAlive: true,
+              title: $t('demos.vtable.list-table'),
+            },
+          },
+        ],
       },
     ],
   },
