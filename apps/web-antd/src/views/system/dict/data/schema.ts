@@ -1,41 +1,9 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
-import { reactive } from 'vue';
-
-import { getPopupContainer } from '@vben/utils';
-
 import { type FormSchemaGetter } from '#/adapter/form';
-import { dictOptionSelectList } from '#/api/system/dict/dict-type';
 import { renderDictTag } from '#/utils/render';
 
-/**
- * updateSchema无法赋值
- * TODO: 使用updateSchema重构
- */
-const dictTypeOptions = reactive<{ label: string; value: string }[]>([]);
-(async () => {
-  const resp = await dictOptionSelectList();
-  const options = resp.map((item) => ({
-    label: item.dictName,
-    value: item.dictType,
-  }));
-  dictTypeOptions.push(...options);
-})();
-
 export const querySchema: FormSchemaGetter = () => [
-  {
-    component: 'Select',
-    dependencies: {
-      show: () => false,
-      triggerFields: [''],
-    },
-    componentProps: {
-      getPopupContainer,
-      options: dictTypeOptions,
-    },
-    fieldName: 'dictType',
-    label: '字典类型',
-  },
   {
     component: 'Input',
     fieldName: 'dictLabel',
@@ -49,7 +17,7 @@ export const columns: VxeGridProps['columns'] = [
     title: '字典标签',
     field: 'cssClass',
     slots: {
-      default: ({ row }) => {
+      default: ({ row }: any) => {
         const { dictValue } = row;
         return renderDictTag(dictValue, [row as any]);
       },

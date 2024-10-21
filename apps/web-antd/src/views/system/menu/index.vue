@@ -25,6 +25,9 @@ const findList = () => {
 const formOptions: VbenFormProps = {
   commonConfig: {
     labelWidth: 80,
+    componentProps: {
+      allowClear: true,
+    },
   },
 
   /* handleReset: () => {

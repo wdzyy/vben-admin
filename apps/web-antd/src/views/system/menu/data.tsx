@@ -67,11 +67,13 @@ export const columns: VxeGridProps['columns'] = [
     width: 80,
     align: 'center',
     slots: {
-      default: ({ row }) => {
+      default: ({ row }: any) => {
         if (row?.icon === '#') {
           return '';
         }
-        return renderIcon(row.icon);
+        return (
+          <span class={'flex justify-center'}>{renderIcon(row.icon)}</span>
+        );
       },
     },
   },
@@ -85,7 +87,7 @@ export const columns: VxeGridProps['columns'] = [
     field: 'menuType',
     width: 150,
     slots: {
-      default: ({ row }) => {
+      default: ({ row }: any) => {
         const current = menuTypes[row.menuType as 'C' | 'F' | 'M'];
         if (!current) {
           return '未知';
@@ -112,7 +114,7 @@ export const columns: VxeGridProps['columns'] = [
     field: 'status',
     width: 100,
     slots: {
-      default: ({ row }) => {
+      default: ({ row }: any) => {
         return renderDictTag(row.status, [
           {
             dictCode: 6,
@@ -153,7 +155,7 @@ export const columns: VxeGridProps['columns'] = [
     field: 'visible',
     width: 100,
     slots: {
-      default: ({ row }) => {
+      default: ({ row }: any) => {
         return renderDictTag(row.visible, [
           {
             dictCode: 4,

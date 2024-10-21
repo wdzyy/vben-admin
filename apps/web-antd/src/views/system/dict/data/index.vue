@@ -25,6 +25,9 @@ const dictType = ref('');
 const formOptions: VbenFormProps = {
   commonConfig: {
     labelWidth: 80,
+    componentProps: {
+      allowClear: true,
+    },
   },
   schema: querySchema(),
   showCollapseButton: false,

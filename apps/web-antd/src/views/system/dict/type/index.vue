@@ -33,6 +33,9 @@ import { columns, querySchema } from './schema';
 const formOptions: VbenFormProps = {
   commonConfig: {
     labelWidth: 70,
+    componentProps: {
+      allowClear: true,
+    },
   },
   schema: querySchema(),
   showCollapseButton: false,
