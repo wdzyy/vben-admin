@@ -10,44 +10,17 @@ const routes: RouteRecordRaw[] = [
       icon: 'ion:layers-outline',
       keepAlive: true,
       order: 1000,
-      title: $t('page.examples.title'),
+      title: $t('examples.title'),
     },
     name: 'Examples',
     path: '/examples',
     children: [
       {
-        name: 'ModalExample',
-        path: '/examples/modal',
-        component: () => import('#/views/examples/modal/index.vue'),
-        meta: {
-          icon: 'system-uicons:window-content',
-          title: $t('page.examples.modal.title'),
-        },
-      },
-      {
-        name: 'DrawerExample',
-        path: '/examples/drawer',
-        component: () => import('#/views/examples/drawer/index.vue'),
-        meta: {
-          icon: 'iconoir:drawer',
-          title: $t('page.examples.drawer.title'),
-        },
-      },
-      {
-        name: 'EllipsisExample',
-        path: '/examples/ellipsis',
-        component: () => import('#/views/examples/ellipsis/index.vue'),
-        meta: {
-          icon: 'ion:ellipsis-horizontal',
-          title: $t('page.examples.ellipsis.title'),
-        },
-      },
-      {
         name: 'FormExample',
         path: '/examples/form',
         meta: {
           icon: 'mdi:form-select',
-          title: $t('page.examples.form.title'),
+          title: $t('examples.form.title'),
         },
         children: [
           {
@@ -55,7 +28,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/basic',
             component: () => import('#/views/examples/form/basic.vue'),
             meta: {
-              title: $t('page.examples.form.basic'),
+              title: $t('examples.form.basic'),
             },
           },
           {
@@ -63,7 +36,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/query',
             component: () => import('#/views/examples/form/query.vue'),
             meta: {
-              title: $t('page.examples.form.query'),
+              title: $t('examples.form.query'),
             },
           },
           {
@@ -71,7 +44,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/rules',
             component: () => import('#/views/examples/form/rules.vue'),
             meta: {
-              title: $t('page.examples.form.rules'),
+              title: $t('examples.form.rules'),
             },
           },
           {
@@ -79,7 +52,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/dynamic',
             component: () => import('#/views/examples/form/dynamic.vue'),
             meta: {
-              title: $t('page.examples.form.dynamic'),
+              title: $t('examples.form.dynamic'),
             },
           },
           {
@@ -87,7 +60,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/custom',
             component: () => import('#/views/examples/form/custom.vue'),
             meta: {
-              title: $t('page.examples.form.custom'),
+              title: $t('examples.form.custom'),
             },
           },
           {
@@ -95,7 +68,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/api',
             component: () => import('#/views/examples/form/api.vue'),
             meta: {
-              title: $t('page.examples.form.api'),
+              title: $t('examples.form.api'),
             },
           },
           {
@@ -103,7 +76,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/form/merge',
             component: () => import('#/views/examples/form/merge.vue'),
             meta: {
-              title: $t('page.examples.form.merge'),
+              title: $t('examples.form.merge'),
             },
           },
         ],
@@ -113,7 +86,7 @@ const routes: RouteRecordRaw[] = [
         path: '/examples/vxe-table',
         meta: {
           icon: 'lucide:table',
-          title: $t('page.examples.vxeTable.title'),
+          title: $t('examples.vxeTable.title'),
         },
         children: [
           {
@@ -121,7 +94,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/basic',
             component: () => import('#/views/examples/vxe-table/basic.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.basic'),
+              title: $t('examples.vxeTable.basic'),
             },
           },
           {
@@ -129,7 +102,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/remote',
             component: () => import('#/views/examples/vxe-table/remote.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.remote'),
+              title: $t('examples.vxeTable.remote'),
             },
           },
           {
@@ -137,7 +110,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/tree',
             component: () => import('#/views/examples/vxe-table/tree.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.tree'),
+              title: $t('examples.vxeTable.tree'),
             },
           },
           {
@@ -145,7 +118,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/fixed',
             component: () => import('#/views/examples/vxe-table/fixed.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.fixed'),
+              title: $t('examples.vxeTable.fixed'),
             },
           },
           {
@@ -154,7 +127,7 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('#/views/examples/vxe-table/custom-cell.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.custom-cell'),
+              title: $t('examples.vxeTable.custom-cell'),
             },
           },
           {
@@ -162,7 +135,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/form',
             component: () => import('#/views/examples/vxe-table/form.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.form'),
+              title: $t('examples.vxeTable.form'),
             },
           },
           {
@@ -170,7 +143,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/edit-cell',
             component: () => import('#/views/examples/vxe-table/edit-cell.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.editCell'),
+              title: $t('examples.vxeTable.editCell'),
             },
           },
           {
@@ -178,7 +151,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/edit-row',
             component: () => import('#/views/examples/vxe-table/edit-row.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.editRow'),
+              title: $t('examples.vxeTable.editRow'),
             },
           },
           {
@@ -186,7 +159,7 @@ const routes: RouteRecordRaw[] = [
             path: '/examples/vxe-table/virtual',
             component: () => import('#/views/examples/vxe-table/virtual.vue'),
             meta: {
-              title: $t('page.examples.vxeTable.virtual'),
+              title: $t('examples.vxeTable.virtual'),
             },
           },
         ],
@@ -196,7 +169,7 @@ const routes: RouteRecordRaw[] = [
         path: '/examples/captcha',
         meta: {
           icon: 'logos:recaptcha',
-          title: $t('page.examples.captcha.title'),
+          title: $t('examples.captcha.title'),
         },
         children: [
           {
@@ -205,7 +178,7 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('#/views/examples/captcha/slider-captcha.vue'),
             meta: {
-              title: $t('page.examples.captcha.sliderCaptcha'),
+              title: $t('examples.captcha.sliderCaptcha'),
             },
           },
           {
@@ -214,7 +187,7 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('#/views/examples/captcha/slider-rotate-captcha.vue'),
             meta: {
-              title: $t('page.examples.captcha.sliderRotateCaptcha'),
+              title: $t('examples.captcha.sliderRotateCaptcha'),
             },
           },
           {
@@ -223,10 +196,37 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('#/views/examples/captcha/point-selection-captcha.vue'),
             meta: {
-              title: $t('page.examples.captcha.pointSelection'),
+              title: $t('examples.captcha.pointSelection'),
             },
           },
         ],
+      },
+      {
+        name: 'ModalExample',
+        path: '/examples/modal',
+        component: () => import('#/views/examples/modal/index.vue'),
+        meta: {
+          icon: 'system-uicons:window-content',
+          title: $t('examples.modal.title'),
+        },
+      },
+      {
+        name: 'DrawerExample',
+        path: '/examples/drawer',
+        component: () => import('#/views/examples/drawer/index.vue'),
+        meta: {
+          icon: 'iconoir:drawer',
+          title: $t('examples.drawer.title'),
+        },
+      },
+      {
+        name: 'EllipsisExample',
+        path: '/examples/ellipsis',
+        component: () => import('#/views/examples/ellipsis/index.vue'),
+        meta: {
+          icon: 'ion:ellipsis-horizontal',
+          title: $t('examples.ellipsis.title'),
+        },
       },
     ],
   },
