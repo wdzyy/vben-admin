@@ -44,29 +44,23 @@ export function renderIcon(icon: string) {
   return <IconifyIcon icon={icon}></IconifyIcon>;
 }
 
-// httpMethod
+/**
+ * httpMethod标签
+ * @param type method类型
+ * @returns render
+ */
 export function renderHttpMethodTag(type: string) {
   const method = type.toUpperCase();
-  let color = 'default';
+  const colors: { [key: string]: string } = {
+    DELETE: 'red',
+    GET: 'green',
+    POST: 'blue',
+    PUT: 'orange',
+  };
+
+  const color = colors[method] ?? 'default';
   const title = `${method}请求`;
-  switch (method) {
-    case 'DELETE': {
-      color = 'red';
-      break;
-    }
-    case 'GET': {
-      color = 'green';
-      break;
-    }
-    case 'POST': {
-      color = 'blue';
-      break;
-    }
-    case 'PUT': {
-      color = 'orange';
-      break;
-    }
-  }
+
   return <Tag color={color}>{title}</Tag>;
 }
 
