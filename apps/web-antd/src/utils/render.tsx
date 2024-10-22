@@ -1,6 +1,6 @@
 import type { DictData } from '#/api/system/dict/dict-data-model';
 
-import { Icon } from '@vben/icons';
+import { IconifyIcon } from '@vben/icons';
 
 import { Tag } from 'ant-design-vue';
 
@@ -41,7 +41,7 @@ export function renderTags(tags: string[], wrap = false, gap = 1) {
  * @returns render
  */
 export function renderIcon(icon: string) {
-  return <Icon icon={icon}></Icon>;
+  return <IconifyIcon icon={icon}></IconifyIcon>;
 }
 
 // httpMethod
