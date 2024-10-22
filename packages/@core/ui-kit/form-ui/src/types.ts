@@ -289,6 +289,7 @@ export interface FormRenderProps<
 }
 
 export interface ActionButtonOptions extends VbenButtonProps {
+  [key: string]: any;
   content?: string;
   // 原生类型
   htmlType: 'button' | 'reset' | 'submit';
