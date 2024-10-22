@@ -4,6 +4,8 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+type RequestResponse<T = any> = AxiosResponse<T>;
+
 type RequestContentType =
   | 'application/json;charset=utf-8'
   | 'application/octet-stream;charset=utf-8'
@@ -48,6 +50,7 @@ export type {
   RequestClientOptions,
   RequestContentType,
   RequestInterceptorConfig,
+  RequestResponse,
   ResponseInterceptorConfig,
 };
 
