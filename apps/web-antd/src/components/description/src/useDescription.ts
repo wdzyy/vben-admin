@@ -4,7 +4,7 @@ import type {
   UseDescReturnType,
 } from './typing';
 
-import { getCurrentInstance, nextTick, ref, unref } from 'vue';
+import { getCurrentInstance, ref, unref } from 'vue';
 
 export function useDescription(
   props?: Partial<DescriptionProps>,
@@ -27,18 +27,16 @@ export function useDescription(
   }
 
   const methods: DescInstance = {
-    setDescProps: async (
+    setDescProps: (
       descProps: Partial<DescriptionProps>,
       delay = false,
-    ): Promise<void> => {
+    ): void => {
       if (!delay) {
         unref(desc)?.setDescProps(descProps);
         return;
       }
-      await nextTick();
-      unref(desc)?.setDescProps(descProps);
       // 奇怪的问题 在modal中需要setTimeout才会生效
-      // setTimeout(() => unref(desc)?.setDescProps(descProps));
+      setTimeout(() => unref(desc)?.setDescProps(descProps));
     },
   };
 

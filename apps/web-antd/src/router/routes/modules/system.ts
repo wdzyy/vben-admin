@@ -90,7 +90,7 @@ const routes: RouteRecordRaw[] = [
           {
             name: 'OperateLog',
             path: '/operatelog',
-            component: () => import('#/views/system/log/operate-log.vue'),
+            component: () => import('#/views/system/log/operate/index.vue'),
             meta: {
               title: $t('page.menu.system.log.operation'),
               icon: 'arcticons:one-hand-operation',
@@ -99,7 +99,7 @@ const routes: RouteRecordRaw[] = [
           {
             name: 'LoginLog',
             path: '/loginLog',
-            component: () => import('#/views/system/log/login-log.vue'),
+            component: () => import('#/views/system/log/login-info/index.vue'),
             meta: {
               title: $t('page.menu.system.log.login'),
               icon: 'streamline:interface-login-dial-pad-finger-password-dial-pad-dot-finger',

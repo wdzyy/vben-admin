@@ -1,6 +1,10 @@
-import { h } from 'vue';
+import { h, type Ref } from 'vue';
 
-import { setupVbenVxeTable, useVbenVxeGrid } from '@vben/plugins/vxe-table';
+import {
+  setupVbenVxeTable,
+  useVbenVxeGrid,
+  type VxeGridDefines,
+} from '@vben/plugins/vxe-table';
 
 import { Button, Image } from 'ant-design-vue';
 
@@ -75,3 +79,18 @@ setupVbenVxeTable({
 export { useVbenVxeGrid };
 
 export type * from '@vben/plugins/vxe-table';
+
+/**
+ * 通用的表格复选框是否选中事件
+ * @param checked 是否选中
+ * @returns function
+ */
+export function tableCheckboxEvent(checked: Ref<boolean>) {
+  const event: (params: VxeGridDefines.CheckboxChangeEventParams) => void = (
+    params,
+  ) => {
+    checked.value = params.$table.getCheckboxRecords().length > 0;
+  };
+
+  return event;
+}
