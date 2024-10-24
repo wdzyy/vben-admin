@@ -99,3 +99,10 @@ html[data-vxe-ui-theme='light'] {
   /** 只支持hsl格式 */
   --vxe-ui-table-header-background-color: hsl(0deg 0% 98%) !important;
 }
+
+/**
+vxe表格loading 只加载表格 不加载上面的表单
+*/
+.vxe-grid.is--loading::before {
+  content: none !important;
+}
