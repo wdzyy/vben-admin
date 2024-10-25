@@ -15,7 +15,10 @@ setupVbenVxeTable({
     vxeUI.setConfig({
       grid: {
         align: 'center',
-        border: true,
+        border: false,
+        columnConfig: {
+          resizable: true,
+        },
         minHeight: 180,
         proxyConfig: {
           autoLoad: true,
@@ -46,6 +49,7 @@ setupVbenVxeTable({
           zoom: true,
         },
         round: true,
+        showOverflow: true,
         size: 'small',
       },
     });
