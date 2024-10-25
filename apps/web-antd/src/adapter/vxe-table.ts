@@ -36,10 +36,6 @@ setupVbenVxeTable({
           // 点击行高亮
           isCurrent: true,
         },
-        columnConfig: {
-          // 可拖拽列宽
-          resizable: true,
-        },
         // 右上角工具栏
         toolbarConfig: {
           // 自定义列
