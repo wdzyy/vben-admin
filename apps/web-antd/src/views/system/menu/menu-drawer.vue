@@ -3,12 +3,17 @@ import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import { addFullName, getPopupContainer, listToTree } from '@vben/utils';
+import {
+  addFullName,
+  cloneDeep,
+  getPopupContainer,
+  listToTree,
+} from '@vben/utils';
 
 import { useVbenForm } from '#/adapter/form';
+import { menuAdd, menuInfo, menuList, menuUpdate } from '#/api/system/menu';
 
 import { drawerSchema } from './data';
-import { data as mockData } from './mock-data';
 
 interface ModalProps {
   id?: number | string;
@@ -37,25 +42,30 @@ const [BasicForm, formApi] = useVbenForm({
 
 async function setupMenuSelect() {
   // menu
+  const menuArray = await menuList();
+  // support i18n
+  menuArray.forEach((item) => {
+    item.title = $t(item.title);
+  });
   // const folderArray = menuArray.filter((item) => item.menuType === 'M');
-  const menuTree = listToTree(mockData.data.items, {
+  const menuTree = listToTree(menuArray, {
     id: 'menuId',
     pid: 'parentId',
   });
   const fullMenuTree = [
     {
       menuId: 0,
-      menuName: '根目录',
+      title: '根目录',
       children: menuTree,
     },
   ];
-  addFullName(fullMenuTree, 'menuName', ' / ');
+  addFullName(fullMenuTree, 'title', ' / ');
 
   formApi.updateSchema([
     {
       componentProps: {
         fieldNames: {
-          label: 'menuName',
+          label: 'title',
           value: 'menuId',
         },
         getPopupContainer,
@@ -68,8 +78,7 @@ async function setupMenuSelect() {
         treeDefaultExpandedKeys: [0],
         treeLine: { showLeafIcon: false },
         // 筛选的字段
-        treeNodeFilterProp: 'menuName',
-        treeNodeLabelProp: 'fullName',
+        treeNodeFilterProp: 'title',
       },
       fieldName: 'parentId',
     },
@@ -83,7 +92,7 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
     if (!isOpen) {
       return null;
     }
-    // drawerApi.drawerLoading(true);
+    drawerApi.drawerLoading(true);
     const { id, update } = drawerApi.getData() as ModalProps;
     isUpdate.value = update;
 
@@ -92,9 +101,8 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
     if (id) {
       await formApi.setFieldValue('parentId', id);
       if (update) {
-        // const record = await menuInfo(id);
-        // await formApi.setValues(record);
-        await formApi.setValues({});
+        const record = await menuInfo(id);
+        await formApi.setValues(record);
       }
     }
     drawerApi.drawerLoading(false);
@@ -108,8 +116,8 @@ async function handleConfirm() {
     if (!valid) {
       return;
     }
-    // const data = cloneDeep(await formApi.getValues());
-    // await (isUpdate.value ? menuUpdate(data) : menuAdd(data));
+    const data = cloneDeep(await formApi.getValues());
+    await (isUpdate.value ? menuUpdate(data) : menuAdd(data));
     emit('reload');
     await handleCancel();
   } catch (error) {

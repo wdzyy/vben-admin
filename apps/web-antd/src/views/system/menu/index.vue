@@ -2,25 +2,15 @@
 import type { Recordable } from '@vben/types';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { CircleHelp } from '@vben/icons';
 import { eachTree, getPopupContainer } from '@vben/utils';
 
-import { Button, Popconfirm, Space, Tooltip } from 'ant-design-vue';
+import { Button, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
+import { menuList, menuRemove } from '#/api/system/menu';
 
 import { columns, querySchema } from './data';
 import menuDrawer from './menu-drawer.vue';
-import { data as mockData } from './mock-data';
-
-// 模拟接口
-const findList = () => {
-  return new Promise<any>((resolve) => {
-    setTimeout(() => {
-      resolve(mockData.data);
-    }, 100);
-  });
-};
 
 const formOptions: VbenFormProps = {
   commonConfig: {
@@ -49,8 +39,11 @@ const gridOptions: VxeGridProps = {
   },
   proxyConfig: {
     ajax: {
-      query: async () => {
-        return await findList();
+      query: async (_, formValues = {}) => {
+        const resp = await menuList({
+          ...formValues,
+        });
+        return { items: resp };
       },
     },
   },
@@ -109,7 +102,8 @@ async function handleEdit(record: Recordable<any>) {
   drawerApi.open();
 }
 
-async function handleDelete(_row: Recordable<any>) {
+async function handleDelete(row: Recordable<any>) {
+  await menuRemove(row.menuId);
   await tableApi.query();
 }
 
@@ -126,13 +120,8 @@ function setExpandOrCollapse(expand: boolean) {
 
 <template>
   <Page auto-content-height>
-    <BasicTable>
+    <BasicTable table-title="菜单" table-title-help="提示：双击展开/收起子菜单">
       <template #toolbar-actions>
-        <div class="mr-2">
-          <Tooltip title="提示：双击展开/收起子菜单">
-            <CircleHelp class="size-4" />
-          </Tooltip>
-        </div>
         <Space>
           <Button @click="setExpandOrCollapse(false)">
             {{ $t('page.common.collapse') }}

@@ -1,3 +1,4 @@
+import { $t } from '@vben/locales';
 import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
@@ -16,6 +17,11 @@ export const yesNoOptions = [
   { label: '否', value: '1' },
 ];
 
+export const hideShowOptions = [
+  { label: '显示', value: '0' },
+  { label: '隐藏', value: '1' },
+];
+
 export const sysNormalDisable = [
   { label: '正常', value: '0' },
   { label: '停用', value: '1' },
@@ -31,7 +37,7 @@ const menuTypes = {
 export const querySchema: FormSchemaGetter = () => [
   {
     component: 'Input',
-    fieldName: 'menuName',
+    fieldName: 'title',
     label: '菜单名称 ',
   },
   {
@@ -49,7 +55,7 @@ export const querySchema: FormSchemaGetter = () => [
       getPopupContainer,
       options: yesNoOptions,
     },
-    fieldName: 'visible',
+    fieldName: 'hideInMenu',
     label: '显示状态',
   },
 ];
@@ -57,9 +63,13 @@ export const querySchema: FormSchemaGetter = () => [
 export const columns: VxeGridProps['columns'] = [
   {
     title: '菜单名称',
-    field: 'menuName',
+    field: 'title',
     treeNode: true,
     width: 200,
+    slots: {
+      // 需要i18n支持 否则返回原始值
+      default: ({ row }) => $t(row.title),
+    },
   },
   {
     title: '图标',
@@ -79,7 +89,7 @@ export const columns: VxeGridProps['columns'] = [
   },
   {
     title: '排序',
-    field: 'orderNum',
+    field: 'order',
     width: 120,
   },
   {
@@ -152,11 +162,11 @@ export const columns: VxeGridProps['columns'] = [
   },
   {
     title: '显示',
-    field: 'visible',
+    field: 'hideInMenu',
     width: 100,
     slots: {
       default: ({ row }: any) => {
-        return renderDictTag(row.visible, [
+        return renderDictTag(row.hideInMenu, [
           {
             dictCode: 4,
             dictSort: 1,
@@ -262,13 +272,14 @@ export const drawerSchema: FormSchemaGetter = () => [
   },
   {
     component: 'Input',
-    fieldName: 'menuName',
+    fieldName: 'title',
     label: '菜单名称',
+    help: '支持i18n写法, 如: page.menu.system.title',
     rules: 'required',
   },
   {
     component: 'InputNumber',
-    fieldName: 'orderNum',
+    fieldName: 'order',
     help: '排序, 数字越小越靠前',
     label: '显示排序',
     rules: 'required',
@@ -358,7 +369,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: yesNoOptions,
+      options: hideShowOptions,
       optionType: 'button',
     },
     defaultValue: '0',
@@ -367,7 +378,7 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: (values) => values.menuType !== 'F',
       triggerFields: ['menuType'],
     },
-    fieldName: 'visible',
+    fieldName: 'hideInMenu',
     help: '隐藏后不会出现在菜单栏, 但仍然可以访问',
     label: '是否显示',
   },
@@ -411,7 +422,7 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: (values) => values.menuType === 'C',
       triggerFields: ['menuType'],
     },
-    fieldName: 'queryParam',
+    fieldName: 'query',
     help: 'vue-router中的query属性, 如{"name": "xxx", "age": 16}',
     label: '路由参数',
   },
@@ -428,8 +439,42 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: (values) => values.menuType === 'C',
       triggerFields: ['menuType'],
     },
-    fieldName: 'isCache',
+    fieldName: 'keepAlive',
     help: '路由的keepAlive属性',
     label: '是否缓存',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: yesNoOptions,
+      optionType: 'button',
+    },
+    defaultValue: '0',
+    dependencies: {
+      // 类型为菜单时显示
+      show: (values) => values.menuType === 'C',
+      triggerFields: ['menuType'],
+    },
+    fieldName: 'affixTab',
+    help: '是否固定标签页',
+    label: '固定标签页',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: hideShowOptions,
+      optionType: 'button',
+    },
+    defaultValue: '0',
+    dependencies: {
+      // 类型为菜单时显示
+      show: (values) => values.menuType === 'C',
+      triggerFields: ['menuType'],
+    },
+    fieldName: 'hideInTab',
+    help: '当前路由在标签页是否展现',
+    label: '在标签页显示',
   },
 ];
