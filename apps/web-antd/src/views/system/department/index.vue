@@ -8,9 +8,8 @@ import { eachTree, getPopupContainer } from '@vben/utils';
 import { Popconfirm, Space, Tooltip } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-// import { deptList, deptRemove } from '#/api/system/dept';
+import { deptList, deptRemove } from '#/api/system/department';
 
-import mockData from './data';
 import deptDrawer from './dept-drawer.vue';
 import { columns, querySchema } from './schema';
 
@@ -32,7 +31,17 @@ const gridOptions: VxeGridProps = {
   pagerConfig: {
     enabled: false,
   },
-  data: mockData.data,
+  proxyConfig: {
+    ajax: {
+      query: async (_, formValues = {}) => {
+        const resp = await deptList({
+          ...formValues,
+        });
+
+        return { items: resp };
+      },
+    },
+  },
   rowConfig: {
     isHover: true,
     keyField: 'deptId',
@@ -83,12 +92,12 @@ function handleSubAdd(row: Recordable<any>) {
 }
 
 async function handleEdit(record: Recordable<any>) {
-  drawerApi.setData({ id: record.deptId, update: true });
+  drawerApi.setData({ id: record.deptId, record, update: true });
   drawerApi.open();
 }
 
-async function handleDelete() {
-  // await deptRemove(row.deptId);
+async function handleDelete(row: Recordable<any>) {
+  await deptRemove(row.deptId);
   await tableApi.query();
 }
 
@@ -135,7 +144,7 @@ function setExpandOrCollapse(expand: boolean) {
             :get-popup-container="getPopupContainer"
             placement="left"
             title="确认删除？"
-            @confirm="handleDelete"
+            @confirm="handleDelete(row)"
           >
             <ghost-button danger @click.stop="">
               {{ $t('page.common.delete') }}

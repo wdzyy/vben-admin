@@ -1,18 +1,20 @@
 <script setup lang="ts">
+import type { Recordable } from '@vben/types';
+
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { addFullName, cloneDeep, listToTree } from '@vben/utils';
 
 import { useVbenForm } from '#/adapter/form';
-// import {
-//   deptAdd,
-//   deptInfo,
-//   deptList,
-//   deptNodeList,
-//   deptUpdate,
-// } from '#/api/system/dept';
-// import { listUserByDeptId } from '#/api/system/user';
+import {
+  deptAdd,
+  deptList,
+  deptNodeList,
+  deptUpdate,
+} from '#/api/system/department';
+import { listUserByDeptId } from '#/api/system/user';
 
 import { drawerSchema } from './schema';
 
@@ -20,6 +22,7 @@ const emit = defineEmits<{ reload: [] }>();
 
 interface DrawerProps {
   id?: number | string;
+  record: Recordable<any>;
   update: boolean;
 }
 
@@ -41,15 +44,40 @@ const [BasicForm, formApi] = useVbenForm({
   wrapperClass: 'grid-cols-2',
 });
 
-async function initDeptSelect() {}
+async function getDeptTree(deptId?: number | string, exclude = false) {
+  let ret: any[] = [];
+  ret = await (!deptId || exclude ? deptList({}) : deptNodeList(deptId));
+  const treeData = listToTree(ret, { id: 'deptId', pid: 'parentId' });
+  // 添加部门名称 如 xx-xx-xx
+  addFullName(treeData, 'deptName', ' / ');
+  return treeData;
+}
+
+async function initDeptSelect(deptId?: number | string) {
+  // 需要动态更新TreeSelect组件 这里允许为空
+  const treeData = await getDeptTree(deptId, !isUpdate.value);
+  formApi.updateSchema([
+    {
+      componentProps: {
+        fieldNames: { label: 'deptName', value: 'deptId' },
+        showSearch: true,
+        treeData,
+        treeDefaultExpandAll: true,
+        treeLine: { showLeafIcon: false },
+        // 选中后显示在输入框的值
+        treeNodeLabelProp: 'fullName',
+      },
+      fieldName: 'parentId',
+    },
+  ]);
+}
 
 /**
  * 部门管理员下拉框 更新时才会enable
  * @param deptId
  */
-async function initDeptUsers(_deptId: number | string) {
-  // const ret = await listUserByDeptId(deptId);
-  const ret: any[] = [];
+async function initDeptUsers(deptId: number | string) {
+  const ret = await listUserByDeptId(deptId);
   const options = ret.map((user) => ({
     label: `${user.userName} | ${user.nickName}`,
     value: user.userId,
@@ -88,20 +116,20 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
     }
     drawerApi.drawerLoading(true);
 
-    const { id, update } = drawerApi.getData() as DrawerProps;
+    const { id, record, update } = drawerApi.getData() as DrawerProps;
     isUpdate.value = update;
 
     if (id) {
       await formApi.setFieldValue('parentId', id);
       if (update) {
         // const record = await deptInfo(id);
-        await formApi.setValues({});
+        await formApi.setValues(record);
       }
     }
 
     await (update && id ? initDeptUsers(id) : setLeaderOptions());
     /** 部门选择 下拉框 */
-    await initDeptSelect();
+    await initDeptSelect(id);
 
     drawerApi.drawerLoading(false);
   },
@@ -114,8 +142,8 @@ async function handleConfirm() {
     if (!valid) {
       return;
     }
-    // const data = cloneDeep(await formApi.getValues());
-    // await (isUpdate.value ? deptUpdate(data) : deptAdd(data));
+    const data = cloneDeep(await formApi.getValues());
+    await (isUpdate.value ? deptUpdate(data) : deptAdd(data));
     emit('reload');
     await handleCancel();
   } catch (error) {
