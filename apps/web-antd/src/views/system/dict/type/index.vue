@@ -195,7 +195,9 @@ function handleSyncTenantDict() {
                 </span>
               </Menu>
             </template>
-            <a-button> 更多 </a-button>
+            <a-button>
+              {{ $t('page.common.more') }}
+            </a-button>
           </Dropdown>
         </Space>
       </template>
