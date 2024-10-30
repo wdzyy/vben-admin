@@ -39,7 +39,9 @@ setupVbenVxeTable({
         // 右上角工具栏
         toolbarConfig: {
           // 自定义列
-          custom: true,
+          custom: {
+            icon: 'vxe-icon-setting',
+          },
           // 刷新
           refresh: true,
           zoom: true,
