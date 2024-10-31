@@ -124,6 +124,11 @@ const options = computed(() => {
       toolbarOptions.value,
       toRaw(gridOptions.value),
       globalGridConfig,
+      {
+        // toolbarConfig: {
+        //   tools: [],
+        // },
+      } as VxeTableGridProps,
     ),
   );
 
