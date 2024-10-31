@@ -5,7 +5,7 @@ import { getPopupContainer } from '@vben/utils';
 import { type FormSchemaGetter } from '#/adapter/form';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';
-import { renderDictTag } from '#/utils/render';
+import { renderDict } from '#/utils/render';
 
 export const querySchema: FormSchemaGetter = () => [
   {
@@ -41,38 +41,7 @@ export const columns: VxeGridProps['columns'] = [
     width: 120,
     slots: {
       default: ({ row }) => {
-        return renderDictTag(row.noticeType, [
-          {
-            dictCode: 14,
-            dictSort: 1,
-            dictLabel: '通知',
-            dictValue: '1',
-            dictType: 'sys_notice_type',
-            cssClass: '',
-            listClass: '#ffa727',
-            isDefault: 'Y',
-            remark: '通知',
-            createTime: '2023-11-25 13:06:29',
-            createBy: 'xm',
-            default: false,
-            status: '1',
-          },
-          {
-            dictCode: 15,
-            dictSort: 2,
-            dictLabel: '公告',
-            dictValue: '2',
-            dictType: 'sys_notice_type',
-            cssClass: '',
-            listClass: '#42a5f6',
-            isDefault: 'N',
-            remark: '公告',
-            createTime: '2023-11-25 13:06:29',
-            createBy: 'xm',
-            default: false,
-            status: '2',
-          },
-        ]);
+        return renderDict(row.noticeType, DictEnum.SYS_NOTICE_TYPE);
       },
     },
   },
@@ -82,38 +51,7 @@ export const columns: VxeGridProps['columns'] = [
     width: 120,
     slots: {
       default: ({ row }) => {
-        return renderDictTag(row.status, [
-          {
-            dictCode: 16,
-            dictSort: 1,
-            dictLabel: '正常',
-            dictValue: '0',
-            dictType: 'sys_notice_status',
-            cssClass: '#4cb050',
-            listClass: 'primary',
-            isDefault: 'Y',
-            remark: '正常状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: 'xm',
-            default: false,
-            status: '0',
-          },
-          {
-            dictCode: 17,
-            dictSort: 2,
-            dictLabel: '关闭',
-            dictValue: '1',
-            dictType: 'sys_notice_status',
-            cssClass: '#eb4165',
-            listClass: 'danger',
-            isDefault: 'N',
-            remark: '关闭状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: 'xm',
-            default: false,
-            status: '1',
-          },
-        ]);
+        return renderDict(row.status, DictEnum.SYS_NOTICE_STATUS);
       },
     },
   },

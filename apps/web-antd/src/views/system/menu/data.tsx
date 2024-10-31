@@ -3,28 +3,15 @@ import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
 import { type VxeGridProps } from '#/adapter/vxe-table';
-import { renderDictTag, renderIcon } from '#/utils/render';
+import { DictEnum } from '#/constants';
+import { getDictOptions } from '#/utils/dict';
+import { renderDict, renderIcon } from '#/utils/render';
 
 // 菜单类型（M目录 C菜单 F按钮）
 export const menuTypeOptions = [
   { label: '目录', value: 'M' },
   { label: '菜单', value: 'C' },
   { label: '按钮', value: 'F' },
-];
-
-export const yesNoOptions = [
-  { label: '是', value: '0' },
-  { label: '否', value: '1' },
-];
-
-export const hideShowOptions = [
-  { label: '显示', value: '0' },
-  { label: '隐藏', value: '1' },
-];
-
-export const sysNormalDisable = [
-  { label: '正常', value: '0' },
-  { label: '停用', value: '1' },
 ];
 
 // （M目录 C菜单 F按钮）
@@ -44,7 +31,7 @@ export const querySchema: FormSchemaGetter = () => [
     component: 'Select',
     componentProps: {
       getPopupContainer,
-      options: sysNormalDisable,
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
     },
     fieldName: 'status',
     label: '菜单状态 ',
@@ -53,7 +40,7 @@ export const querySchema: FormSchemaGetter = () => [
     component: 'Select',
     componentProps: {
       getPopupContainer,
-      options: yesNoOptions,
+      options: getDictOptions(DictEnum.SYS_SHOW_HIDE),
     },
     fieldName: 'hideInMenu',
     label: '显示状态',
@@ -124,39 +111,8 @@ export const columns: VxeGridProps['columns'] = [
     field: 'status',
     width: 100,
     slots: {
-      default: ({ row }: any) => {
-        return renderDictTag(row.status, [
-          {
-            dictCode: 6,
-            dictSort: 1,
-            dictLabel: '正常',
-            dictValue: '0',
-            dictType: 'sys_normal_disable',
-            cssClass: 'dot-before-green',
-            listClass: '',
-            isDefault: 'Y',
-            remark: '正常状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-          {
-            dictCode: 7,
-            dictSort: 2,
-            dictLabel: '停用',
-            dictValue: '1',
-            dictType: 'sys_normal_disable',
-            cssClass: 'dot-before-red',
-            listClass: '',
-            isDefault: 'N',
-            remark: '停用状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-        ]);
+      default: ({ row }) => {
+        return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
       },
     },
   },
@@ -165,39 +121,8 @@ export const columns: VxeGridProps['columns'] = [
     field: 'hideInMenu',
     width: 100,
     slots: {
-      default: ({ row }: any) => {
-        return renderDictTag(row.hideInMenu, [
-          {
-            dictCode: 4,
-            dictSort: 1,
-            dictLabel: '显示',
-            dictValue: '0',
-            dictType: 'sys_show_hide',
-            cssClass: 'dot-before-green',
-            listClass: '',
-            isDefault: 'Y',
-            remark: '显示菜单',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-          {
-            dictCode: 5,
-            dictSort: 2,
-            dictLabel: '隐藏',
-            dictValue: '1',
-            dictType: 'sys_show_hide',
-            cssClass: 'dot-before-red',
-            listClass: '',
-            isDefault: 'N',
-            remark: '隐藏菜单',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-        ]);
+      default: ({ row }) => {
+        return renderDict(row.hideInMenu, DictEnum.SYS_SHOW_HIDE);
       },
     },
   },
@@ -352,7 +277,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: yesNoOptions,
+      options: getDictOptions(DictEnum.SYS_YES_NO),
       optionType: 'button',
     },
     defaultValue: '1',
@@ -369,7 +294,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: hideShowOptions,
+      options: getDictOptions(DictEnum.SYS_SHOW_HIDE),
       optionType: 'button',
     },
     defaultValue: '0',
@@ -386,7 +311,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: sysNormalDisable,
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
       optionType: 'button',
     },
     defaultValue: '0',
@@ -430,7 +355,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: yesNoOptions,
+      options: getDictOptions(DictEnum.SYS_YES_NO),
       optionType: 'button',
     },
     defaultValue: '0',
@@ -447,7 +372,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: yesNoOptions,
+      options: getDictOptions(DictEnum.SYS_YES_NO),
       optionType: 'button',
     },
     defaultValue: '0',
@@ -464,7 +389,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: hideShowOptions,
+      options: getDictOptions(DictEnum.SYS_SHOW_HIDE),
       optionType: 'button',
     },
     defaultValue: '0',

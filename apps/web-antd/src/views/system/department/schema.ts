@@ -2,8 +2,9 @@ import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
 import { type VxeGridProps } from '#/adapter/vxe-table';
-import { renderDictTag } from '#/utils/render';
-import { sysNormalDisable } from '#/views/system/menu/data';
+import { DictEnum } from '#/constants';
+import { getDictOptions } from '#/utils/dict';
+import { renderDict } from '#/utils/render';
 
 export const querySchema: FormSchemaGetter = () => [
   {
@@ -15,7 +16,7 @@ export const querySchema: FormSchemaGetter = () => [
     component: 'Select',
     componentProps: {
       getPopupContainer,
-      options: sysNormalDisable,
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
     },
     fieldName: 'status',
     label: '部门状态',
@@ -44,38 +45,7 @@ export const columns: VxeGridProps['columns'] = [
     title: '状态',
     slots: {
       default: ({ row }) => {
-        return renderDictTag(row.status, [
-          {
-            dictCode: 6,
-            dictSort: 1,
-            dictLabel: '正常',
-            dictValue: '0',
-            dictType: 'sys_normal_disable',
-            cssClass: 'dot-before-green',
-            listClass: '',
-            isDefault: 'Y',
-            remark: '正常状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-          {
-            dictCode: 7,
-            dictSort: 2,
-            dictLabel: '停用',
-            dictValue: '1',
-            dictType: 'sys_normal_disable',
-            cssClass: 'dot-before-red',
-            listClass: '',
-            isDefault: 'N',
-            remark: '停用状态',
-            createTime: '2023-11-25 13:06:29',
-            createBy: '小明',
-            default: false,
-            status: '0',
-          },
-        ]);
+        return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
       },
     },
   },
@@ -165,7 +135,7 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: sysNormalDisable,
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
       optionType: 'button',
     },
     defaultValue: '0',
