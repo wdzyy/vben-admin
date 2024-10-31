@@ -23,17 +23,12 @@ import {
   Popconfirm,
   Space,
 } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-// import {
-//   userExport,
-//   userList,
-//   userRemove,
-//   userStatusChange,
-// } from '#/api/system/user';
+import { userList, userRemove } from '#/api/system/user';
 import { TableSwitch } from '#/components/table';
 
-import mockData from './dept-table-data';
 import DeptTree from './dept-tree.vue';
 import { columns, querySchema } from './schema';
 import userDrawer from './user-drawer.vue';
@@ -81,7 +76,7 @@ const gridOptions: VxeGridProps = {
     reserve: true,
     // 点击行选中
     trigger: 'default',
-    checkMethod: ({ row }: any) => row?.userId !== 1,
+    checkMethod: ({ row }) => row?.userId !== 1,
   },
   columns,
   height: 'auto',
@@ -89,34 +84,30 @@ const gridOptions: VxeGridProps = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async () => {
+      query: async ({ page }, formValues = {}) => {
+        const obj = { ...formValues };
         // 区间选择器处理
-        /* if (formValues?.createTime) {
-          formValues.params = {
-            beginTime: dayjs(formValues.createTime[0]).format(
-              'YYYY-MM-DD 00:00:00',
-            ),
-            endTime: dayjs(formValues.createTime[1]).format(
-              'YYYY-MM-DD 23:59:59',
-            ),
+        if (obj?.createTime) {
+          obj.params = {
+            beginTime: dayjs(obj.createTime[0]).format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs(obj.createTime[1]).format('YYYY-MM-DD 23:59:59'),
           };
-          Reflect.deleteProperty(formValues, 'createTime');
+          Reflect.deleteProperty(obj, 'createTime');
         } else {
-          Reflect.deleteProperty(formValues, 'params');
+          Reflect.deleteProperty(obj, 'params');
         }
         // 部门树选择处理
         if (selectDeptId.value.length === 1) {
-          formValues.deptId = selectDeptId.value[0];
+          obj.deptId = selectDeptId.value[0];
         } else {
-          Reflect.deleteProperty(formValues, 'deptId');
-        } */
+          Reflect.deleteProperty(obj, 'deptId');
+        }
 
-        /* return await userList({
+        return await userList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          ...formValues,
-        }); */
-        return await Promise.resolve(mockData);
+          ...obj,
+        });
       },
     },
   },
@@ -155,8 +146,8 @@ function handleEdit(row: Recordable<any>) {
   userDrawerApi.open();
 }
 
-async function handleDelete() {
-  // await userRemove(row.userId);
+async function handleDelete(row: Recordable<any>) {
+  await userRemove(row.userId);
   await tableApi.query();
 }
 
@@ -168,7 +159,7 @@ function handleMultiDelete() {
     okType: 'danger',
     content: `确认删除选中的${ids.length}条记录吗？`,
     onOk: async () => {
-      // await userRemove(ids);
+      await userRemove(ids);
       await tableApi.query();
       checked.value = false;
     },
@@ -200,7 +191,11 @@ const exportExcel = () => {
 <template>
   <Page auto-content-height>
     <div class="flex h-full gap-[8px]">
-      <DeptTree v-model:select-dept-id="selectDeptId" class="w-[260px]" />
+      <DeptTree
+        v-model:select-dept-id="selectDeptId"
+        class="w-[260px]"
+        @select="() => tableApi.query()"
+      />
       <BasicTable class="flex-1 overflow-hidden">
         <template #toolbar-actions>
           <Space>
@@ -244,7 +239,7 @@ const exportExcel = () => {
                 :get-popup-container="getPopupContainer"
                 placement="left"
                 title="确认删除？"
-                @confirm="handleDelete"
+                @confirm="handleDelete(row)"
               >
                 <ghost-button danger @click.stop="">
                   {{ $t('page.common.delete') }}

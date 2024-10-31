@@ -5,13 +5,18 @@ import { computed, h, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import { addFullName, getPopupContainer } from '@vben/utils';
+import { addFullName, cloneDeep, getPopupContainer } from '@vben/utils';
 
 import { Tag } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
+import {
+  findUserInfo,
+  getDeptTree,
+  userAdd,
+  userUpdate,
+} from '#/api/system/user';
 
-import deptTreeData from './dept-tree-data';
 import { drawerSchema } from './schema';
 
 const emit = defineEmits<{ reload: [] }>();
@@ -119,8 +124,7 @@ function genRoleOptionlabel(role: Role) {
  */
 async function setupDeptSelect() {
   // updateSchema
-  // const deptTree = await getDeptTree();
-  const deptTree = deptTreeData.data;
+  const deptTree = await getDeptTree();
   // 选中后显示在输入框的值 即父节点 / 子节点
   addFullName(deptTree, 'label', ' / ');
   formApi.updateSchema([
@@ -205,8 +209,8 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
       },
     ]);
     // 更新 && 赋值
-    // const { postIds, posts, roleIds, roles, user } = await findUserInfo(id);
-    const postIds = [1, 2];
+    const { postIds, posts, roleIds, roles, user } = await findUserInfo(id);
+    /* const postIds = [1, 2];
     const posts = [
       { postId: 1, postName: '岗位1' },
       { postId: 2, postName: '岗位2' },
@@ -220,7 +224,7 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
       userName: 'admin',
       nickName: 'admin',
       email: '',
-    };
+    }; */
     const postOptions = (posts ?? []).map((item: any) => ({
       label: item.postName,
       value: item.postId,
@@ -268,8 +272,8 @@ async function handleConfirm() {
     if (!valid) {
       return;
     }
-    // const data = cloneDeep(await formApi.getValues());
-    // await (isUpdate.value ? userUpdate(data) : userAdd(data));
+    const data = cloneDeep(await formApi.getValues());
+    await (isUpdate.value ? userUpdate(data) : userAdd(data));
     emit('reload');
     await handleCancel();
   } catch (error) {

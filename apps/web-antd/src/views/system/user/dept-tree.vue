@@ -7,7 +7,7 @@ import { RotateCw } from '@vben/icons';
 
 import { Button, Empty, InputSearch, Skeleton, Tree } from 'ant-design-vue';
 
-import mockData from './dept-tree-data';
+import { getDeptTree } from '#/api/system/user';
 
 defineOptions({ inheritAttrs: false });
 
@@ -34,11 +34,10 @@ async function reload() {
   searchValue.value = '';
   selectDeptId.value = [];
 
-  // const ret = await getDeptTree();
-  const ret = mockData.data;
+  const ret = await getDeptTree();
   emit('select');
 
-  deptTreeArray.value = ret as DeptTreeArray;
+  deptTreeArray.value = ret;
   showTreeSkeleton.value = false;
 }
 

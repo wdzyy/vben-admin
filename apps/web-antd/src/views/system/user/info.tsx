@@ -5,6 +5,9 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+import { DictEnum } from '#/constants';
+import { renderDict } from '#/utils/render';
+
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
@@ -26,6 +29,9 @@ export const descSchema: DescItem[] = [
   {
     field: 'status',
     label: '用户状态',
+    render(value) {
+      return renderDict(value, DictEnum.SYS_NORMAL_DISABLE);
+    },
   },
   {
     field: 'nickName',

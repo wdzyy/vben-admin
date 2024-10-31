@@ -1,24 +1,8 @@
+import type { DictData } from '#/api/system/dict/dict-data-model';
+
 import { reactive } from 'vue';
 
 import { defineStore } from 'pinia';
-
-export interface DictData {
-  createBy: string;
-  createTime: string;
-  cssClass: string;
-  default: boolean;
-  dictCode: number;
-  dictLabel: string;
-  dictSort: number;
-  dictType: string;
-  dictValue: string;
-  isDefault: string;
-  listClass: string;
-  remark: string;
-  status: string;
-  updateBy?: any;
-  updateTime?: any;
-}
 
 /**
  * antd使用 select和radio通用
