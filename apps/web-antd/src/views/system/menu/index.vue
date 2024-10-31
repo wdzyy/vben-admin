@@ -129,7 +129,11 @@ function setExpandOrCollapse(expand: boolean) {
           <Button @click="setExpandOrCollapse(true)">
             {{ $t('page.common.expand') }}
           </Button>
-          <Button type="primary" @click="handleAdd">
+          <Button
+            type="primary"
+            v-access:code="['system:menu:add']"
+            @click="handleAdd"
+          >
             {{ $t('page.common.add') }}
           </Button>
         </Space>
