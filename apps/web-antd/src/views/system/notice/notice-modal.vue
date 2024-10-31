@@ -19,6 +19,10 @@ const title = computed(() => {
 
 const [BasicForm, formApi] = useVbenForm({
   layout: 'vertical',
+  commonConfig: {
+    formItemClass: 'col-span-2',
+    labelWidth: 100,
+  },
   schema: modalSchema(),
   showDefaultActions: false,
   wrapperClass: 'grid-cols-2',
