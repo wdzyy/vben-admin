@@ -142,7 +142,7 @@ function setExpandOrCollapse(expand: boolean) {
           <!-- '按钮类型'无法再添加子菜单 -->
           <Button
             v-if="row.menuType !== 'F'"
-            class="btn-add"
+            class="btn-success"
             ghost
             size="small"
             @click="handleSubAdd(row)"
@@ -166,15 +166,3 @@ function setExpandOrCollapse(expand: boolean) {
     <!-- <Fallback v-else description="您没有菜单管理的访问权限" status="403" /> -->
   </Page>
 </template>
-
-<style lang="scss" scoped>
-.btn-add {
-  color: hsl(var(--success)) !important;
-  border-color: hsl(var(--success)) !important;
-
-  &:hover {
-    color: hsl(var(--success) / 70%) !important;
-    border-color: hsl(var(--success) / 70%) !important;
-  }
-}
-</style>

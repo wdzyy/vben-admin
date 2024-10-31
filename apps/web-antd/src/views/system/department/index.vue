@@ -137,7 +137,7 @@ function setExpandOrCollapse(expand: boolean) {
           <ghost-button @click="handleEdit(row)">
             {{ $t('page.common.edit') }}
           </ghost-button>
-          <ghost-button class="btn-add" @click="handleSubAdd(row)">
+          <ghost-button class="btn-success" @click="handleSubAdd(row)">
             {{ $t('page.common.add') }}
           </ghost-button>
           <Popconfirm
@@ -156,15 +156,3 @@ function setExpandOrCollapse(expand: boolean) {
     <DeptDrawer @reload="tableApi.query()" />
   </Page>
 </template>
-
-<style lang="scss" scoped>
-.btn-add {
-  color: hsl(var(--success)) !important;
-  border-color: hsl(var(--success)) !important;
-
-  &:hover {
-    color: hsl(var(--success) / 70%) !important;
-    border-color: hsl(var(--success) / 70%) !important;
-  }
-}
-</style>
