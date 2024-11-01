@@ -21,20 +21,15 @@ import {
   Popconfirm,
   Space,
 } from 'ant-design-vue';
+import dayjs from 'dayjs';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-/* import {
-  roleChangeStatus,
-  roleExport,
-  roleList,
-  roleRemove,
-} from '#/api/system/role'; */
+import { roleList, roleRemove } from '#/api/system/role';
 import { TableSwitch } from '#/components/table';
 
 import roleAssignDrawer from './role-assign/role-assign-drawer.vue';
 import roleAuthModal from './role-auth-modal.vue';
 import roleDrawer from './role-drawer.vue';
-import mockData from './role-table-data';
 import { columns, querySchema } from './schema';
 
 const formOptions: VbenFormProps = {
@@ -64,9 +59,9 @@ const gridOptions: VxeGridProps = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async () => {
+      query: async ({ page }, formValues = {}) => {
         // 区间选择器处理
-        /* if (formValues?.createTime) {
+        if (formValues?.createTime) {
           formValues.params = {
             beginTime: dayjs(formValues.createTime[0]).format(
               'YYYY-MM-DD 00:00:00',
@@ -78,14 +73,13 @@ const gridOptions: VxeGridProps = {
           Reflect.deleteProperty(formValues, 'createTime');
         } else {
           Reflect.deleteProperty(formValues, 'params');
-        } */
+        }
 
-        return await Promise.resolve(mockData);
-        /* return await roleList({
+        return await roleList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
-        }); */
+        });
       },
     },
   },
@@ -127,25 +121,25 @@ async function handleEdit(record: Recordable<any>) {
   drawerApi.open();
 }
 
-function handleAssignRole() {
-  roleAssignDrawerApi.setData({});
+function handleAssignRole(record: Recordable<any>) {
+  roleAssignDrawerApi.setData({ id: record.roleId });
   roleAssignDrawerApi.open();
 }
 
-async function handleDelete() {
-  // await roleRemove(row.roleId);
+async function handleDelete(row: Recordable<any>) {
+  await roleRemove(row.roleId);
   await tableApi.query();
 }
 
 function handleMultiDelete() {
   const rows = tableApi.grid.getCheckboxRecords();
-  const ids = rows.map((row: any) => row.roleId);
+  const ids = rows.map((row) => row.roleId);
   Modal.confirm({
     title: '提示',
     okType: 'danger',
     content: `确认删除选中的${ids.length}条记录吗？`,
     onOk: async () => {
-      // await roleRemove(ids);
+      await roleRemove(ids);
       await tableApi.query();
       checked.value = false;
     },
@@ -211,7 +205,7 @@ const exportExcel = () => {
               :get-popup-container="getPopupContainer"
               placement="left"
               title="确认删除？"
-              @confirm="handleDelete"
+              @confirm="handleDelete(row)"
             >
               <ghost-button danger @click.stop="">
                 {{ $t('page.common.delete') }}
@@ -227,7 +221,7 @@ const exportExcel = () => {
                 <MenuItem key="1" @click="handleAuthEdit(row)">
                   数据权限
                 </MenuItem>
-                <MenuItem key="2" @click="handleAssignRole">
+                <MenuItem key="2" @click="handleAssignRole(row)">
                   分配用户
                 </MenuItem>
               </Menu>

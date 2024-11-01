@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-// import { useRoute } from 'vue-router';
 
 import { useVbenModal } from '@vben/common-ui';
 
 import { type VbenFormProps } from '#/adapter/form';
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-// import { roleSelectAll, roleUnallocatedList } from '#/api/system/role';
+import { roleSelectAll, roleUnallocatedList } from '#/api/system/role';
 
-import mockData from './role-assign-modal-data';
 import { columns, querySchema } from './schema';
 
 const emit = defineEmits<{ reload: [] }>();
 
+const roleId = ref<number | string>('');
 const [BasicModal, modalApi] = useVbenModal({
   fullscreenButton: false,
   onCancel: handleCancel,
   onConfirm: handleConfirm,
+  onOpenChange: (isOpen) => {
+    if (!isOpen) {
+      return;
+    }
+    const { id } = modalApi.getData() as { id: number | string };
+    roleId.value = id;
+  },
 });
 
 const formOptions: VbenFormProps = {
@@ -42,14 +48,13 @@ const gridOptions: VxeGridProps = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async () => {
-        return mockData;
-        /* return await roleUnallocatedList({
+      query: async ({ page }, formValues = {}) => {
+        return await roleUnallocatedList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          roleId,
+          roleId: roleId.value,
           ...formValues,
-        }); */
+        });
       },
     },
   },
@@ -57,10 +62,11 @@ const gridOptions: VxeGridProps = {
     isHover: true,
     keyField: 'userId',
   },
+  id: 'system-role-assign-modal',
 };
 
 const checked = ref(false);
-const [BasicTable] = useVbenVxeGrid({
+const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
   gridEvents: {
@@ -74,11 +80,23 @@ const [BasicTable] = useVbenVxeGrid({
 });
 
 async function handleConfirm() {
-  handleCancel();
-  emit('reload');
+  try {
+    modalApi.modalLoading(true);
+    const records = tableApi.grid.getCheckboxRecords();
+    const userIds = records.map((item) => item.userId);
+    if (userIds.length > 0) {
+      await roleSelectAll(roleId.value, userIds);
+    }
+    emit('reload');
+    await handleCancel();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    modalApi.modalLoading(false);
+  }
 }
 
-function handleCancel() {
+async function handleCancel() {
   modalApi.close();
 }
 </script>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { Recordable } from '@vben/types';
+
 import { ref } from 'vue';
-// import { useRoute } from 'vue-router';
 
 import { type VbenFormProps } from '@vben/common-ui';
 import { useVbenDrawer, useVbenModal } from '@vben/common-ui';
@@ -9,16 +10,25 @@ import { getPopupContainer } from '@vben/utils';
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-// import { roleSelectAll, roleUnallocatedList } from '#/api/system/role';
+import {
+  roleAllocatedList,
+  roleAuthCancel,
+  roleAuthCancelAll,
+} from '#/api/system/role';
 
 import assignModal from './role-assign-modal.vue';
-import mockData from './role-assign-table-data';
 import { columns, querySchema } from './schema';
 
-/* const route = useRoute();
-const roleId = route.params.roleId as string; */
-
-const [BasicDrawer] = useVbenDrawer();
+const roleId = ref<number | string>('');
+const [BasicDrawer, assginDrawerApi] = useVbenDrawer({
+  onOpenChange: (isOpen) => {
+    if (!isOpen) {
+      return;
+    }
+    const { id } = assginDrawerApi.getData() as { id: number | string };
+    roleId.value = id;
+  },
+});
 const [AssginModal, assginModalApi] = useVbenModal({
   connectedComponent: assignModal,
 });
@@ -49,15 +59,13 @@ const gridOptions: VxeGridProps = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async () => {
-        /* return await roleAllocatedList({
+      query: async ({ page }, formValues = {}) => {
+        return await roleAllocatedList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          roleId,
+          roleId: roleId.value,
           ...formValues,
-        }); */
-
-        return await Promise.resolve(mockData);
+        });
       },
     },
   },
@@ -83,15 +91,15 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
 });
 
 function handleAdd() {
-  assginModalApi.setData({});
+  assginModalApi.setData({ id: roleId.value });
   assginModalApi.open();
 }
 
 /**
  * 取消授权 一条记录
  */
-async function handleAuthCancel() {
-  // await roleAuthCancel({ userId: record.userId, roleId });
+async function handleAuthCancel(record: Recordable<any>) {
+  await roleAuthCancel({ userId: record.userId, roleId: roleId.value });
   await tableApi.query();
 }
 
@@ -106,7 +114,7 @@ function handleMultipleAuthCancel() {
     okType: 'danger',
     content: `确认取消选中的${ids.length}条授权记录吗？`,
     onOk: async () => {
-      // await roleAuthCancelAll(roleId, ids);
+      await roleAuthCancelAll(roleId.value, ids);
       await tableApi.query();
       checked.value = false;
       tableApi.grid.clearCheckboxRow();
@@ -141,7 +149,7 @@ function handleMultipleAuthCancel() {
           :get-popup-container="getPopupContainer"
           :title="`是否取消授权用户[${row.userName} - ${row.nickName}]?`"
           placement="left"
-          @confirm="handleAuthCancel"
+          @confirm="handleAuthCancel(row)"
         >
           <ghost-button danger @click.stop=""> 取消授权 </ghost-button>
         </Popconfirm>

@@ -5,10 +5,9 @@ import { useVbenModal } from '@vben/common-ui';
 import { cloneDeep } from '@vben/utils';
 
 import { useVbenForm } from '#/adapter/form';
-// import { roleDataScope, roleDeptTree, roleInfo } from '#/api/system/role';
+import { roleDeptTree, roleInfo } from '#/api/system/role';
 import { TreeSelectPanel } from '#/components/tree';
 
-import { deptTreeData, userDetailData } from './role-modal-data';
 import { authModalSchemas } from './schema';
 
 const emit = defineEmits<{ reload: [] }>();
@@ -25,9 +24,8 @@ const [BasicForm, formApi] = useVbenForm({
 });
 
 const deptTree = ref<any[]>([]);
-async function setupDeptTree() {
-  // const resp = await roleDeptTree(id);
-  const resp = deptTreeData.data;
+async function setupDeptTree(id: number | string) {
+  const resp = await roleDeptTree(id);
   formApi.setFieldValue('deptIds', resp.checkedKeys);
   // 设置菜单信息
   deptTree.value = resp.depts;
@@ -43,13 +41,11 @@ const [BasicModal, modalApi] = useVbenModal({
     }
     modalApi.modalLoading(true);
 
-    /* const { id } = modalApi.getData() as { id: number | string };
+    const { id } = modalApi.getData() as { id: number | string };
 
-    setupDeptTree(id); */
-    setupDeptTree();
-    // const record = await roleInfo(id);
-    // await formApi.setValues(record);
-    await formApi.setValues(userDetailData.data);
+    setupDeptTree(id);
+    const record = await roleInfo(id);
+    await formApi.setValues(record);
 
     modalApi.modalLoading(false);
   },

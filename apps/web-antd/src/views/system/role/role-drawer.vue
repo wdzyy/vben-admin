@@ -6,15 +6,11 @@ import { $t } from '@vben/locales';
 import { cloneDeep, eachTree } from '@vben/utils';
 
 import { useVbenForm } from '#/adapter/form';
+import { menuTreeSelect, roleMenuTreeSelect } from '#/api/system/menu';
 // import { menuTreeSelect, roleMenuTreeSelect } from '#/api/system/menu';
-// import { roleAdd, roleInfo, roleUpdate } from '#/api/system/role';
+import { roleAdd, roleInfo, roleUpdate } from '#/api/system/role';
 import { TreeSelectPanel } from '#/components/tree';
 
-import {
-  roleMenuTreeselectData,
-  treeSelectData,
-  userDetailData,
-} from './role-modal-data';
 import { drawerSchema } from './schema';
 
 const emit = defineEmits<{ reload: [] }>();
@@ -40,8 +36,7 @@ const [BasicForm, formApi] = useVbenForm({
 const menuTree = ref<any[]>([]);
 async function setupMenuTree(id?: number | string) {
   if (id) {
-    // const resp = await roleMenuTreeSelect(id);
-    const resp = roleMenuTreeselectData.data;
+    const resp = await roleMenuTreeSelect(id);
     formApi.setFieldValue('menuIds', resp.checkedKeys);
     const menus = resp.menus;
     // i18n处理
@@ -51,8 +46,7 @@ async function setupMenuTree(id?: number | string) {
     // 设置菜单信息
     menuTree.value = resp.menus;
   } else {
-    // const resp = await menuTreeSelect();
-    const resp = treeSelectData.data;
+    const resp = await menuTreeSelect();
     formApi.setFieldValue('menuIds', []);
     // i18n处理
     eachTree(resp, (node) => {
@@ -75,9 +69,8 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
     isUpdate.value = !!id;
 
     if (isUpdate.value && id) {
-      // const record = await roleInfo(id);
-      // await formApi.setValues(record);
-      await formApi.setValues(userDetailData);
+      const record = await roleInfo(id);
+      await formApi.setValues(record);
     }
     // init菜单 注意顺序要放在赋值record之后 内部watch会依赖record
     await setupMenuTree(id);
@@ -103,7 +96,7 @@ async function handleConfirm() {
     // formApi.getValues拿到的是一个readonly对象，不能直接修改，需要cloneDeep
     const data = cloneDeep(await formApi.getValues());
     data.menuIds = menuIds;
-    // await (isUpdate.value ? roleUpdate(data) : roleAdd(data));
+    await (isUpdate.value ? roleUpdate(data) : roleAdd(data));
     emit('reload');
     await handleCancel();
   } catch (error) {
