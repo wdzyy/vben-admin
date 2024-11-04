@@ -56,32 +56,29 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
+        const obj = { ...formValues };
         // 区间选择器处理
-        if (formValues?.createTime) {
-          formValues.params = {
-            beginTime: dayjs(formValues.createTime[0]).format(
-              'YYYY-MM-DD 00:00:00',
-            ),
-            endTime: dayjs(formValues.createTime[1]).format(
-              'YYYY-MM-DD 23:59:59',
-            ),
+        if (obj?.createTime) {
+          obj.params = {
+            beginTime: dayjs(obj.createTime[0]).format('YYYY-MM-DD 00:00:00'),
+            endTime: dayjs(obj.createTime[1]).format('YYYY-MM-DD 23:59:59'),
           };
-          Reflect.deleteProperty(formValues, 'createTime');
+          Reflect.deleteProperty(obj, 'createTime');
         } else {
-          Reflect.deleteProperty(formValues, 'params');
+          Reflect.deleteProperty(obj, 'params');
         }
 
         // 部门树选择处理
         if (selectDeptId.value.length === 1) {
-          formValues.belongDeptId = selectDeptId.value[0];
+          obj.belongDeptId = selectDeptId.value[0];
         } else {
-          Reflect.deleteProperty(formValues, 'belongDeptId');
+          Reflect.deleteProperty(obj, 'belongDeptId');
         }
 
         return await postList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          ...formValues,
+          ...obj,
         });
       },
     },
