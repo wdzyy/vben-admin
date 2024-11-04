@@ -161,7 +161,7 @@ function handleMultiDelete() {
             :disabled="!checked"
             danger
             type="primary"
-            v-access:code="['system:post:remove']"
+            v-access:code="['system:post:delete']"
             @click="handleMultiDelete"
           >
             {{ $t('page.common.delete') }}
@@ -191,7 +191,7 @@ function handleMultiDelete() {
           >
             <GhostButton
               danger
-              v-access:code="['system:post:remove']"
+              v-access:code="['system:post:delete']"
               @click.stop=""
             >
               {{ $t('page.common.delete') }}
