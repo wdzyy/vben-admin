@@ -39,6 +39,7 @@
       "title": "System Management",
       "menu": "Menu Management",
       "department": "Department Management",
+      "post": "Post Management",
       "dict": "Dictionary Management",
       "user": "User Management",
       "role": "Role Management",
