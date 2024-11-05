@@ -19,7 +19,9 @@ function getDefaultState(): VxeGridProps {
     gridClass: '',
     gridOptions: {},
     gridEvents: {},
-    formOptions: undefined,
+    formOptions: {
+      collapsed: true,
+    },
   };
 }
 
