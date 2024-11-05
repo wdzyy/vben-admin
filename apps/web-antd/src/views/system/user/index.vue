@@ -245,25 +245,25 @@ const exportExcel = () => {
                   {{ $t('page.common.delete') }}
                 </ghost-button>
               </Popconfirm>
+              <Dropdown
+                :get-popup-container="getPopupContainer"
+                placement="bottomRight"
+              >
+                <template #overlay>
+                  <Menu>
+                    <MenuItem key="1" @click="handleUserInfo(row)">
+                      用户信息
+                    </MenuItem>
+                    <MenuItem key="2" @click="handleResetPwd(row)">
+                      重置密码
+                    </MenuItem>
+                  </Menu>
+                </template>
+                <ghost-button>
+                  {{ $t('page.common.more') }}
+                </ghost-button>
+              </Dropdown>
             </Space>
-            <Dropdown
-              :get-popup-container="getPopupContainer"
-              placement="bottomRight"
-            >
-              <template #overlay>
-                <Menu>
-                  <MenuItem key="1" @click="handleUserInfo(row)">
-                    用户信息
-                  </MenuItem>
-                  <MenuItem key="2" @click="handleResetPwd(row)">
-                    重置密码
-                  </MenuItem>
-                </Menu>
-              </template>
-              <a-button size="small" type="link">
-                {{ $t('page.common.more') }}
-              </a-button>
-            </Dropdown>
           </template>
         </template>
       </BasicTable>

@@ -140,28 +140,26 @@ function setExpandOrCollapse(expand: boolean) {
       </template>
       <template #action="{ row }">
         <Space>
-          <Button ghost size="small" type="primary" @click="handleEdit(row)">
+          <ghost-button @click="handleEdit(row)">
             {{ $t('page.common.edit') }}
-          </Button>
+          </ghost-button>
           <!-- '按钮类型'无法再添加子菜单 -->
-          <Button
+          <ghost-button
             v-if="row.menuType !== 'F'"
             class="btn-success"
-            ghost
-            size="small"
             @click="handleSubAdd(row)"
           >
             {{ $t('page.common.add') }}
-          </Button>
+          </ghost-button>
           <Popconfirm
             :get-popup-container="getPopupContainer"
             placement="left"
             title="确认删除？"
             @confirm="handleDelete(row)"
           >
-            <Button danger ghost size="small" @click.stop="">
+            <ghost-button danger @click.stop="">
               {{ $t('page.common.delete') }}
-            </Button>
+            </ghost-button>
           </Popconfirm>
         </Space>
       </template>

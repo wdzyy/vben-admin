@@ -12,10 +12,6 @@ export const GhostButton = defineComponent({
   props: omit(buttonProps(), ['type', 'ghost', 'size']),
   setup(props, { attrs, slots }) {
     return () =>
-      h(
-        Button,
-        { ...props, ...attrs, type: 'primary', ghost: true, size: 'small' },
-        slots,
-      );
+      h(Button, { ...props, ...attrs, type: 'link', size: 'small' }, slots);
   },
 });
