@@ -9,8 +9,8 @@ import { Button, Popconfirm, Space } from 'ant-design-vue';
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
 import { menuList, menuRemove } from '#/api/system/menu';
 
-import { columns, querySchema } from './data';
 import menuDrawer from './menu-drawer.vue';
+import { columns, querySchema } from './schema';
 
 const formOptions: VbenFormProps = {
   commonConfig: {

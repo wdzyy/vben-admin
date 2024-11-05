@@ -50,10 +50,12 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '角色名称',
     field: 'roleName',
+    minWidth: 80,
   },
   {
     title: '权限字符',
     field: 'roleKey',
+    minWidth: 120,
     slots: {
       default: ({ row }) => {
         return <Tag color="processing">{row.roleKey}</Tag>;
@@ -74,26 +76,31 @@ export const columns: VxeGridProps['columns'] = [
         return <Tag>{row.dataScope}</Tag>;
       },
     },
+    minWidth: 120,
   },
   {
     title: '排序',
     field: 'roleSort',
+    minWidth: 60,
   },
   {
     title: '状态',
     field: 'status',
     slots: { default: 'status' },
+    minWidth: 100,
   },
   {
     title: '创建时间',
     field: 'createTime',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 180,
+    resizable: false,
+    width: 170,
   },
 ];
 

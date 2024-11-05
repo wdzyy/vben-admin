@@ -52,7 +52,7 @@ export const columns: VxeGridProps['columns'] = [
     title: '菜单名称',
     field: 'title',
     treeNode: true,
-    width: 200,
+    minWidth: 200,
     slots: {
       // 需要i18n支持 否则返回原始值
       default: ({ row }) => $t(row.title),
@@ -61,7 +61,7 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '图标',
     field: 'icon',
-    width: 80,
+    minWidth: 80,
     align: 'center',
     slots: {
       default: ({ row }: any) => {
@@ -77,12 +77,12 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '排序',
     field: 'order',
-    width: 120,
+    minWidth: 120,
   },
   {
     title: '组件类型',
     field: 'menuType',
-    width: 150,
+    minWidth: 150,
     slots: {
       default: ({ row }: any) => {
         const current = menuTypes[row.menuType as 'C' | 'F' | 'M'];
@@ -101,15 +101,17 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '权限标识',
     field: 'perms',
+    minWidth: 150,
   },
   {
     title: '组件路径',
     field: 'component',
+    minWidth: 180,
   },
   {
     title: '状态',
     field: 'status',
-    width: 100,
+    minWidth: 100,
     slots: {
       default: ({ row }) => {
         return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
@@ -119,7 +121,7 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '显示',
     field: 'hideInMenu',
-    width: 100,
+    minWidth: 100,
     slots: {
       default: ({ row }) => {
         return renderDict(row.hideInMenu, DictEnum.SYS_SHOW_HIDE);
@@ -129,13 +131,15 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '创建时间',
     field: 'createTime',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 200,
+    resizable: false,
+    width: 170,
   },
 ];
 

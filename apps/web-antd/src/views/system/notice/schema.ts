@@ -34,11 +34,12 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '公告标题',
     field: 'noticeTitle',
+    minWidth: 200,
   },
   {
     title: '公告类型',
     field: 'noticeType',
-    width: 120,
+    minWidth: 120,
     slots: {
       default: ({ row }) => {
         return renderDict(row.noticeType, DictEnum.SYS_NOTICE_TYPE);
@@ -48,7 +49,7 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '状态',
     field: 'status',
-    width: 120,
+    minWidth: 120,
     slots: {
       default: ({ row }) => {
         return renderDict(row.status, DictEnum.SYS_NOTICE_STATUS);
@@ -58,18 +59,20 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '创建人',
     field: 'createByName',
-    width: 150,
+    minWidth: 150,
   },
   {
     title: '创建时间',
     field: 'createTime',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 180,
+    resizable: false,
+    width: 120,
   },
 ];
 

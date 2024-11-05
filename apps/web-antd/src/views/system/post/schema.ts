@@ -34,22 +34,27 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '岗位编码',
     field: 'postCode',
+    minWidth: 120,
   },
   {
     title: '类别编码',
     field: 'postCategory',
+    minWidth: 100,
   },
   {
     title: '岗位名称',
     field: 'postName',
+    minWidth: 150,
   },
   {
     title: '排序',
     field: 'postSort',
+    minWidth: 100,
   },
   {
     title: '状态',
     field: 'status',
+    minWidth: 100,
     slots: {
       default: ({ row }) => {
         return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
@@ -59,13 +64,15 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '创建时间',
     field: 'createTime',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 180,
+    resizable: false,
+    width: 120,
   },
 ];
 

@@ -42,20 +42,23 @@ export const columns: VxeGridProps['columns'] = [
   {
     field: 'userName',
     title: '名称',
+    minWidth: 100,
   },
   {
     field: 'nickName',
     title: '昵称',
+    minWidth: 130,
   },
   {
     field: 'avatar',
     title: '头像',
     slots: { default: 'avatar' },
-    width: 80,
+    minWidth: 80,
   },
   {
     field: 'deptName',
     title: '部门',
+    minWidth: 120,
   },
   {
     field: 'phonenumber',
@@ -63,22 +66,26 @@ export const columns: VxeGridProps['columns'] = [
     formatter({ cellValue }) {
       return cellValue || '暂无';
     },
+    minWidth: 120,
   },
   {
     field: 'status',
     title: '状态',
     slots: { default: 'status' },
+    minWidth: 100,
   },
   {
     field: 'createTime',
     title: '创建时间',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 180,
+    resizable: false,
+    width: 170,
   },
 ];
 

@@ -142,8 +142,8 @@ function handleMultiDelete() {
       class="w-[260px]"
       @select="() => tableApi.query()"
     />
-    <BasicTable class="flex-1 overflow-hidden" table-title="岗位列表">
-      <template #toolbar-tools>
+    <BasicTable class="flex-1 overflow-hidden">
+      <template #toolbar-actions>
         <Space>
           <a-button
             v-access:code="['system:post:export']"

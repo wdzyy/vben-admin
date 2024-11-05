@@ -28,20 +28,21 @@ export const columns: VxeGridProps['columns'] = [
     field: 'deptName',
     title: '部门名称',
     treeNode: true,
-    width: 200,
+    minWidth: 200,
   },
   {
     field: 'deptCategory',
     title: '类别编码',
+    minWidth: 100,
   },
   {
     field: 'orderNum',
     title: '排序',
-    width: 180,
+    minWidth: 100,
   },
   {
     field: 'status',
-    width: 180,
+    minWidth: 100,
     title: '状态',
     slots: {
       default: ({ row }) => {
@@ -52,13 +53,15 @@ export const columns: VxeGridProps['columns'] = [
   {
     field: 'createTime',
     title: '创建时间',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 200,
+    resizable: false,
+    width: 170,
   },
 ];
 

@@ -52,7 +52,7 @@ export const querySchema: FormSchemaGetter = () => [
 
 export const columns: VxeGridProps['columns'] = [
   { type: 'checkbox', width: 60 },
-  { field: 'title', title: '系统模块' },
+  { field: 'title', title: '系统模块', minWidth: 160 },
   {
     title: '操作类型',
     field: 'businessType',
@@ -61,10 +61,11 @@ export const columns: VxeGridProps['columns'] = [
         return renderDict(row.businessType, DictEnum.SYS_OPER_TYPE);
       },
     },
+    minWidth: 120,
   },
-  { field: 'operName', title: '操作人员' },
-  { field: 'operIp', title: 'IP地址' },
-  { field: 'operLocation', title: 'IP信息' },
+  { field: 'operName', title: '操作人员', minWidth: 120 },
+  { field: 'operIp', title: 'IP地址', minWidth: 140 },
+  { field: 'operLocation', title: 'IP信息', minWidth: 150 },
   {
     field: 'status',
     title: '操作状态',
@@ -73,8 +74,9 @@ export const columns: VxeGridProps['columns'] = [
         return renderDict(row.status, DictEnum.SYS_COMMON_STATUS);
       },
     },
+    minWidth: 120,
   },
-  { field: 'operTime', title: '操作日期', sortable: true },
+  { field: 'operTime', title: '操作日期', sortable: true, minWidth: 160 },
   {
     field: 'costTime',
     title: '操作耗时',
@@ -82,13 +84,15 @@ export const columns: VxeGridProps['columns'] = [
     formatter({ cellValue }) {
       return `${cellValue} ms`;
     },
+    minWidth: 120,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 120,
+    resizable: false,
+    width: 80,
   },
 ];
 

@@ -39,19 +39,22 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '用户账号',
     field: 'userName',
+    minWidth: 120,
   },
   {
     title: '登录平台',
     field: 'clientKey',
+    minWidth: 120,
   },
   {
     title: 'IP地址',
     field: 'ipaddr',
+    minWidth: 140,
   },
   {
     title: 'IP地点',
     field: 'loginLocation',
-    width: 200,
+    minWidth: 150,
   },
   {
     title: '浏览器',
@@ -61,6 +64,7 @@ export const columns: VxeGridProps['columns'] = [
         return renderBrowserIcon(row.browser, true) as VNode;
       },
     },
+    minWidth: 120,
   },
   {
     title: '系统',
@@ -78,6 +82,7 @@ export const columns: VxeGridProps['columns'] = [
         return renderOsIcon(value, true) as VNode;
       },
     },
+    minWidth: 120,
   },
   {
     title: '登录结果',
@@ -87,21 +92,25 @@ export const columns: VxeGridProps['columns'] = [
         return renderDict(row.status, DictEnum.SYS_COMMON_STATUS);
       },
     },
+    minWidth: 120,
   },
   {
     title: '信息',
     field: 'msg',
+    minWidth: 120,
   },
   {
     title: '日期',
     field: 'loginTime',
+    minWidth: 160,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 150,
+    resizable: false,
+    width: 120,
   },
 ];
 

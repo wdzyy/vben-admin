@@ -20,25 +20,20 @@ export const columns: VxeGridProps['columns'] = [
   {
     title: '字典名称',
     field: 'dictName',
+    minWidth: 140,
   },
   {
     title: '字典类型',
     field: 'dictType',
-  },
-  {
-    title: '备注',
-    field: 'remark',
-  },
-  {
-    title: '创建时间',
-    field: 'createTime',
+    minWidth: 140,
   },
   {
     field: 'action',
     fixed: 'right',
     slots: { default: 'action' },
     title: '操作',
-    width: 180,
+    resizable: false,
+    width: 120,
   },
 ];
 

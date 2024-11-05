@@ -2,10 +2,9 @@
 import type { Recordable } from '@vben/types';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { CircleHelp } from '@vben/icons';
 import { eachTree, getPopupContainer } from '@vben/utils';
 
-import { Popconfirm, Space, Tooltip } from 'ant-design-vue';
+import { Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
 import { deptList, deptRemove } from '#/api/system/department';
@@ -113,13 +112,8 @@ function setExpandOrCollapse(expand: boolean) {
 
 <template>
   <Page :auto-content-height="true">
-    <BasicTable>
+    <BasicTable table-title="部门" table-title-help="提示：双击展开/收起子菜单">
       <template #toolbar-actions>
-        <div class="mr-2">
-          <Tooltip title="提示：双击展开/收起子菜单">
-            <CircleHelp class="size-4 text-center" />
-          </Tooltip>
-        </div>
         <Space>
           <a-button @click="setExpandOrCollapse(false)">
             {{ $t('page.common.collapse') }}

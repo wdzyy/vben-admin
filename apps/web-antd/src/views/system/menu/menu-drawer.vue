@@ -13,7 +13,7 @@ import {
 import { useVbenForm } from '#/adapter/form';
 import { menuAdd, menuInfo, menuList, menuUpdate } from '#/api/system/menu';
 
-import { drawerSchema } from './data';
+import { drawerSchema } from './schema';
 
 interface ModalProps {
   id?: number | string;
