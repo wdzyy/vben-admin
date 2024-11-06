@@ -1,7 +1,9 @@
-import { defineComponent, h } from 'vue';
+import { defineComponent, h, type PropType } from 'vue';
 
 import { Button } from 'ant-design-vue';
-import buttonProps from 'ant-design-vue/es/button/buttonTypes';
+import buttonProps, {
+  type ButtonType,
+} from 'ant-design-vue/es/button/buttonTypes';
 import { omit } from 'lodash-es';
 
 /**
@@ -9,9 +11,28 @@ import { omit } from 'lodash-es';
  */
 export const GhostButton = defineComponent({
   name: 'GhostButton',
-  props: omit(buttonProps(), ['type', 'ghost', 'size']),
+  props: {
+    ...omit(buttonProps(), ['type', 'size']),
+    type: {
+      type: String as PropType<ButtonType>,
+      default: 'link',
+    },
+    size: {
+      type: String as PropType<'large' | 'middle' | 'small'>,
+      default: 'small',
+    },
+  },
   setup(props, { attrs, slots }) {
     return () =>
-      h(Button, { ...props, ...attrs, type: 'link', size: 'small' }, slots);
+      h(
+        Button,
+        {
+          ...props,
+          ...attrs,
+          type: props.type,
+          size: props.size,
+        },
+        slots,
+      );
   },
 });

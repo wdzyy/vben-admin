@@ -6,15 +6,7 @@ import { ref } from 'vue';
 import { useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
-import {
-  Dropdown,
-  Menu,
-  MenuItem,
-  type MenuProps,
-  Modal,
-  Popconfirm,
-  Space,
-} from 'ant-design-vue';
+import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
 import {
@@ -29,6 +21,14 @@ import { downloadExcel } from '#/utils/file/download';
 import { emitter } from '../mitt';
 import dictTypeModal from './dict-type-modal.vue';
 import { columns, querySchema } from './schema';
+
+const moreMenuList = [
+  {
+    label: '刷新字典缓存',
+    key: '1',
+    onClick: handleRefreshCache,
+  },
+];
 
 const formOptions: VbenFormProps = {
   commonConfig: {
@@ -130,7 +130,7 @@ function handleMultiDelete() {
   });
 }
 
-const handleMenuClick: MenuProps['onClick'] = (e) => {
+/* const handleMenuClick: MenuProps['onClick'] = (e) => {
   switch (e.key) {
     case '1': {
       handleRefreshCache();
@@ -141,13 +141,13 @@ const handleMenuClick: MenuProps['onClick'] = (e) => {
       break;
     }
   }
-};
+}; */
 async function handleRefreshCache() {
   await refreshDictTypeCache();
   await tableApi.query();
 }
 
-function handleSyncTenantDict() {
+/* function handleSyncTenantDict() {
   Modal.confirm({
     title: '提示',
     iconType: 'warning',
@@ -157,7 +157,7 @@ function handleSyncTenantDict() {
       await tableApi.query();
     },
   });
-}
+} */
 </script>
 
 <template>
@@ -187,7 +187,7 @@ function handleSyncTenantDict() {
           >
             {{ $t('page.common.export') }}
           </a-button>
-          <Dropdown>
+          <!-- <Dropdown>
             <template #overlay>
               <Menu @click="handleMenuClick">
                 <span>
@@ -198,7 +198,13 @@ function handleSyncTenantDict() {
             <a-button>
               {{ $t('page.common.more') }}
             </a-button>
-          </Dropdown>
+          </Dropdown> -->
+          <MoreButton
+            :ghost="false"
+            :menu-items="moreMenuList"
+            size="middle"
+            type="default"
+          />
         </Space>
       </template>
       <template #action="{ row }">

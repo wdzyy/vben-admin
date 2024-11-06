@@ -12,15 +12,7 @@ import {
 } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
-import {
-  Dropdown,
-  Menu,
-  MenuItem,
-  message,
-  Modal,
-  Popconfirm,
-  Space,
-} from 'ant-design-vue';
+import { message, Modal, Popconfirm, Space } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
@@ -31,6 +23,19 @@ import roleAssignDrawer from './role-assign/role-assign-drawer.vue';
 import roleAuthModal from './role-auth-modal.vue';
 import roleDrawer from './role-drawer.vue';
 import { columns, querySchema } from './schema';
+
+const moreMenuList = [
+  {
+    label: '分配用户',
+    key: '1',
+    onClick: handleAssignRole,
+  },
+  {
+    label: '数据权限',
+    key: '2',
+    onClick: handleAuthEdit,
+  },
+];
 
 const formOptions: VbenFormProps = {
   commonConfig: {
@@ -211,7 +216,7 @@ const exportExcel = () => {
                 {{ $t('page.common.delete') }}
               </ghost-button>
             </Popconfirm>
-            <Dropdown
+            <!-- <Dropdown
               :get-popup-container="getPopupContainer"
               placement="bottomRight"
             >
@@ -228,7 +233,8 @@ const exportExcel = () => {
               <ghost-button>
                 {{ $t('page.common.more') }}
               </ghost-button>
-            </Dropdown>
+            </Dropdown> -->
+            <MoreButton :menu-items="moreMenuList" :params="row" />
           </Space>
         </template>
       </template>

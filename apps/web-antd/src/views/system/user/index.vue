@@ -13,16 +13,7 @@ import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import { getPopupContainer } from '@vben/utils';
 
-import {
-  Avatar,
-  Dropdown,
-  Menu,
-  MenuItem,
-  message,
-  Modal,
-  Popconfirm,
-  Space,
-} from 'ant-design-vue';
+import { Avatar, message, Modal, Popconfirm, Space } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
@@ -35,6 +26,19 @@ import userDrawer from './user-drawer.vue';
 import userImportModal from './user-import-modal.vue';
 import userInfoModal from './user-info-modal.vue';
 import userResetPwdModal from './user-reset-pwd-modal.vue';
+
+const moreMenuList = [
+  {
+    label: '用户信息',
+    key: '1',
+    onClick: handleUserInfo,
+  },
+  {
+    label: '重置密码',
+    key: '2',
+    onClick: handleResetPwd,
+  },
+];
 
 /**
  * 导入
@@ -245,7 +249,7 @@ const exportExcel = () => {
                   {{ $t('page.common.delete') }}
                 </ghost-button>
               </Popconfirm>
-              <Dropdown
+              <!-- <Dropdown
                 :get-popup-container="getPopupContainer"
                 placement="bottomRight"
               >
@@ -262,7 +266,8 @@ const exportExcel = () => {
                 <ghost-button>
                   {{ $t('page.common.more') }}
                 </ghost-button>
-              </Dropdown>
+              </Dropdown> -->
+              <MoreButton :menu-items="moreMenuList" :params="row" />
             </Space>
           </template>
         </template>
