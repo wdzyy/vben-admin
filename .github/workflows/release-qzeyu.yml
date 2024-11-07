@@ -19,9 +19,16 @@ jobs:
           node-version: 20
 
       - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Setup pivate npm registry
         run: |
-          npm install -g pnpm
-          npm login --registry=https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/ --auth-type=legacy --username=${{ secrets.NPM_USER_NAME }} --password=${{ secrets.NPM_PASSWORD }}
+          npm config set registry https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/
+          npm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:_authToken ${NPM_AUTH_TOKEN}
+
+      - name: Setup npm registry
+        run: |
+          npm config set registry https://registry.npmmirror.com
 
       - name: Install Dependencies
         run: pnpm install
