@@ -19,7 +19,9 @@ jobs:
           node-version: 20
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: |
+          npm install -g pnpm
+          npm login --registry=https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/ --auth-type=legacy --username=${{ secrets.NPM_USER_NAME }} --password=${{ secrets.NPM_PASSWORD }}
 
       - name: Install Dependencies
         run: pnpm install
