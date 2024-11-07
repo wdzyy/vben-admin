@@ -9,10 +9,15 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     accessMode: 'backend',
+    enableRefreshToken: true,
     name: import.meta.env.VITE_APP_TITLE,
     // enablePreferences: false,
     layout: 'mixed-nav',
+    loginExpiredMode: 'modal',
     watermark: true,
+  },
+  logo: {
+    source: 'https://minio.qzeyu.fun/zy-admin/logo-z.svg',
   },
   theme: {
     mode: 'light',
