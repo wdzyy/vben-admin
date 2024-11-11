@@ -66,11 +66,13 @@ const slots = useSlots();
 const [Form, formApi] = useTableForm({
   handleSubmit: async () => {
     const formValues = formApi.form.values;
+    formApi.setLatestSubmissionValues(toRaw(formValues));
     props.api.reload(formValues);
   },
   handleReset: async () => {
     await formApi.resetForm();
     const formValues = formApi.form.values;
+    formApi.setLatestSubmissionValues(formValues);
     props.api.reload(formValues);
   },
   commonConfig: {
@@ -137,10 +139,6 @@ const options = computed(() => {
     mergedOptions.proxyConfig.enabled = !!ajax;
     // 不自动加载数据, 由组件控制
     mergedOptions.proxyConfig.autoLoad = false;
-  }
-
-  if (!showToolbar.value && mergedOptions.toolbarConfig) {
-    mergedOptions.toolbarConfig.enabled = false;
   }
 
   if (mergedOptions.pagerConfig) {
@@ -231,7 +229,9 @@ async function init() {
   }
   props.api?.setState?.({ gridOptions: defaultGridOptions });
   // form 由 vben-form 代替，所以需要保证query相关事件可以拿到参数
-  extendProxyOptions(props.api, defaultGridOptions, () => formApi.form.values);
+  extendProxyOptions(props.api, defaultGridOptions, () =>
+    formApi.getLatestSubmissionValues(),
+  );
 }
 
 // formOptions支持响应式
