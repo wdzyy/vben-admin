@@ -13,5 +13,8 @@
     "title": "VTable",
     "pivot-table": "Pivot Table",
     "list-table": "List Table"
+  },
+  "icons": {
+    "title": "Icons"
   }
 }

@@ -50,6 +50,15 @@ const demoRoute: RouteRecordStringComponent[] = [
           },
         ],
       },
+      {
+        name: 'IconsDemo',
+        path: '/demos/icons',
+        component: '/demos/icons/index.vue',
+        meta: {
+          title: $t('demos.icons.title'),
+          icon: 'lucide:annoyed',
+        },
+      },
     ],
   },
 ];

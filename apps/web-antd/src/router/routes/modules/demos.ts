@@ -51,6 +51,15 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        name: 'IconsDemo',
+        path: '/demos/icons',
+        component: () => import('#/views/demos/icons/index.vue'),
+        meta: {
+          icon: 'lucide:annoyed',
+          title: $t('demos.icons.title'),
+        },
+      },
     ],
   },
 ];

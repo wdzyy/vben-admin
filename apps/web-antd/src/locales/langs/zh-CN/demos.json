@@ -13,5 +13,8 @@
     "title": "VTable",
     "pivot-table": "透视表",
     "list-table": "报表"
+  },
+  "icons": {
+    "title": "图标"
   }
 }
