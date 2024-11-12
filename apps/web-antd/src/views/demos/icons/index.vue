@@ -18,7 +18,7 @@ import {
 
 import { Card } from 'ant-design-vue';
 
-import IconPicker from '#/components/icon-picker/index.vue';
+import { IconPicker } from '#/components/icon-picker/index';
 </script>
 
 <template>
