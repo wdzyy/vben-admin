@@ -92,9 +92,14 @@
   padding: 0;
 }
 
-.vxe-buttons--wrapper:not(:empty),
-.vxe-tools--wrapper:not(:empty) {
-  padding: 0.6em 0;
+/** 关闭搜索表单 */
+.vxe-grid:not(.vxe-grid--form-wrapper form) .vxe-toolbar {
+  padding: 0.6em 0 !important;
+}
+
+/** 开启搜索表单 */
+.vxe-grid:has(.vxe-grid--form-wrapper form) .vxe-toolbar {
+  padding: 0 0 0.6em !important;
 }
 
 .vxe-tools--operate:not(:has(button)) {
