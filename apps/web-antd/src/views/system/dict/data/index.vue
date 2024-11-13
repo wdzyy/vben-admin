@@ -14,7 +14,7 @@ import {
   dictDataList,
   dictDataRemove,
 } from '#/api/system/dict/dict-data';
-import { downloadExcel } from '#/utils/file/download';
+import { commonDownloadExcel } from '#/utils/file/download';
 
 import { emitter } from '../mitt';
 import dictDataDrawer from './dict-data-drawer.vue';
@@ -125,6 +125,10 @@ emitter.on('rowClick', async (value: any) => {
   dictType.value = value;
   await tableApi.query();
 });
+
+function handleDownloadExcel() {
+  commonDownloadExcel(dictDataExport, '字典数据', tableApi.formApi.form.values);
+}
 </script>
 
 <template>
@@ -147,15 +151,7 @@ emitter.on('rowClick', async (value: any) => {
           >
             {{ $t('page.common.delete') }}
           </a-button>
-          <a-button
-            @click="
-              downloadExcel(
-                dictDataExport,
-                '字典数据',
-                tableApi.formApi.form.values,
-              )
-            "
-          >
+          <a-button @click="handleDownloadExcel">
             {{ $t('page.common.export') }}
           </a-button>
         </Space>

@@ -12,12 +12,12 @@ import {
 } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
-import { message, Modal, Popconfirm, Space } from 'ant-design-vue';
-import dayjs from 'dayjs';
+import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-import { roleList, roleRemove } from '#/api/system/role';
+import { roleExport, roleList, roleRemove } from '#/api/system/role';
 import { TableSwitch } from '#/components/table';
+import { commonDownloadExcel } from '#/utils/file/download';
 
 import roleAssignDrawer from './role-assign/role-assign-drawer.vue';
 import roleAuthModal from './role-auth-modal.vue';
@@ -46,6 +46,14 @@ const formOptions: VbenFormProps = {
   },
   schema: querySchema(),
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+  // 日期选择格式化
+  fieldMappingTime: [
+    [
+      'createTime',
+      ['params[beginTime]', 'params[endTime]'],
+      ['YYYY-MM-DD 00:00:00', 'YYYY-MM-DD 23:59:59'],
+    ],
+  ],
 };
 
 const gridOptions: VxeGridProps = {
@@ -65,21 +73,6 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
-        // 区间选择器处理
-        if (formValues?.createTime) {
-          formValues.params = {
-            beginTime: dayjs(formValues.createTime[0]).format(
-              'YYYY-MM-DD 00:00:00',
-            ),
-            endTime: dayjs(formValues.createTime[1]).format(
-              'YYYY-MM-DD 23:59:59',
-            ),
-          };
-          Reflect.deleteProperty(formValues, 'createTime');
-        } else {
-          Reflect.deleteProperty(formValues, 'params');
-        }
-
         return await roleList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
@@ -164,9 +157,11 @@ function handleAuthEdit(record: Recordable<any>) {
   authModalApi.open();
 }
 
-const exportExcel = () => {
-  message.info('演示按钮，功能自行完善');
-};
+function handleDownloadExcel() {
+  commonDownloadExcel(roleExport, '角色数据', tableApi.formApi.form.values, {
+    fieldMappingTime: formOptions.fieldMappingTime,
+  });
+}
 </script>
 
 <template>
@@ -174,7 +169,7 @@ const exportExcel = () => {
     <BasicTable>
       <template #toolbar-actions>
         <Space>
-          <a-button @click="exportExcel">
+          <a-button @click="handleDownloadExcel">
             {{ $t('page.common.export') }}
           </a-button>
           <a-button

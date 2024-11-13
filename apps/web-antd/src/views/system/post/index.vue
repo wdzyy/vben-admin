@@ -7,7 +7,6 @@ import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
-import dayjs from 'dayjs';
 
 import {
   tableCheckboxEvent,
@@ -15,7 +14,7 @@ import {
   type VxeGridProps,
 } from '#/adapter/vxe-table';
 import { postExport, postList, postRemove } from '#/api/system/post';
-import { downloadExcel } from '#/utils/file/download';
+import { commonDownloadExcel } from '#/utils/file/download';
 import DeptTree from '#/views/system/user/dept-tree.vue';
 
 import postDrawer from './post-drawer.vue';
@@ -56,29 +55,17 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
-        const obj = { ...formValues };
-        // 区间选择器处理
-        if (obj?.createTime) {
-          obj.params = {
-            beginTime: dayjs(obj.createTime[0]).format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs(obj.createTime[1]).format('YYYY-MM-DD 23:59:59'),
-          };
-          Reflect.deleteProperty(obj, 'createTime');
-        } else {
-          Reflect.deleteProperty(obj, 'params');
-        }
-
         // 部门树选择处理
         if (selectDeptId.value.length === 1) {
-          obj.belongDeptId = selectDeptId.value[0];
+          formValues.belongDeptId = selectDeptId.value[0];
         } else {
-          Reflect.deleteProperty(obj, 'belongDeptId');
+          Reflect.deleteProperty(formValues, 'belongDeptId');
         }
 
         return await postList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          ...obj,
+          ...formValues,
         });
       },
     },
@@ -133,6 +120,17 @@ function handleMultiDelete() {
     },
   });
 }
+
+function handleDownloadExcel() {
+  commonDownloadExcel(
+    postExport,
+    '岗位信息数据',
+    tableApi.formApi.form.values,
+    {
+      fieldMappingTime: formOptions.fieldMappingTime,
+    },
+  );
+}
 </script>
 
 <template>
@@ -147,13 +145,7 @@ function handleMultiDelete() {
         <Space>
           <a-button
             v-access:code="['system:post:export']"
-            @click="
-              downloadExcel(
-                postExport,
-                '岗位信息数据',
-                tableApi.formApi.form.values,
-              )
-            "
+            @click="handleDownloadExcel"
           >
             {{ $t('page.common.export') }}
           </a-button>

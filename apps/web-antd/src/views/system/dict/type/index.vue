@@ -16,7 +16,7 @@ import {
   refreshDictTypeCache,
 } from '#/api/system/dict/dict-type';
 // import { dictSyncTenant } from '#/api/system/tenant';
-import { downloadExcel } from '#/utils/file/download';
+import { commonDownloadExcel } from '#/utils/file/download';
 
 import { emitter } from '../mitt';
 import dictTypeModal from './dict-type-modal.vue';
@@ -158,6 +158,14 @@ async function handleRefreshCache() {
     },
   });
 } */
+
+function handleDownloadExcel() {
+  commonDownloadExcel(
+    dictTypeExport,
+    '字典类型数据',
+    tableApi.formApi.form.values,
+  );
+}
 </script>
 
 <template>
@@ -176,15 +184,7 @@ async function handleRefreshCache() {
           >
             {{ $t('page.common.delete') }}
           </a-button>
-          <a-button
-            @click="
-              downloadExcel(
-                dictTypeExport,
-                '字典类型数据',
-                tableApi.formApi.form.values,
-              )
-            "
-          >
+          <a-button @click="handleDownloadExcel">
             {{ $t('page.common.export') }}
           </a-button>
           <!-- <Dropdown>

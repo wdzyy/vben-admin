@@ -13,12 +13,12 @@ import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 import { getPopupContainer } from '@vben/utils';
 
-import { Avatar, message, Modal, Popconfirm, Space } from 'ant-design-vue';
-import dayjs from 'dayjs';
+import { Avatar, Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
-import { userList, userRemove } from '#/api/system/user';
+import { userExport, userList, userRemove } from '#/api/system/user';
 import { TableSwitch } from '#/components/table';
+import { commonDownloadExcel } from '#/utils/file/download';
 
 import DeptTree from './dept-tree.vue';
 import { columns, querySchema } from './schema';
@@ -70,6 +70,14 @@ const formOptions: VbenFormProps = {
     await formApi.resetForm();
     await reload();
   },
+  // 日期选择格式化
+  fieldMappingTime: [
+    [
+      'createTime',
+      ['params[beginTime]', 'params[endTime]'],
+      ['YYYY-MM-DD 00:00:00', 'YYYY-MM-DD 23:59:59'],
+    ],
+  ],
 };
 
 const gridOptions: VxeGridProps = {
@@ -89,28 +97,17 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
-        const obj = { ...formValues };
-        // 区间选择器处理
-        if (obj?.createTime) {
-          obj.params = {
-            beginTime: dayjs(obj.createTime[0]).format('YYYY-MM-DD 00:00:00'),
-            endTime: dayjs(obj.createTime[1]).format('YYYY-MM-DD 23:59:59'),
-          };
-          Reflect.deleteProperty(obj, 'createTime');
-        } else {
-          Reflect.deleteProperty(obj, 'params');
-        }
         // 部门树选择处理
         if (selectDeptId.value.length === 1) {
-          obj.deptId = selectDeptId.value[0];
+          formValues.deptId = selectDeptId.value[0];
         } else {
-          Reflect.deleteProperty(obj, 'deptId');
+          Reflect.deleteProperty(formValues, 'deptId');
         }
 
         return await userList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          ...obj,
+          ...formValues,
         });
       },
     },
@@ -187,9 +184,11 @@ function handleResetPwd(record: Recordable<any>) {
   userResetPwdModalApi.open();
 }
 
-const exportExcel = () => {
-  message.info('演示按钮，功能自行完善');
-};
+function handleDownloadExcel() {
+  commonDownloadExcel(userExport, '用户管理', tableApi.formApi.form.values, {
+    fieldMappingTime: formOptions.fieldMappingTime,
+  });
+}
 </script>
 
 <template>
@@ -203,7 +202,7 @@ const exportExcel = () => {
       <BasicTable class="flex-1 overflow-hidden">
         <template #toolbar-actions>
           <Space>
-            <a-button @click="exportExcel">
+            <a-button @click="handleDownloadExcel">
               {{ $t('page.common.export') }}
             </a-button>
             <a-button @click="handleImport">

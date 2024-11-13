@@ -7,7 +7,6 @@ import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
-import dayjs from 'dayjs';
 
 import {
   tableCheckboxEvent,
@@ -22,7 +21,7 @@ import {
   loginInfoRemove,
   userUnlock,
 } from '#/api/system/logininfo';
-import { downloadExcel } from '#/utils/file/download';
+import { commonDownloadExcel } from '#/utils/file/download';
 import { confirmDeleteModal } from '#/utils/modal';
 
 import loginInfoModal from './login-info-modal.vue';
@@ -37,6 +36,14 @@ const formOptions: VbenFormProps = {
   },
   schema: querySchema(),
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+  // 日期选择格式化
+  fieldMappingTime: [
+    [
+      'dateTime',
+      ['params[beginTime]', 'params[endTime]'],
+      ['YYYY-MM-DD 00:00:00', 'YYYY-MM-DD 23:59:59'],
+    ],
+  ],
 };
 
 const gridOptions: VxeGridProps = {
@@ -55,20 +62,6 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
-        // 区间选择器处理
-        if (formValues?.dateTime) {
-          formValues.params = {
-            beginTime: dayjs(formValues.dateTime[0]).format(
-              'YYYY-MM-DD 00:00:00',
-            ),
-            endTime: dayjs(formValues.dateTime[1]).format(
-              'YYYY-MM-DD 23:59:59',
-            ),
-          };
-          Reflect.deleteProperty(formValues, 'dateTime');
-        } else {
-          Reflect.deleteProperty(formValues, 'params');
-        }
         return await loginInfoList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
@@ -149,6 +142,17 @@ async function handleUnlock() {
   canUnlock.value = false;
   tableApi.grid.clearCheckboxRow();
 }
+
+function handleDownloadExcel() {
+  commonDownloadExcel(
+    loginInfoExport,
+    '登录日志',
+    tableApi.formApi.form.values,
+    {
+      fieldMappingTime: formOptions.fieldMappingTime,
+    },
+  );
+}
 </script>
 
 <template>
@@ -159,15 +163,7 @@ async function handleUnlock() {
           <a-button @click="handleClear">
             {{ $t('page.common.clear') }}
           </a-button>
-          <a-button
-            @click="
-              downloadExcel(
-                loginInfoExport,
-                '登录日志',
-                tableApi.formApi.form.values,
-              )
-            "
-          >
+          <a-button @click="handleDownloadExcel">
             {{ $t('page.common.export') }}
           </a-button>
           <a-button
