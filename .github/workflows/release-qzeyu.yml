@@ -23,18 +23,14 @@ jobs:
 
       - name: Setup pivate npm registry
         run: |
-          npm config set registry https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/
-          npm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:_authToken ${{ secrets.NPM_AUTH_TOKEN }}
+          pnpm config set registry https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/
+          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:_authToken ${{ secrets.NPM_AUTH_TOKEN }}
 
-      - name: Install @zyy Dependencies
-        run: |
-          cd apps/web-antd
-          pnpm install @zyy/pivot-table
+      - name: Install Private Dependencies
+        run: pnpm add @zyy/pivot-table -w --filter web-antd
 
       - name: Setup npm registry
-        run: |
-          cd ../../
-          npm config set registry https://registry.npmmirror.com
+        run: pnpm config set registry https://registry.npmmirror.com
 
       - name: Install Dependencies
         run: pnpm install
