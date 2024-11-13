@@ -24,12 +24,10 @@ jobs:
       - name: Setup pivate npm registry
         run: |
           pnpm config set registry https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/
-          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:username ${{ secrets.NPM_USERNAME }}
-          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:password ${{ secrets.NPM_PASSWORD }}
-          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:email ${{ secrets.NPM_EMAIL }}
+          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:_authToken ${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: Install Private Dependencies
-        run: pnpm install @zyy/pivot-table -w --filter web-antd
+        run: pnpm install @zyy/pivot-table --filter @vben/web-antd
 
       - name: Setup npm registry
         run: pnpm config set registry https://registry.npmmirror.com
