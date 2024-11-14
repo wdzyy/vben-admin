@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { ListTableOptions } from '@zyy/pivot-table';
+import type { ListTableOptions } from '@zyy-core/pivot-table';
 
 import { onMounted, ref } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { ListTable as ZListTable } from '@zyy/pivot-table';
+import { ListTable as ZListTable } from '@zyy-core/pivot-table';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 
-import '@zyy/pivot-table/lib/style.css';
+import '@zyy-core/pivot-table/lib/style.css';
 
 const options = ref<ListTableOptions>({
   columns: [

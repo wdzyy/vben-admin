@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { PivotTableOptions } from '@zyy/pivot-table';
+import type { PivotTableOptions } from '@zyy-core/pivot-table';
 
 import { ref } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { PivotTable as ZPivotTable } from '@zyy/pivot-table';
+import { PivotTable as ZPivotTable } from '@zyy-core/pivot-table';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 
-import '@zyy/pivot-table/lib/style.css';
+import '@zyy-core/pivot-table/lib/style.css';
 
 const options: PivotTableOptions = {
   columns: [
