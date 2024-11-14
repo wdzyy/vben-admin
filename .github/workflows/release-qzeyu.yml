@@ -22,15 +22,12 @@ jobs:
         run: npm install -g pnpm
 
       - name: Setup pivate npm registry
-        run: |
-          pnpm -v
-          pnpm config set @zyy:registry https://packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/
-          pnpm config set //packages.aliyun.com/66e16550691d6fdafb3cb0a1/npm/npm-registry/:_authToken "${{ secrets.NPM_AUTH_TOKEN }}"
+        run: pnpm config set @zyy-core:registry https://registry.npmjs.org
 
       - name: Install Private Dependencies
         run: |
           pnpm config list
-          pnpm install @zyy/pivot-table --filter @vben/web-antd
+          pnpm install @zyy-core/pivot-table --filter @vben/web-antd
 
 
       - name: Setup npm registry
