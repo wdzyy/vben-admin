@@ -99,16 +99,20 @@ ghost按钮专用!
 */
 .btn-success {
   color: hsl(var(--success)) !important;
+  border-color: hsl(var(--success)) !important;
 }
 
 .btn-success:hover {
   color: hsl(var(--success) / 70%) !important;
+  border-color: hsl(var(--success) / 70%) !important;
 }
 
 html.dark button[disabled].btn-success {
   color: rgb(242 242 242 / 25%) !important;
+  border-color: hsl(240deg 3.7% 22%) !important;
 }
 
 button[disabled].btn-success {
   color: rgb(50 54 57 / 25%) !important;
+  border-color: hsl(240deg 5.9% 90%) !important;
 }
