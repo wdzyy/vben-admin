@@ -41,7 +41,7 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
-    "@zyy/pivot-table": "^0.0.2",
+    "@zyy-core/pivot-table": "^0.0.2",
     "ant-design-vue": "catalog:",
     "cropperjs": "^1.6.2",
     "crypto-js": "^4.2.0",

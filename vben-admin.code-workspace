@@ -121,7 +121,7 @@
       "path": "packages/effects/layouts",
     },
     {
-      "name": "@zyy/pivot-table",
+      "name": "@zyy-core/pivot-table",
       "path": "packages/effects/pivot-table",
     },
     {
