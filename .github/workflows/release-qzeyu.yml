@@ -22,19 +22,14 @@ jobs:
         run: npm install -g pnpm
 
       - name: Setup pivate npm registry
-        run: pnpm config set @zyy-core:registry https://registry.npmjs.org
+        run: |
+          pnpm config set @zyy-core:registry https://registry.npmjs.org
+          pnpm config set registry https://registry.npmmirror.com
 
       - name: Install Private Dependencies
         run: |
-          pnpm config list
-          pnpm install @zyy-core/pivot-table --filter @vben/web-antd
-
-
-      - name: Setup npm registry
-        run: pnpm config set registry https://registry.npmmirror.com
-
-      - name: Install Dependencies
-        run: pnpm install
+          pnpm install
+          pnpm add @zyy-core/pivot-table --filter @vben/web-antd --save
 
       - name: Build
         run: pnpm build:antd
