@@ -68,7 +68,9 @@ const formOptions: VbenFormProps = {
     // eslint-disable-next-line no-use-before-define
     const { formApi, reload } = tableApi;
     await formApi.resetForm();
-    await reload();
+    const formValues = formApi.form.values;
+    formApi.setLatestSubmissionValues(formValues);
+    await reload(formValues);
   },
   // 日期选择格式化
   fieldMappingTime: [
@@ -271,7 +273,7 @@ function handleDownloadExcel() {
         </template>
       </BasicTable>
     </div>
-    <UserImpotModal />
+    <UserImpotModal @reload="tableApi.query()" />
     <UserDrawer @reload="tableApi.query()" />
     <UserInfoModal />
     <UserResetPwdModal />

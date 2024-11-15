@@ -36,7 +36,9 @@ const formOptions: VbenFormProps = {
     // eslint-disable-next-line no-use-before-define
     const { formApi, reload } = tableApi;
     await formApi.resetForm();
-    await reload();
+    const formValues = formApi.form.values;
+    formApi.setLatestSubmissionValues(formValues);
+    await reload(formValues);
   },
 };
 
