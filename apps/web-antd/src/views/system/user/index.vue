@@ -205,10 +205,10 @@ function handleDownloadExcel() {
         <template #toolbar-actions>
           <Space>
             <a-button @click="handleDownloadExcel">
-              {{ $t('page.common.export') }}
+              {{ $t('pages.common.export') }}
             </a-button>
             <a-button @click="handleImport">
-              {{ $t('page.common.import') }}
+              {{ $t('pages.common.import') }}
             </a-button>
             <a-button
               :disabled="!checked"
@@ -216,10 +216,10 @@ function handleDownloadExcel() {
               type="primary"
               @click="handleMultiDelete"
             >
-              {{ $t('page.common.delete') }}
+              {{ $t('pages.common.delete') }}
             </a-button>
             <a-button type="primary" @click="handleAdd">
-              {{ $t('page.common.add') }}
+              {{ $t('pages.common.add') }}
             </a-button>
           </Space>
         </template>
@@ -237,7 +237,7 @@ function handleDownloadExcel() {
           <template v-if="row.userId !== 1">
             <Space>
               <ghost-button @click.stop="handleEdit(row)">
-                {{ $t('page.common.edit') }}
+                {{ $t('pages.common.edit') }}
               </ghost-button>
               <Popconfirm
                 :get-popup-container="getPopupContainer"
@@ -246,7 +246,7 @@ function handleDownloadExcel() {
                 @confirm="handleDelete(row)"
               >
                 <ghost-button danger @click.stop="">
-                  {{ $t('page.common.delete') }}
+                  {{ $t('pages.common.delete') }}
                 </ghost-button>
               </Popconfirm>
               <!-- <Dropdown
@@ -264,7 +264,7 @@ function handleDownloadExcel() {
                   </Menu>
                 </template>
                 <ghost-button>
-                  {{ $t('page.common.more') }}
+                  {{ $t('pages.common.more') }}
                 </ghost-button>
               </Dropdown> -->
               <MoreButton :menu-items="moreMenuList" :params="row" />

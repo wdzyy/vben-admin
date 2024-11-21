@@ -25,7 +25,7 @@ export async function downloadExcel(
   requestData: any = {},
   withRandomName = true,
 ) {
-  const hideLoading = message.loading($t('page.common.downloadLoading'), 0);
+  const hideLoading = message.loading($t('pages.common.downloadLoading'), 0);
   try {
     const data = await func(requestData);
     downloadExcelFile(data, fileName, withRandomName);
@@ -98,7 +98,7 @@ export async function commonDownloadExcel(
   requestData: any = {},
   options: DownloadExcelOptions = {},
 ) {
-  const hideLoading = message.loading($t('page.common.downloadLoading'), 0);
+  const hideLoading = message.loading($t('pages.common.downloadLoading'), 0);
   try {
     const { withRandomName = true, fieldMappingTime } = options;
     // 需要处理时间字段映射

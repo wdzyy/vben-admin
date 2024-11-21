@@ -66,7 +66,7 @@ export const MoreButton = defineComponent({
             h(
               GhostButton,
               { type: props.type, size: props.size },
-              { default: () => $t('page.common.more') },
+              { default: () => $t('pages.common.more') },
             ),
         },
       );

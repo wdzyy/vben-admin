@@ -140,7 +140,7 @@ function handleMultipleAuthCancel() {
             取消授权
           </a-button>
           <a-button type="primary" @click="handleAdd">
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </a-button>
         </Space>
       </template>

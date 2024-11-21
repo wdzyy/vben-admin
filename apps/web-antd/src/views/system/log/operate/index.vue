@@ -156,10 +156,10 @@ function handleDownloadExcel() {
       <template #toolbar-actions>
         <Space>
           <a-button @click="handleClear">
-            {{ $t('page.common.clear') }}
+            {{ $t('pages.common.clear') }}
           </a-button>
           <a-button @click="handleDownloadExcel">
-            {{ $t('page.common.export') }}
+            {{ $t('pages.common.export') }}
           </a-button>
           <a-button
             :disabled="!checked"
@@ -167,13 +167,13 @@ function handleDownloadExcel() {
             type="primary"
             @click="handleDelete"
           >
-            {{ $t('page.common.delete') }}
+            {{ $t('pages.common.delete') }}
           </a-button>
         </Space>
       </template>
       <template #action="{ row }">
         <ghost-button @click.stop="handlePreview(row)">
-          {{ $t('page.common.preview') }}
+          {{ $t('pages.common.preview') }}
         </ghost-button>
       </template>
     </BasicTable>

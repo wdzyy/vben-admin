@@ -1,0 +1,37 @@
+{
+  "root": "根目录",
+  "system": {
+    "root": "系统管理",
+    "user": "用户管理",
+    "role": "角色管理",
+    "menu": "菜单管理",
+    "dept": "部门管理",
+    "post": "岗位管理",
+    "dict": "字典管理",
+    "config": "参数设置",
+    "notice": "通知公告",
+    "log": {
+      "root": "日志管理",
+      "operation": "操作日志",
+      "login": "登录日志"
+    }
+  },
+  "workflow": {
+    "root": "工作流",
+    "category": "流程分类",
+    "model": "模型管理",
+    "define": "流程定义",
+    "monitor": {
+      "root": "流程监控",
+      "instance": "流程实例",
+      "todo": "待办任务"
+    },
+    "form": "表单管理"
+  },
+  "task": {
+    "root": "我的任务",
+    "apply": "我发起的",
+    "todo": "我的待办",
+    "done": "我的已办"
+  }
+}

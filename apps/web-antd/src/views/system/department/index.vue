@@ -116,23 +116,23 @@ function setExpandOrCollapse(expand: boolean) {
       <template #toolbar-actions>
         <Space>
           <a-button @click="setExpandOrCollapse(false)">
-            {{ $t('page.common.collapse') }}
+            {{ $t('pages.common.collapse') }}
           </a-button>
           <a-button @click="setExpandOrCollapse(true)">
-            {{ $t('page.common.expand') }}
+            {{ $t('pages.common.expand') }}
           </a-button>
           <a-button type="primary" @click="handleAdd">
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </a-button>
         </Space>
       </template>
       <template #action="{ row }">
         <Space>
           <ghost-button @click="handleEdit(row)">
-            {{ $t('page.common.edit') }}
+            {{ $t('pages.common.edit') }}
           </ghost-button>
           <ghost-button class="btn-success" @click="handleSubAdd(row)">
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </ghost-button>
           <Popconfirm
             :get-popup-container="getPopupContainer"
@@ -141,7 +141,7 @@ function setExpandOrCollapse(expand: boolean) {
             @confirm="handleDelete(row)"
           >
             <ghost-button danger @click.stop="">
-              {{ $t('page.common.delete') }}
+              {{ $t('pages.common.delete') }}
             </ghost-button>
           </Popconfirm>
         </Space>

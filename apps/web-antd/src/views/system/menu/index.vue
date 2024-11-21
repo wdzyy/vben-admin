@@ -124,24 +124,24 @@ function setExpandOrCollapse(expand: boolean) {
       <template #toolbar-actions>
         <Space>
           <Button @click="setExpandOrCollapse(false)">
-            {{ $t('page.common.collapse') }}
+            {{ $t('pages.common.collapse') }}
           </Button>
           <Button @click="setExpandOrCollapse(true)">
-            {{ $t('page.common.expand') }}
+            {{ $t('pages.common.expand') }}
           </Button>
           <Button
             type="primary"
             v-access:code="['system:menu:add']"
             @click="handleAdd"
           >
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </Button>
         </Space>
       </template>
       <template #action="{ row }">
         <Space>
           <ghost-button @click="handleEdit(row)">
-            {{ $t('page.common.edit') }}
+            {{ $t('pages.common.edit') }}
           </ghost-button>
           <!-- '按钮类型'无法再添加子菜单 -->
           <ghost-button
@@ -149,7 +149,7 @@ function setExpandOrCollapse(expand: boolean) {
             class="btn-success"
             @click="handleSubAdd(row)"
           >
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </ghost-button>
           <Popconfirm
             :get-popup-container="getPopupContainer"
@@ -158,7 +158,7 @@ function setExpandOrCollapse(expand: boolean) {
             @confirm="handleDelete(row)"
           >
             <ghost-button danger @click.stop="">
-              {{ $t('page.common.delete') }}
+              {{ $t('pages.common.delete') }}
             </ghost-button>
           </Popconfirm>
         </Space>

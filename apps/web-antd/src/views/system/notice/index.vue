@@ -114,17 +114,17 @@ function handleMultiDelete() {
             type="primary"
             @click="handleMultiDelete"
           >
-            {{ $t('page.common.delete') }}
+            {{ $t('pages.common.delete') }}
           </a-button>
           <a-button type="primary" @click="handleAdd">
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </a-button>
         </Space>
       </template>
       <template #action="{ row }">
         <Space>
           <ghost-button @click="handleEdit(row)">
-            {{ $t('page.common.edit') }}
+            {{ $t('pages.common.edit') }}
           </ghost-button>
           <Popconfirm
             :get-popup-container="getPopupContainer"
@@ -133,7 +133,7 @@ function handleMultiDelete() {
             @confirm="handleDelete(row)"
           >
             <ghost-button danger @click.stop="">
-              {{ $t('page.common.delete') }}
+              {{ $t('pages.common.delete') }}
             </ghost-button>
           </Popconfirm>
         </Space>

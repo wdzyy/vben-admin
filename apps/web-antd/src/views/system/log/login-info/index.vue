@@ -161,10 +161,10 @@ function handleDownloadExcel() {
       <template #toolbar-actions>
         <Space>
           <a-button @click="handleClear">
-            {{ $t('page.common.clear') }}
+            {{ $t('pages.common.clear') }}
           </a-button>
           <a-button @click="handleDownloadExcel">
-            {{ $t('page.common.export') }}
+            {{ $t('pages.common.export') }}
           </a-button>
           <a-button
             :disabled="!checked"
@@ -172,17 +172,17 @@ function handleDownloadExcel() {
             type="primary"
             @click="handleMultiDelete"
           >
-            {{ $t('page.common.delete') }}
+            {{ $t('pages.common.delete') }}
           </a-button>
           <a-button :disabled="!canUnlock" type="primary" @click="handleUnlock">
-            解锁
+            {{ $t('pages.common.unlock') }}
           </a-button>
         </Space>
       </template>
       <template #action="{ row }">
         <Space>
           <ghost-button @click.stop="handlePreview(row)">
-            {{ $t('page.common.info') }}
+            {{ $t('pages.common.info') }}
           </ghost-button>
           <Popconfirm
             :get-popup-container="getPopupContainer"
@@ -190,7 +190,9 @@ function handleDownloadExcel() {
             title="确认删除?"
             @confirm="() => handleDelete(row)"
           >
-            <ghost-button danger @click.stop=""> 删除 </ghost-button>
+            <ghost-button danger @click.stop="">
+              {{ $t('pages.common.delete') }}
+            </ghost-button>
           </Popconfirm>
         </Space>
       </template>

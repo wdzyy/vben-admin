@@ -24,7 +24,7 @@ const emit = defineEmits<{ reload: [] }>();
 
 const isUpdate = ref(false);
 const title = computed(() => {
-  return isUpdate.value ? $t('page.common.edit') : $t('page.common.add');
+  return isUpdate.value ? $t('pages.common.edit') : $t('pages.common.add');
 });
 
 const [BasicForm, formApi] = useVbenForm({

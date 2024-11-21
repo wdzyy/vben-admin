@@ -149,7 +149,7 @@ function handleDownloadExcel() {
             v-access:code="['system:post:export']"
             @click="handleDownloadExcel"
           >
-            {{ $t('page.common.export') }}
+            {{ $t('pages.common.export') }}
           </a-button>
           <a-button
             :disabled="!checked"
@@ -158,14 +158,14 @@ function handleDownloadExcel() {
             v-access:code="['system:post:delete']"
             @click="handleMultiDelete"
           >
-            {{ $t('page.common.delete') }}
+            {{ $t('pages.common.delete') }}
           </a-button>
           <a-button
             type="primary"
             v-access:code="['system:post:add']"
             @click="handleAdd"
           >
-            {{ $t('page.common.add') }}
+            {{ $t('pages.common.add') }}
           </a-button>
         </Space>
       </template>
@@ -175,7 +175,7 @@ function handleDownloadExcel() {
             v-access:code="['system:post:edit']"
             @click="handleEdit(row)"
           >
-            {{ $t('page.common.edit') }}
+            {{ $t('pages.common.edit') }}
           </GhostButton>
           <Popconfirm
             :get-popup-container="getPopupContainer"
@@ -188,7 +188,7 @@ function handleDownloadExcel() {
               v-access:code="['system:post:delete']"
               @click.stop=""
             >
-              {{ $t('page.common.delete') }}
+              {{ $t('pages.common.delete') }}
             </GhostButton>
           </Popconfirm>
         </Space>
