@@ -80,6 +80,7 @@ const [Form, formApi] = useTableForm({
       class: 'w-full',
     },
   },
+  collapsed: true,
   showCollapseButton: true,
   submitButtonOptions: {
     content: $t('common.query'),
