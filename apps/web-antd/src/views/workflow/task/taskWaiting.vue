@@ -96,7 +96,7 @@ function handleCardClick(id: string) {
           <InputSearch placeholder="搜索" />
         </div>
         <div
-          class="flex flex-1 flex-col gap-2 overflow-y-auto py-3"
+          class="thin-scrollbar flex flex-1 flex-col gap-2 overflow-y-auto py-3"
           @scroll="handleScroll"
         >
           <ApprovalCard
@@ -118,7 +118,7 @@ function handleCardClick(id: string) {
       </div>
       <Card
         :body-style="{ overflowY: 'auto', height: '100%' }"
-        class="flex-1 overflow-y-hidden"
+        class="thin-scrollbar flex-1 overflow-y-hidden"
         size="small"
         title="编号: 1234567890123456789012"
       >
@@ -175,3 +175,15 @@ function handleCardClick(id: string) {
     </div>
   </Page>
 </template>
+
+<style lang="scss" scoped>
+.thin-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+}
+
+:deep(.ant-card-body) {
+  @apply thin-scrollbar;
+}
+</style>
