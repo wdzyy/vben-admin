@@ -23,4 +23,7 @@ export const overridesPreferences = defineOverridesPreferences({
     mode: 'light',
     semiDarkSidebar: false,
   },
+  copyright: {
+    companyName: 'zyy',
+  },
 });
