@@ -16,7 +16,8 @@ import {
 } from 'ant-design-vue';
 import { debounce, uniqueId } from 'lodash-es';
 
-import { ApprovalCard } from '../components';
+import { ApprovalCard, ApprovalTimeline } from '../components';
+import RejectionPng from '../components/rejection.png';
 
 //   当容器滚动到底部时请求数据
 /* const handleScroll2 = throttle((e: Event) => {
@@ -61,6 +62,14 @@ const data = reactive(
     active: false,
   })),
 );
+
+const timeLine = Array.from({ length: 5 }).map(() => ({
+  id: uniqueId(),
+  name: '张三',
+  status: '审批中',
+  remark: '审批任务描述',
+  time: '2022-01-01',
+}));
 
 const lastSelectId = ref('');
 function handleCardClick(id: string) {
@@ -107,7 +116,12 @@ function handleCardClick(id: string) {
           </div>
         </div>
       </div>
-      <Card class="flex-1" size="small" title="编号: 1234567890123456789012">
+      <Card
+        :body-style="{ overflowY: 'auto', height: '100%' }"
+        class="flex-1 overflow-y-hidden"
+        size="small"
+        title="编号: 1234567890123456789012"
+      >
         <div class="flex flex-col gap-5 p-4">
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
@@ -128,10 +142,18 @@ function handleCardClick(id: string) {
                 <span>提交于: 2024-11-11 11:11:11</span>
               </div>
             </div>
+            <!-- 右侧图标 -->
+            <div class="z-100 absolute right-3 top-3">
+              <img :src="RejectionPng" class="size-[96px]" />
+            </div>
           </div>
-          <Tabs>
+          <Tabs class="flex-1">
             <TabPane key="1" tab="审批详情">
-              <Alert message="该页面仅为静态页 后期可能会用到!" type="info" />
+              <div class="h-fulloverflow-y-auto">
+                <Alert message="该页面仅为静态页 后期可能会用到!" type="info" />
+                <Divider />
+                <ApprovalTimeline :list="timeLine" />
+              </div>
             </TabPane>
             <TabPane key="2" tab="审批记录">审批记录</TabPane>
             <TabPane key="3" tab="全文评论(999+)">全文评论</TabPane>
@@ -139,7 +161,7 @@ function handleCardClick(id: string) {
         </div>
         <!-- 固定底部 -->
         <div
-          class="border-t-solid absolute bottom-0 left-0 w-full border-t-[1px] p-3"
+          class="border-t-solid bg-background absolute bottom-0 left-0 w-full border-t-[1px] p-3"
         >
           <div class="flex justify-end">
             <Space>
