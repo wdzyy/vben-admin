@@ -26,7 +26,7 @@ const props = defineProps<{
         <div class="relative rounded-full border">
           <VbenAvatar
             class="size-[36px]"
-            src="https://plus.dapdap.top/minio-server/plus/2024/11/21/925ed278e2d441beb7f695b41e13c4dd.jpg"
+            src="https://minio.qzeyu.fun/zy-admin/logo-z.svg"
           />
           <div
             class="border-background absolute bottom-0 right-0 size-[16px] rounded-full border-2 bg-green-500 content-['']"
@@ -39,8 +39,8 @@ const props = defineProps<{
       </template>
       <div class="ml-2 flex flex-col">
         <div>发起人</div>
-        <div>疯狂的牛子Li</div>
-        <div>2022-01-01 12:00:00</div>
+        <div>zyy</div>
+        <div>2024-11-11 10:00:00</div>
         <div class="rounded-lg border p-1">
           <span class="opacity-70">这里是备注信息</span>
         </div>
