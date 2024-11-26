@@ -12,7 +12,6 @@ import {
   RequestClient,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
-import { isString } from '@vben/utils';
 
 import { message, Modal } from 'ant-design-vue';
 import { isEmpty, isNull } from 'lodash-es';
@@ -26,8 +25,6 @@ import {
   generateAesKey,
 } from '#/utils/encryption/crypto';
 import * as encryptUtil from '#/utils/encryption/jsencrypt';
-
-import { formatRequestDate, joinTimestamp, setObjToUrlParams } from './helper';
 
 const { apiURL, clientId, enableEncrypt } = useAppConfig(
   import.meta.env,
@@ -43,16 +40,10 @@ function createRequestClient(baseURL: string) {
     baseURL,
     // 消息提示类型
     errorMessageMode: 'message',
-    // 格式化提交参数时间
-    formatDate: true,
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     isReturnNativeResponse: false,
     // 需要对返回数据进行处理
     isTransformResponse: true,
-    // post请求的时候添加参数到url
-    joinParamsToUrl: false,
-    //  是否加入时间戳
-    joinTime: false,
   });
 
   /**
@@ -96,53 +87,11 @@ function createRequestClient(baseURL: string) {
        */
       const language = preferences.app.locale.replace('-', '_');
       config.headers['Accept-Language'] = language;
+      config.headers['Content-Language'] = language;
       config.headers.clientId = clientId;
 
-      const { encrypt, formatDate, joinParamsToUrl, joinTime = true } = config;
-      const params = config.params || {};
-      const data = config.data || false;
-      formatDate && data && !isString(data) && formatRequestDate(data);
-      if (config.method?.toUpperCase() === 'GET') {
-        if (isString(params)) {
-          // 兼容restful风格
-          config.url = `${config.url + params}${joinTimestamp(joinTime, true)}`;
-          config.params = undefined;
-        } else {
-          // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-          config.params = Object.assign(
-            params || {},
-            joinTimestamp(joinTime, false),
-          );
-        }
-      } else {
-        if (isString(params)) {
-          // 兼容restful风格
-          config.url = config.url + params;
-          config.params = undefined;
-        } else {
-          formatDate && formatRequestDate(params);
-          if (
-            Reflect.has(config, 'data') &&
-            config.data &&
-            (Object.keys(config.data).length > 0 ||
-              config.data instanceof FormData)
-          ) {
-            config.data = data;
-            config.params = params;
-          } else {
-            // 非GET请求如果没有提供data，则将params视为data
-            config.data = params;
-            config.params = undefined;
-          }
-          if (joinParamsToUrl) {
-            config.url = setObjToUrlParams(
-              config.url as string,
-              Object.assign({}, config.params, config.data),
-            );
-          }
-        }
-      }
-      // 全局开启 && 该请求开启 && 是post/put请求
+      const { encrypt } = config;
+      // 全局开启请求加密功能 && 该请求开启 && 是post/put请求
       if (
         enableEncrypt &&
         encrypt &&

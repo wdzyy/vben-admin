@@ -69,10 +69,6 @@ declare module 'axios' {
      */
     errorMessageMode?: ErrorMessageMode;
     /**
-     * 是否格式化日期
-     */
-    formatDate?: boolean;
-    /**
      * 是否返回原生axios响应
      */
     isReturnNativeResponse?: boolean;
@@ -80,14 +76,6 @@ declare module 'axios' {
      * 是否需要转换响应 即只获取{code, msg, data}中的data
      */
     isTransformResponse?: boolean;
-    /**
-     * param添加到url后
-     */
-    joinParamsToUrl?: boolean;
-    /**
-     * 加入时间戳
-     */
-    joinTime?: boolean;
     /**
      * 成功弹窗类型
      */
