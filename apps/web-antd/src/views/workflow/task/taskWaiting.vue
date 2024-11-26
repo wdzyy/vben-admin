@@ -144,7 +144,7 @@ function handleCardClick(id: string) {
             </div>
             <!-- 右侧图标 -->
             <div class="z-100 absolute right-3 top-3">
-              <img :src="RejectionPng" class="size-[96px]" />
+              <img :src="RejectionPng" class="h-[96px] w-full" />
             </div>
           </div>
           <Tabs class="flex-1">

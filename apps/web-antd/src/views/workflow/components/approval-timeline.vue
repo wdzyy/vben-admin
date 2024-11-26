@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { Timeline, TimelineItem } from 'ant-design-vue';
-
-/**
- * TODO: 仅为demo 后期会替换
- */
-import { VbenAvatar } from '../../../../../../packages/@core/ui-kit/shadcn-ui/src/components';
+import { Avatar, Timeline, TimelineItem } from 'ant-design-vue';
 
 interface ApprovalItem {
   id: string;
@@ -24,7 +19,7 @@ const props = defineProps<{
     <TimelineItem v-for="item in props.list" :key="item.id">
       <template #dot>
         <div class="relative rounded-full border">
-          <VbenAvatar
+          <Avatar
             class="size-[36px]"
             src="https://minio.qzeyu.fun/zy-admin/logo-z.svg"
           />
