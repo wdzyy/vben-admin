@@ -114,6 +114,10 @@ const gridOptions: VxeGridProps = {
       },
     },
   },
+  editConfig: {
+    trigger: 'click',
+    mode: 'row',
+  },
   rowConfig: {
     isHover: true,
     keyField: 'userId',

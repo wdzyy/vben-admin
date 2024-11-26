@@ -34,3 +34,23 @@ export const getUrlParams = (
   }
   return result;
 };
+
+/**
+ * -转大驼峰
+ * @param str
+ */
+export const toPascalCase = (str: any) => {
+  // 将连字符或下划线替换为空格，以便后续处理
+  const words = str.replaceAll(/[-_]/g, ' ').split(' ');
+
+  // 将每个单词的首字母大写，并将其余部分保持原样
+  const pascalCaseWords = words.map((word: any) => {
+    if (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    return word;
+  });
+
+  // 将处理后的单词拼接成一个新的字符串
+  return pascalCaseWords.join('');
+};

@@ -2,6 +2,7 @@ import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
 import { type VxeGridProps } from '#/adapter/vxe-table';
+import { roleList } from '#/api/system/role';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';
 
@@ -36,7 +37,23 @@ export const querySchema: FormSchemaGetter = () => [
     label: '创建时间',
   },
 ];
-
+const statusColumn: VxeGridProps['columns'] = [
+  {
+    field: 'roleName',
+    title: '角色',
+  },
+  {
+    field: 'roleKey',
+    title: '角色标识',
+  },
+];
+const statusQuerySchema: FormSchemaGetter = () => [
+  {
+    component: 'Input',
+    fieldName: 'dictValue',
+    label: '状态',
+  },
+];
 export const columns: VxeGridProps['columns'] = [
   { type: 'checkbox', width: 60 },
   {
@@ -61,6 +78,28 @@ export const columns: VxeGridProps['columns'] = [
     minWidth: 120,
   },
   {
+    field: 'roleName',
+    title: '角色',
+    minWidth: 120,
+    showOverflow: false,
+    editRender: {
+      name: 'TablePullDown',
+      props: {
+        multiple: true,
+        selectedField: 'roleName',
+        tableColumns: statusColumn,
+        querySchema: statusQuerySchema(),
+        api: () => roleList({ pageNum: 1, pageSize: 2 }),
+      },
+      events: {
+        onConfirm: (value) => {
+          const { row, checkedList } = value as any;
+          row.roleIds = checkedList.map((item: any) => item.roleId);
+        },
+      },
+    },
+  },
+  {
     field: 'phonenumber',
     title: '手机号',
     formatter({ cellValue }) {
@@ -72,6 +111,21 @@ export const columns: VxeGridProps['columns'] = [
     field: 'status',
     title: '状态',
     slots: { default: 'status' },
+    /* slots: {
+      default: ({ row }) => {
+        return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
+      },
+      edit: ({ row }) => {
+        return h(Select, {
+          value: row.status,
+          options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
+          onChange: (value) => {
+            row.status = value;
+          },
+        });
+      },
+    },
+    editRender: {}, */
     minWidth: 100,
   },
   {

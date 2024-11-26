@@ -8,6 +8,8 @@ import {
 
 import { Button, Image } from 'ant-design-vue';
 
+import { componentMap } from '#/components/table/component-map';
+
 import { useVbenForm } from './form';
 
 setupVbenVxeTable({
@@ -74,6 +76,32 @@ setupVbenVxeTable({
           { default: () => props?.text },
         );
       },
+    });
+
+    // 注册@/components/view/下面所有列渲染器
+    componentMap.forEach((componentName, key) => {
+      // 创建一个渲染器
+      vxeUI.renderer.add(key, {
+        renderTableEdit(renderOpts, params) {
+          const { row, column } = params;
+          const { attrs, props, events } = renderOpts;
+          return h(componentName, {
+            params,
+            ...attrs,
+            ...props,
+            ...events,
+            value: row[column.field],
+            'onUpdate:value': (value: any) => {
+              row[column.field] = value;
+            },
+          });
+        },
+        // 可编辑显示模板
+        renderTableCell(_renderOpts, params) {
+          const { row, column } = params;
+          return h('span', {}, { default: () => row[column.field] });
+        },
+      });
     });
 
     // 这里可以自行扩展 vxe-table 的全局配置，比如自定义格式化
