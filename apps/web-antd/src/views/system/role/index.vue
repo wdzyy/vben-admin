@@ -211,24 +211,6 @@ function handleDownloadExcel() {
                 {{ $t('pages.common.delete') }}
               </ghost-button>
             </Popconfirm>
-            <!-- <Dropdown
-              :get-popup-container="getPopupContainer"
-              placement="bottomRight"
-            >
-              <template #overlay>
-                <Menu>
-                  <MenuItem key="1" @click="handleAuthEdit(row)">
-                    数据权限
-                  </MenuItem>
-                  <MenuItem key="2" @click="handleAssignRole(row)">
-                    分配用户
-                  </MenuItem>
-                </Menu>
-              </template>
-              <ghost-button>
-                {{ $t('pages.common.more') }}
-              </ghost-button>
-            </Dropdown> -->
             <MoreButton :menu-items="moreMenuList" :params="row" />
           </Space>
         </template>

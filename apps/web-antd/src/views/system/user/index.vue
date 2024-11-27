@@ -254,24 +254,6 @@ function handleDownloadExcel() {
                   {{ $t('pages.common.delete') }}
                 </ghost-button>
               </Popconfirm>
-              <!-- <Dropdown
-                :get-popup-container="getPopupContainer"
-                placement="bottomRight"
-              >
-                <template #overlay>
-                  <Menu>
-                    <MenuItem key="1" @click="handleUserInfo(row)">
-                      用户信息
-                    </MenuItem>
-                    <MenuItem key="2" @click="handleResetPwd(row)">
-                      重置密码
-                    </MenuItem>
-                  </Menu>
-                </template>
-                <ghost-button>
-                  {{ $t('pages.common.more') }}
-                </ghost-button>
-              </Dropdown> -->
               <MoreButton :menu-items="moreMenuList" :params="row" />
             </Space>
           </template>

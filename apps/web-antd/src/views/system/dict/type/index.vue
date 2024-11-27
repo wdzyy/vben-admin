@@ -187,18 +187,6 @@ function handleDownloadExcel() {
           <a-button @click="handleDownloadExcel">
             {{ $t('pages.common.export') }}
           </a-button>
-          <!-- <Dropdown>
-            <template #overlay>
-              <Menu @click="handleMenuClick">
-                <span>
-                  <MenuItem key="1">刷新字典缓存</MenuItem>
-                </span>
-              </Menu>
-            </template>
-            <a-button>
-              {{ $t('pages.common.more') }}
-            </a-button>
-          </Dropdown> -->
           <MoreButton
             :ghost="false"
             :menu-items="moreMenuList"
