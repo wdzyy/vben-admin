@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import { onUnmounted } from 'vue';
+
 import { Page } from '@vben/common-ui';
 
 import DictDataPanel from './data/index.vue';
+import { emitter } from './mitt';
 import DictTypePanel from './type/index.vue';
+
+onUnmounted(() => emitter.off('rowClick'));
 </script>
 
 <template>
