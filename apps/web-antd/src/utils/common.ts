@@ -54,3 +54,16 @@ export const toPascalCase = (str: any) => {
   // 将处理后的单词拼接成一个新的字符串
   return pascalCaseWords.join('');
 };
+
+/**
+ * 获取文件名，不包含扩展名
+ * @param path
+ * @returns
+ */
+export const getFileNameWithoutExtension = (path?: string) => {
+  if (!path?.trim()) return null;
+
+  // 使用正则表达式一次性完成所有操作
+  const match = path.trim().match(/[^/\\]+(?=\.[^.]+$|$)/);
+  return match?.[0].replace(/\.[^/.]+$/, '') ?? null;
+};
