@@ -203,7 +203,8 @@ function handleDownloadExcel() {
       <DeptTree
         v-model:select-dept-id="selectDeptId"
         class="w-[260px]"
-        @select="() => tableApi.query()"
+        @reload="() => tableApi.reload()"
+        @select="() => tableApi.reload()"
       />
       <BasicTable class="flex-1 overflow-hidden">
         <template #toolbar-actions>
