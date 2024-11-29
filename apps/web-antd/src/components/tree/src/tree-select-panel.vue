@@ -104,19 +104,21 @@ const stop = watch([checkedKeys, () => props.treeData], () => {
 
 /**
  *
- * @param checkedKeys 已经选中的子节点的ID
+ * @param checkedStateKeys 已经选中的子节点的ID
  * @param info info.halfCheckedKeys为父节点的ID
  */
 type CheckedState<T = number | string> =
   | { checked: T[]; halfChecked: T[] }
   | T[];
-function handleChecked(checkedKeys: CheckedState, info: CheckInfo) {
+function handleChecked(checkedStateKeys: CheckedState, info: CheckInfo) {
   // 数组的话为节点关联
-  if (Array.isArray(checkedKeys)) {
+  if (Array.isArray(checkedStateKeys)) {
     const halfCheckedKeys: number[] = (info.halfCheckedKeys || []) as number[];
-    checkedRealKeys.value = [...halfCheckedKeys, ...checkedKeys];
+    checkedRealKeys.value = [...halfCheckedKeys, ...checkedStateKeys];
   } else {
-    checkedRealKeys.value = [...checkedKeys.checked];
+    checkedRealKeys.value = [...checkedStateKeys.checked];
+    // fix: Invalid prop: type check failed for prop "value". Expected Array, got Object
+    checkedKeys.value = [...checkedStateKeys.checked];
   }
 }
 
