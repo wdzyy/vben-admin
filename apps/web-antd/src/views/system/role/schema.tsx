@@ -150,12 +150,13 @@ export const drawerSchema: FormSchemaGetter = () => [
     defaultValue: [],
     fieldName: 'menuIds',
     label: '菜单权限',
+    formItemClass: 'col-span-2',
   },
   {
     component: 'Textarea',
     defaultValue: '',
     fieldName: 'remark',
-    formItemClass: 'items-baseline',
+    formItemClass: 'items-baseline col-span-2',
     label: '备注',
   },
 ];

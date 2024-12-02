@@ -25,12 +25,12 @@ const [BasicForm, formApi] = useVbenForm({
     componentProps: {
       class: 'w-full',
     },
-    formItemClass: 'col-span-2',
+    formItemClass: 'col-span-1',
   },
   layout: 'vertical',
   schema: drawerSchema(),
   showDefaultActions: false,
-  wrapperClass: 'grid-cols-2',
+  wrapperClass: 'grid-cols-2 gap-x-4',
 });
 
 const menuTree = ref<any[]>([]);
