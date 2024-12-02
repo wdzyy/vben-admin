@@ -659,8 +659,8 @@ importers:
         specifier: 'catalog:'
         version: 11.3.0(vue@3.5.13(typescript@5.7.2))
       '@zyy-core/pivot-table':
-        specifier: ^0.0.2
-        version: 0.0.2(vue@3.5.13(typescript@5.7.2))
+        specifier: ^0.0.3
+        version: 0.0.3(vue@3.5.13(typescript@5.7.2))
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.6(vue@3.5.13(typescript@5.7.2))
@@ -4856,8 +4856,8 @@ packages:
     peerDependencies:
       vue: ^3.5.13
 
-  '@zyy-core/pivot-table@0.0.2':
-    resolution: {integrity: sha512-HFL5qJLRSyA0NR/u9oK4aBtYjRILsljfPAfMaX4ZzKzupEYZ3gJnCrJF3fz96qxqNAIx5VXtL8UNlS8sVV+CWg==}
+  '@zyy-core/pivot-table@0.0.3':
+    resolution: {integrity: sha512-fCJ+/R5884cL06WPNv3ZE3gJTSKF/8xl8DUCnnrrZfe/xajXAYkQEAW8Y7MB8vNVfflwRW3hudcl9MWotGjI8g==}
 
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
@@ -14109,7 +14109,7 @@ snapshots:
       vue: 3.5.13(typescript@5.7.2)
       xe-utils: 3.5.32
 
-  '@zyy-core/pivot-table@0.0.2(vue@3.5.13(typescript@5.7.2))':
+  '@zyy-core/pivot-table@0.0.3(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       ant-design-vue: 4.2.6(vue@3.5.13(typescript@5.7.2))
       lodash-es: 4.17.21
