@@ -72,7 +72,7 @@ onMounted(loadTree);
         <div class="bg-background z-100 sticky left-0 top-0 p-[8px]">
           <InputSearch
             v-model:value="searchValue"
-            placeholder="Search"
+            :placeholder="$t('pages.common.search')"
             size="small"
           >
             <template #enterButton>
