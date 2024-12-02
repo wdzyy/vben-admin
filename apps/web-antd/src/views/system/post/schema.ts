@@ -89,7 +89,6 @@ export const drawerSchema: FormSchemaGetter = () => [
   {
     component: 'TreeSelect',
     componentProps: {
-      class: 'w-full',
       getPopupContainer,
     },
     fieldName: 'deptId',
