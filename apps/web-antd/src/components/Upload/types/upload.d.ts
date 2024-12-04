@@ -28,6 +28,7 @@ export interface UploadedPart {
 export interface UploadConfig {
   chunkSize: number; // 分片大小
   maxFileSize: number; // 最大文件大小
+  minChunkSize: number; // 小于此值时不分片
   allowedTypes: string[]; // 允许的文件类型
   concurrent: number; // 并发上传数
   retryCount: number; // 重试次数

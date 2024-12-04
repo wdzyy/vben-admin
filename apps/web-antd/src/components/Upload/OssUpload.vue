@@ -33,6 +33,7 @@ const emit = defineEmits<{
 const defaultConfig: UploadConfig = {
   chunkSize: 5 * 1024 * 1024, // 5MB
   maxFileSize: 1024 * 1024 * 1024 * 10, // 10GB
+  minChunkSize: 10 * 1024 * 1024, // 10MB，小于此值时不分片
   allowedTypes: ['image/*', 'video/*', 'application/pdf', 'application/*'],
   concurrent: 3,
   retryCount: 3,
@@ -187,6 +188,15 @@ const updateTotalProgress = () => {
   emit('uploadProgress', totalProgress.value);
 };
 
+// 添加一个生成时间戳文件夹名的函数
+const generateDatePath = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}${month}${day}`;
+};
+
 // 上传单个分片
 const uploadChunk = async (
   chunkInfo: ChunkInfo,
@@ -202,7 +212,9 @@ const uploadChunk = async (
     const fileName = currentFile.value?.name;
     if (!fileName) throw new Error('文件名不能为空');
 
-    const targetKey = `uploads/${fileHash.value}/${fileName}`;
+    // 使用日期路径 + hash
+    const datePath = generateDatePath();
+    const targetKey = `uploads/${datePath}/${fileHash.value}/${fileName}`;
 
     const { res, etag } = await client.uploadPart(
       targetKey,
@@ -312,7 +324,8 @@ const checkFileExists = async (
 ): Promise<boolean> => {
   try {
     const client = createOSSClient();
-    const targetKey = `uploads/${hash}/${fileName}`;
+    const datePath = generateDatePath();
+    const targetKey = `uploads/${datePath}/${hash}/${fileName}`;
 
     const result = await client.list({
       prefix: targetKey,
@@ -336,7 +349,9 @@ const mergeChunks = async (): Promise<boolean> => {
   const fileName = currentFile.value?.name;
   if (!fileName) throw new Error('文件名不能为空');
 
-  const targetKey = `uploads/${fileHash.value}/${fileName}`;
+  // 使用日期路径 + hash
+  const datePath = generateDatePath();
+  const targetKey = `uploads/${datePath}/${fileHash.value}/${fileName}`;
 
   try {
     isUploading.value = true;
@@ -406,6 +421,11 @@ const mergeChunks = async (): Promise<boolean> => {
     totalProgress.value = 100;
     isUploading.value = false;
 
+    message.success({
+      content: `文件上传成功: ${targetKey}`,
+      duration: 2,
+    });
+
     emit('uploadSuccess', targetKey);
     localStorage.removeItem(`upload_${fileHash.value}`);
 
@@ -462,62 +482,68 @@ const handleFileChange = async (e: Event) => {
     totalProgress.value = 0;
     errorMessage.value = '';
 
-    message.loading({
-      content: '正在计算文件哈希值...',
-      key: 'hashCalc',
-      duration: 2,
-    });
+    // 判断是否需要分片上传
+    const needChunk = file.size >= uploadConfig.value.minChunkSize;
 
-    // eslint-disable-next-line no-console
-    console.log('计算文件哈希值...', Date.now());
-    fileHash.value = await calculateHash(file);
-    // eslint-disable-next-line no-console
-    console.log('计算文件哈希值完成...', Date.now());
-    const targetKey = `uploads/${fileHash.value}/${file.name}`;
-
-    const client = createOSSClient();
-    try {
-      const { uploads = [] } = await client.listUploads({
-        prefix: targetKey,
-        'max-uploads': 1,
+    if (needChunk) {
+      message.loading({
+        content: '正在计算文件哈希值...',
+        key: 'hashCalc',
+        duration: 0,
       });
 
-      if (uploads.length > 0 && uploads[0]?.uploadId) {
-        uploadId.value = uploads[0].uploadId;
-        const existingParts = await checkExistingParts(
-          client,
-          targetKey,
-          uploadId.value,
-        );
-        uploadedParts.value = existingParts;
-      } else {
+      fileHash.value = await calculateHash(file);
+      const datePath = generateDatePath();
+      const targetKey = `uploads/${datePath}/${fileHash.value}/${file.name}`;
+
+      const client = createOSSClient();
+      try {
+        const { uploads = [] } = await client.listUploads({
+          prefix: targetKey,
+          'max-uploads': 1,
+        });
+
+        if (uploads.length > 0 && uploads[0]?.uploadId) {
+          uploadId.value = uploads[0].uploadId;
+          const existingParts = await checkExistingParts(
+            client,
+            targetKey,
+            uploadId.value,
+          );
+          uploadedParts.value = existingParts;
+        } else {
+          uploadId.value = '';
+          uploadedParts.value = [];
+        }
+      } catch (error) {
+        console.error('获取上传记录失败:', error);
         uploadId.value = '';
         uploadedParts.value = [];
       }
-    } catch (error) {
-      console.error('获取上传记录失败:', error);
-      uploadId.value = '';
-      uploadedParts.value = [];
+
+      message.success({
+        content: '文件哈希值计算完成',
+        key: 'hashCalc',
+        duration: 2,
+      });
+
+      const chunks = createFileChunks(file);
+      chunkList.value = chunks.map((chunk, index) => ({
+        chunk: chunk.chunk,
+        index,
+        hash: `${fileHash.value}-${index}`,
+        status: uploadedParts.value.some((part) => part.number === index + 1)
+          ? 'success'
+          : 'pending',
+        progress: uploadedParts.value.some((part) => part.number === index + 1)
+          ? 100
+          : 0,
+      }));
+    } else {
+      // 小文件直接上传，不显示切片信息
+      fileHash.value = '';
+      chunkList.value = [];
     }
-
-    message.success({
-      content: '文件哈希值计算完成',
-      key: 'hashCalc',
-      duration: 2,
-    });
-
-    const chunks = createFileChunks(file);
-    chunkList.value = chunks.map((chunk, index) => ({
-      chunk: chunk.chunk,
-      index,
-      hash: `${fileHash.value}-${index}`,
-      status: uploadedParts.value.some((part) => part.number === index + 1)
-        ? 'success'
-        : 'pending',
-      progress: uploadedParts.value.some((part) => part.number === index + 1)
-        ? 100
-        : 0,
-    }));
 
     updateTotalProgress();
   } catch (error) {
@@ -528,9 +554,75 @@ const handleFileChange = async (e: Event) => {
   }
 };
 
+// 小文件，不使用分片上传
+const uploadNoNeedChunkFile = async () => {
+  try {
+    const client = createOSSClient();
+    const fileName = currentFile.value?.name;
+    if (!fileName) throw new Error('文件名不能为空');
+
+    // 使用时间戳生成路径
+    const datePath = generateDatePath();
+    const targetKey = `uploads/${datePath}/${fileName}`;
+
+    // 检查文件是否已存在
+    const result = await client.list({
+      prefix: targetKey,
+      'max-keys': 1,
+    });
+
+    if (
+      result.objects?.some((obj: { name: string }) => obj.name === targetKey)
+    ) {
+      uploadStatus.value = 'completed';
+      totalProgress.value = 100;
+      isUploading.value = false;
+      message.success({
+        content: `文件已存在${targetKey}，秒传成功！`,
+        duration: 2,
+      });
+      emit('uploadSuccess', targetKey);
+      return true;
+    }
+
+    // 上传进度回调
+    const progress = (p: number) => {
+      totalProgress.value = Math.floor(p * 100);
+      emit('uploadProgress', totalProgress.value);
+    };
+
+    const uploadResult = await client.put(
+      targetKey,
+      currentFile.value as Blob,
+      {
+        progress,
+      },
+    );
+
+    if (!uploadResult.res || uploadResult.res.status !== 200) {
+      throw new Error('上传失败');
+    }
+
+    uploadStatus.value = 'completed';
+    totalProgress.value = 100;
+    isUploading.value = false;
+    message.success({
+      content: `文件上传成功: ${targetKey}`,
+      duration: 2,
+    });
+    emit('uploadSuccess', targetKey);
+    return true;
+  } catch (error) {
+    if (isUploading.value) {
+      throw error;
+    }
+    return false;
+  }
+};
+
 // 开始上传
 const startUpload = async () => {
-  if (!currentFile.value || chunkList.value.length === 0) {
+  if (!currentFile.value) {
     message.error('请先选择文件');
     return;
   }
@@ -562,7 +654,8 @@ const startUpload = async () => {
       uploadedParts.value = [];
       localStorage.removeItem(`upload_${fileHash.value}`);
 
-      const targetKey = `uploads/${fileHash.value}/${currentFile.value.name}`;
+      const datePath = generateDatePath();
+      const targetKey = `uploads/${datePath}/${fileHash.value}/${currentFile.value.name}`;
       emit('uploadSuccess', targetKey);
 
       message.success({
@@ -578,14 +671,21 @@ const startUpload = async () => {
     isUploading.value = true;
     emit('statusChange', uploadStatus.value);
 
-    const result = await mergeChunks();
-
-    if (result) {
-      uploadStatus.value = 'completed';
-      isUploading.value = false;
-    } else if (!isUploading.value) {
-      uploadStatus.value = 'paused';
+    // 判断是否需要分片上传
+    if (currentFile.value.size < uploadConfig.value.minChunkSize) {
+      // 小文件直接上传
+      await uploadNoNeedChunkFile();
+    } else {
+      // 大文件使用分片上传
+      const result = await mergeChunks();
+      if (result) {
+        uploadStatus.value = 'completed';
+        isUploading.value = false;
+      } else if (!isUploading.value) {
+        uploadStatus.value = 'paused';
+      }
     }
+
     emit('statusChange', uploadStatus.value);
   } catch (error) {
     message.destroy('checkFile');
@@ -637,6 +737,25 @@ const resumeUpload = async () => {
 
     uploadId.value = savedInfo.uploadId;
     uploadedParts.value = savedInfo.parts;
+
+    // 使用当前日期路径重新生成 targetKey
+    const datePath = generateDatePath();
+    const fileName = currentFile.value?.name;
+    if (!fileName) throw new Error('文件名不能为空');
+    const targetKey = `uploads/${datePath}/${fileHash.value}/${fileName}`;
+
+    // 验证上传ID是否还有效
+    try {
+      const existingParts = await checkExistingParts(
+        createOSSClient(),
+        targetKey,
+        uploadId.value,
+      );
+      uploadedParts.value = existingParts;
+    } catch (error) {
+      console.error('验证上传ID失败:', error);
+      throw new Error('上传记录已失效，请重新上传');
+    }
 
     savedInfo.chunks.forEach((savedChunk: any) => {
       const chunk = chunkList.value[savedChunk.index];
@@ -712,8 +831,14 @@ watch(uploadStatus, (newStatus) => {
           <p class="font-medium">文件信息</p>
           <p>文件名：{{ currentFile.name }}</p>
           <p>文件大小：{{ (currentFile.size / 1024 / 1024).toFixed(2) }}MB</p>
-          <p>分片数量：{{ chunkList.length }}</p>
-          <p>文件哈希：{{ fileHash }}</p>
+          <p>
+            分片数量：{{
+              chunkList.length > 0
+                ? chunkList.length
+                : `小于${uploadConfig.minChunkSize / 1024 / 1024}MB，不分片`
+            }}
+          </p>
+          <p>文件哈希：{{ fileHash || '/' }}</p>
         </div>
       </div>
 

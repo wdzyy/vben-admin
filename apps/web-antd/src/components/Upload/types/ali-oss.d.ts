@@ -92,6 +92,12 @@ declare module 'ali-oss' {
       'upload-id-marker'?: string;
     }): Promise<ListUploadsResult>;
 
+    put(
+      name: string,
+      file: Blob,
+      options?: { progress?: (p: number) => void },
+    ): Promise<OSSResult>;
+
     uploadPart(
       name: string,
       uploadId: string,

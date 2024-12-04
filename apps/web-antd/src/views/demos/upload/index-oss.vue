@@ -3,7 +3,7 @@ import type { OSSOptions } from 'ali-oss';
 
 import type { UploadConfig } from '#/components/Upload/types/upload';
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
@@ -29,13 +29,20 @@ const ossConfig = ref<OSSOptions>({
 });
 
 const config = ref<UploadConfig>({
-  chunkSize: 5 * 1024 * 1024, // 5MB 分片大小
-  maxFileSize: 1024 * 1024 * 1024, // 1GB 最大文件大小
+  minChunkSize: 10, // 10MB，小于此值时不分片
+  chunkSize: 5, // 5MB 分片大小
+  maxFileSize: 1024, // 1GB 最大文件大小
   allowedTypes: ['image/*', 'video/*', 'application/pdf', 'application/*'], // 允许的文件类型
   concurrent: 3, // 并发上传数
   retryCount: 3, // 重试次数
   retryDelay: 1000, // 重试延迟(ms)
 });
+const configs = computed(() => ({
+  ...config.value,
+  maxFileSize: config.value.maxFileSize * 1024 * 1024,
+  minChunkSize: config.value.minChunkSize * 1024 * 1024,
+  chunkSize: config.value.chunkSize * 1024 * 1024,
+}));
 
 const handleUploadSuccess = (url: string) => {
   // eslint-disable-next-line no-console
@@ -82,18 +89,10 @@ const handleStatusChange = (status: string) => {
 
       <Form :model="config" class="mb-4" layout="inline">
         <FormItem label="分片大小/MB" name="chunkSize">
-          <InputNumber
-            v-model:value="config.chunkSize"
-            class="w-full"
-            placeholder="MB"
-          />
+          <InputNumber v-model:value="config.chunkSize" class="w-full" />
         </FormItem>
         <FormItem label="最大文件大小/MB" name="maxFileSize">
-          <InputNumber
-            v-model:value="config.maxFileSize"
-            class="w-full"
-            placeholder="MB"
-          />
+          <InputNumber v-model:value="config.maxFileSize" class="w-full" />
         </FormItem>
         <FormItem label="并发上传数" name="concurrent">
           <InputNumber
@@ -102,10 +101,21 @@ const handleStatusChange = (status: string) => {
             placeholder="个"
           />
         </FormItem>
+        <FormItem
+          label="最小分片大小/MB"
+          name="minChunkSize"
+          tooltip="小于此值时不分片"
+        >
+          <InputNumber
+            v-model:value="config.minChunkSize"
+            class="w-full"
+            placeholder="MB"
+          />
+        </FormItem>
       </Form>
       <OssUpload
         ref="ossUploadRef"
-        :config="config"
+        :config="configs"
         :oss-config="ossConfig"
         :show-chunk-progress="true"
         :show-file-info="true"
