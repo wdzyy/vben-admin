@@ -59,6 +59,15 @@ const demoRoute: RouteRecordStringComponent[] = [
           icon: 'lucide:annoyed',
         },
       },
+      {
+        name: 'UploadDemo',
+        path: '/demos/upload',
+        component: '/demos/upload/index-oss.vue',
+        meta: {
+          title: $t('demos.upload.title'),
+          icon: 'lucide:file-up',
+        },
+      },
     ],
   },
 ];

@@ -16,5 +16,8 @@
   },
   "icons": {
     "title": "Icons"
+  },
+  "upload": {
+    "title": "Upload"
   }
 }

@@ -16,5 +16,8 @@
   },
   "icons": {
     "title": "图标"
+  },
+  "upload": {
+    "title": "上传"
   }
 }
