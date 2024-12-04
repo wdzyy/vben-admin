@@ -1,11 +1,20 @@
 <script lang="ts" setup>
 import type { OSSOptions } from 'ali-oss';
 
+import type { UploadConfig } from '#/components/Upload/types/upload';
+
 import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { Card, Form, FormItem, Input, Switch } from 'ant-design-vue';
+import {
+  Card,
+  Form,
+  FormItem,
+  Input,
+  InputNumber,
+  Switch,
+} from 'ant-design-vue';
 
 import OssUpload from '#/components/Upload/OssUpload.vue';
 
@@ -17,6 +26,15 @@ const ossConfig = ref<OSSOptions>({
   accessKeySecret: '',
   bucket: '',
   secure: true,
+});
+
+const config = ref<UploadConfig>({
+  chunkSize: 5 * 1024 * 1024, // 5MB 分片大小
+  maxFileSize: 1024 * 1024 * 1024, // 1GB 最大文件大小
+  allowedTypes: ['image/*', 'video/*', 'application/pdf', 'application/*'], // 允许的文件类型
+  concurrent: 3, // 并发上传数
+  retryCount: 3, // 重试次数
+  retryDelay: 1000, // 重试延迟(ms)
 });
 
 const handleUploadSuccess = (url: string) => {
@@ -61,11 +79,33 @@ const handleStatusChange = (status: string) => {
           <Switch v-model:checked="ossConfig.secure" />
         </FormItem>
       </Form>
+
+      <Form :model="config" class="mb-4" layout="inline">
+        <FormItem label="分片大小/MB" name="chunkSize">
+          <InputNumber
+            v-model:value="config.chunkSize"
+            class="w-full"
+            placeholder="MB"
+          />
+        </FormItem>
+        <FormItem label="最大文件大小/MB" name="maxFileSize">
+          <InputNumber
+            v-model:value="config.maxFileSize"
+            class="w-full"
+            placeholder="MB"
+          />
+        </FormItem>
+        <FormItem label="并发上传数" name="concurrent">
+          <InputNumber
+            v-model:value="config.concurrent"
+            class="w-full"
+            placeholder="个"
+          />
+        </FormItem>
+      </Form>
       <OssUpload
         ref="ossUploadRef"
-        :config="{
-          maxFileSize: 1024 * 1024 * 1024 * 1, // 10GB
-        }"
+        :config="config"
         :oss-config="ossConfig"
         :show-chunk-progress="true"
         :show-file-info="true"
