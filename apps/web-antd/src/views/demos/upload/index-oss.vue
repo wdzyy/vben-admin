@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { OSSConfig } from '#/config/oss';
+import type { OSSOptions } from 'ali-oss';
 
 import { ref } from 'vue';
 
@@ -11,7 +11,7 @@ import OssUpload from '#/components/Upload/OssUpload.vue';
 
 const ossUploadRef = ref();
 
-const ossConfig = ref<OSSConfig>({
+const ossConfig = ref<OSSOptions>({
   region: '',
   accessKeyId: '',
   accessKeySecret: '',
