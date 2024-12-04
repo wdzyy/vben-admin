@@ -247,21 +247,22 @@ const uploadChunksWithConcurrent = async () => {
     const uploadTasks: Promise<UploadedPart>[] = [];
     const availableSlots =
       uploadConfig.value.concurrent - uploadingChunks.value.size;
-    const chunksToUpload = pendingChunks.splice(0, availableSlots);
 
-    for (const chunk of chunksToUpload) {
-      if (!isUploading.value) {
-        pendingChunks.unshift(
-          ...chunksToUpload.filter((c) => c.status === 'pending'),
-        );
-        break;
+    if (availableSlots > 0) {
+      const chunksToUpload = pendingChunks.splice(0, availableSlots);
+
+      for (const chunk of chunksToUpload) {
+        if (!isUploading.value) {
+          pendingChunks.unshift(
+            ...chunksToUpload.filter((c) => c.status === 'pending'),
+          );
+          break;
+        }
+        uploadTasks.push(uploadChunk(chunk));
       }
-      uploadTasks.push(uploadChunk(chunk));
-    }
 
-    if (!isUploading.value) break;
+      if (!isUploading.value) break;
 
-    if (uploadTasks.length > 0) {
       try {
         const results = await Promise.allSettled(uploadTasks);
         for (const result of results) {
@@ -279,7 +280,7 @@ const uploadChunksWithConcurrent = async () => {
     }
 
     // 动态调整等待时间
-    const delay = Math.min(100, Math.max(10, pendingChunks.length * 5));
+    const delay = Math.min(50, Math.max(10, pendingChunks.length * 2));
     await new Promise((resolve) => setTimeout(resolve, delay));
   }
 
