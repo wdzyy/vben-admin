@@ -40,8 +40,8 @@ export function renderTags(tags: string[], wrap = false, gap = 1) {
  * @param icon icon名称
  * @returns render
  */
-export function renderIcon(icon: string) {
-  return <IconifyIcon icon={icon}></IconifyIcon>;
+export function renderIcon(icon: string, className = 'size-5') {
+  return <IconifyIcon class={className} icon={icon}></IconifyIcon>;
 }
 
 /**

@@ -19,9 +19,9 @@ export const menuTypeOptions = [
 
 // （M目录 C菜单 F按钮）
 const menuTypes = {
-  M: { value: '目录', icon: 'fxemoji:folder' },
-  C: { value: '菜单', icon: 'fluent-emoji-flat:open-book' },
-  F: { value: '按钮', icon: 'fluent-emoji:ok-button' },
+  M: { value: '目录', icon: 'flat-color-icons:folder' },
+  C: { value: '菜单', icon: 'material-symbols:menu' },
+  F: { value: '按钮', icon: 'teenyicons:button-outline' },
 };
 export const querySchema: FormSchemaGetter = () => [
   {
