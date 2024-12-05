@@ -232,6 +232,17 @@ const iconValue = ref('ant-design:trademark-outlined');
 
     <Card class="mb-5" title="图标选择器">
       <div class="mb-5 flex items-center gap-5">
+        <span>只显示选择图标(svg):</span>
+        <IconPicker class="w-[200px]">
+          <template #trigger="{ icon }">
+            <IconifyIcon
+              :icon="icon || 'ant-design:appstore-filled'"
+              class="text-2xl"
+            />
+          </template>
+        </IconPicker>
+      </div>
+      <div class="mb-5 flex items-center gap-5">
         <span>原始样式(Iconify):</span>
         <IconPicker class="w-[200px]" />
       </div>
