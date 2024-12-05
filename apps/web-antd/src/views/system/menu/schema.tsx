@@ -1,3 +1,5 @@
+import { IconPicker } from '@vben/common-ui';
+import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { getPopupContainer } from '@vben/utils';
 
@@ -188,11 +190,22 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: (values) => values.menuType !== 'F',
       triggerFields: ['menuType'],
     },
-    renderComponentContent: () => ({
+    renderComponentContent: (model) => ({
       addonAfter: () => (
         <a href="https://icon-sets.iconify.design/" target="_blank">
           搜索图标
         </a>
+      ),
+      addonBefore: () => (
+        <IconPicker
+          modelValue={model.icon}
+          onChange={(val) => {
+            model.icon = val;
+          }}
+          v-slots={{
+            trigger: () => <IconifyIcon icon={model.icon} />,
+          }}
+        />
       ),
     }),
     fieldName: 'icon',
