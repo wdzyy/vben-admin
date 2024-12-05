@@ -5,6 +5,7 @@ import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
 import { type VxeGridProps } from '#/adapter/vxe-table';
+import { dictDataInfo } from '#/api/system/dict/dict-data';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';
 import { renderDict, renderIcon } from '#/utils/render';
@@ -22,7 +23,6 @@ const menuTypes = {
   C: { value: '菜单', icon: 'fluent-emoji-flat:open-book' },
   F: { value: '按钮', icon: 'fluent-emoji:ok-button' },
 };
-
 export const querySchema: FormSchemaGetter = () => [
   {
     component: 'Input',
@@ -37,6 +37,26 @@ export const querySchema: FormSchemaGetter = () => [
     },
     fieldName: 'status',
     label: '菜单状态 ',
+  },
+  {
+    component: 'ApiSelect',
+    // 对应组件的参数
+    componentProps: {
+      // 菜单接口转options格式
+      afterFetch: (data: { dictLabel: string; dictValue: string }[]) => {
+        return data.map((item: any) => ({
+          label: item.dictLabel,
+          value: item.dictValue,
+        }));
+      },
+      // 菜单接口
+      api: () => dictDataInfo(DictEnum.SYS_NORMAL_DISABLE),
+      placeholder: '请选择',
+    },
+    // 字段名
+    fieldName: 'api',
+    // 界面显示的label
+    label: 'ApiSelect',
   },
   {
     component: 'Select',
