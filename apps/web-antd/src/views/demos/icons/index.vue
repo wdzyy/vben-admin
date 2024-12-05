@@ -191,6 +191,9 @@ const iconValue = ref('ant-design:trademark-outlined');
         </a>
         中查找，支持多种图标库，如 Material Design, Font Awesome, Jam Icons 等。
       </div>
+      <div class="text-foreground/80 mt-2">
+        在内部添加svg或者Iconify图标后，即可在IconPicker组件中设置prefix使用。
+      </div>
     </template>
 
     <Card class="mb-5" title="Iconify">
@@ -234,7 +237,7 @@ const iconValue = ref('ant-design:trademark-outlined');
       </div>
       <div class="mb-5 flex items-center gap-5">
         <span>原始样式(svg):</span>
-        <IconPicker class="w-[200px]" prefix="ant-design" />
+        <IconPicker class="w-[200px]" prefix="svg" />
       </div>
       <div class="mb-5 flex items-center gap-5">
         <span>完整替换触发组件:</span>
