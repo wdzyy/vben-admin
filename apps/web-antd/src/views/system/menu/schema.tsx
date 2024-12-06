@@ -1,5 +1,4 @@
 import { IconPicker } from '@vben/common-ui';
-import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { getPopupContainer } from '@vben/utils';
 
@@ -222,9 +221,9 @@ export const drawerSchema: FormSchemaGetter = () => [
           onChange={(val) => {
             model.icon = val;
           }}
-          v-slots={{
-            trigger: () => <IconifyIcon icon={model.icon} />,
-          }}
+          // v-slots={{
+          //   trigger: () => <IconifyIcon icon={model.icon} />,
+          // }}
         />
       ),
     }),
