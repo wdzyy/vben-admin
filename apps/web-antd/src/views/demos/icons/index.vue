@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { h, ref } from 'vue';
 
 import { IconPicker, Page } from '@vben/common-ui';
 import {
-  IconifyIcon,
   MdiGithub,
   MdiGoogle,
   MdiKeyboardEsc,
@@ -175,6 +174,8 @@ const iconData = [
 ];
 
 const iconValue = ref('ant-design:trademark-outlined');
+
+const inputComponent = h(Input);
 </script>
 
 <template>
@@ -190,9 +191,6 @@ const iconValue = ref('ant-design:trademark-outlined');
           Iconify
         </a>
         中查找，支持多种图标库，如 Material Design, Font Awesome, Jam Icons 等。
-      </div>
-      <div class="text-foreground/80 mt-2">
-        在内部添加svg或者Iconify图标后，即可在IconPicker组件中设置prefix使用。
       </div>
     </template>
 
@@ -232,17 +230,6 @@ const iconValue = ref('ant-design:trademark-outlined');
 
     <Card class="mb-5" title="图标选择器">
       <div class="mb-5 flex items-center gap-5">
-        <span>只显示选择图标(svg):</span>
-        <IconPicker class="w-[200px]">
-          <template #trigger="{ icon }">
-            <IconifyIcon
-              :icon="icon || 'ant-design:appstore-filled'"
-              class="text-2xl"
-            />
-          </template>
-        </IconPicker>
-      </div>
-      <div class="mb-5 flex items-center gap-5">
         <span>原始样式(Iconify):</span>
         <IconPicker class="w-[200px]" />
       </div>
@@ -251,23 +238,8 @@ const iconValue = ref('ant-design:trademark-outlined');
         <IconPicker class="w-[200px]" prefix="svg" />
       </div>
       <div class="mb-5 flex items-center gap-5">
-        <span>完整替换触发组件:</span>
-        <IconPicker class="w-[200px]">
-          <template #trigger="{ icon }">
-            <Input
-              :value="icon"
-              placeholder="点击这里选择图标"
-              style="width: 300px"
-            >
-              <template #addonAfter>
-                <IconifyIcon
-                  :icon="icon || 'ant-design:appstore-filled'"
-                  class="text-2xl"
-                />
-              </template>
-            </Input>
-          </template>
-        </IconPicker>
+        <span>使用Input:</span>
+        <IconPicker :input-component="inputComponent" icon-slot="addonAfter" />
       </div>
       <div class="flex items-center gap-5">
         <span>可手动输入，只能点击图标打开弹窗:</span>
@@ -283,14 +255,7 @@ const iconValue = ref('ant-design:trademark-outlined');
               :icons="iconData"
               class="w-[200px]"
               prefix=""
-            >
-              <template #trigger="{ icon }">
-                <IconifyIcon
-                  :icon="icon || 'ant-design:appstore-filled'"
-                  class="text-2xl"
-                />
-              </template>
-            </IconPicker>
+            />
           </template>
         </Input>
       </div>
