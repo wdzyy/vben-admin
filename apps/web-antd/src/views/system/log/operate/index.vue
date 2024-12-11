@@ -7,12 +7,12 @@ import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Modal, Space } from 'ant-design-vue';
-import { isEmpty } from 'lodash-es';
 
 import {
   useVbenVxeGrid,
   vxeCheckboxChecked,
   type VxeGridProps,
+  vxeSortEvent,
 } from '#/adapter/vxe-table';
 import {
   operLogClean,
@@ -60,18 +60,12 @@ const gridOptions: VxeGridProps<OperationLog> = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async ({ page, sort }, formValues = {}) => {
+      query: async ({ page }, formValues = {}) => {
         const params: any = {
           pageNum: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
         };
-
-        if (!isEmpty(sort)) {
-          params.orderByColumn = sort.field;
-          params.isAsc = sort.order;
-        }
-
         return await operLogList(params);
       },
     },
@@ -81,7 +75,10 @@ const gridOptions: VxeGridProps<OperationLog> = {
     keyField: 'operId',
   },
   sortConfig: {
+    // 远程排序
     remote: true,
+    // 支持多字段排序 默认关闭
+    multiple: true,
   },
   id: 'system-operatelog-index',
 };
@@ -90,9 +87,7 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
   gridEvents: {
-    sortChange: () => {
-      tableApi.query();
-    },
+    sortChange: (sortParams) => vxeSortEvent(tableApi, sortParams),
   },
 });
 

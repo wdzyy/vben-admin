@@ -120,3 +120,24 @@ export function vxeCheckboxChecked(
 ) {
   return tableApi?.grid?.getCheckboxRecords?.()?.length > 0;
 }
+
+/**
+ * 通用的vxe-table排序事件 支持单/多字段排序
+ * @param tableApi api
+ * @param sortParams 排序参数
+ */
+export function vxeSortEvent(
+  tableApi: ReturnType<typeof useVbenVxeGrid>[1],
+  sortParams: VxeGridDefines.SortChangeEventParams,
+) {
+  const { sortList } = sortParams;
+  // 这里是排序取消 length为0 就不传参数了
+  if (sortList.length === 0) {
+    tableApi.query();
+    return;
+  }
+  // 支持单/多字段排序
+  const orderByColumn = sortList.map((item) => item.field).join(',');
+  const isAsc = sortList.map((item) => item.order).join(',');
+  tableApi.query({ orderByColumn, isAsc });
+}
