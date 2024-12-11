@@ -55,12 +55,27 @@ const [BaseForm, baseFormApi] = useVbenForm({
         },
         // 菜单接口
         api: getAllMenusApi,
-        placeholder: '请选择',
       },
       // 字段名
       fieldName: 'api',
       // 界面显示的label
       label: 'ApiSelect',
+    },
+    {
+      component: 'ApiTreeSelect',
+      // 对应组件的参数
+      componentProps: {
+        // 菜单接口
+        api: getAllMenusApi,
+        childrenField: 'children',
+        // 菜单接口转options格式
+        labelField: 'name',
+        valueField: 'path',
+      },
+      // 字段名
+      fieldName: 'apiTree',
+      // 界面显示的label
+      label: 'ApiTreeSelect',
     },
     {
       component: 'InputPassword',

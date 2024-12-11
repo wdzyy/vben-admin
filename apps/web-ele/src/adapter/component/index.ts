@@ -9,7 +9,7 @@ import type { Recordable } from '@vben/types';
 import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
-import { ApiSelect, globalShareState, IconPicker } from '@vben/common-ui';
+import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
@@ -22,11 +22,9 @@ import {
   ElInput,
   ElInputNumber,
   ElNotification,
-  ElOption,
   ElRadio,
   ElRadioButton,
   ElRadioGroup,
-  ElSelect,
   ElSelectV2,
   ElSpace,
   ElSwitch,
@@ -48,6 +46,7 @@ const withDefaultPlaceholder = <T extends Component>(
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
   | 'ApiSelect'
+  | 'ApiTreeSelect'
   | 'Checkbox'
   | 'CheckboxGroup'
   | 'DatePicker'
@@ -71,13 +70,31 @@ async function initComponentAdapter() {
     // import('xxx').then((res) => res.Button),
     ApiSelect: (props, { attrs, slots }) => {
       return h(
-        ApiSelect,
+        ApiComponent,
         {
+          placeholder: $t('ui.placeholder.select'),
           ...props,
           ...attrs,
           component: ElSelectV2,
           loadingSlot: 'loading',
-          visibleEvent: 'onDropdownVisibleChange',
+          visibleEvent: 'onVisibleChange',
+        },
+        slots,
+      );
+    },
+    ApiTreeSelect: (props, { attrs, slots }) => {
+      return h(
+        ApiComponent,
+        {
+          placeholder: $t('ui.placeholder.select'),
+          ...props,
+          ...attrs,
+          component: ElTreeSelect,
+          props: { label: 'label', children: 'children' },
+          nodeKey: 'value',
+          loadingSlot: 'loading',
+          optionsPropName: 'data',
+          visibleEvent: 'onVisibleChange',
         },
         slots,
       );
@@ -146,21 +163,7 @@ async function initComponentAdapter() {
       );
     },
     Select: (props, { attrs, slots }) => {
-      let defaultSlot;
-      if (Reflect.has(slots, 'default')) {
-        defaultSlot = slots.default;
-      } else {
-        const { options } = attrs;
-        if (Array.isArray(options)) {
-          defaultSlot = () => options.map((option) => h(ElOption, option));
-        }
-      }
-      const placeholder = props?.placeholder || $t(`ui.placeholder.select`);
-      return h(
-        ElSelect,
-        { ...props, ...attrs, placeholder },
-        { ...slots, default: defaultSlot },
-      );
+      return h(ElSelectV2, { ...props, attrs }, slots);
     },
     Space: ElSpace,
     Switch: ElSwitch,
