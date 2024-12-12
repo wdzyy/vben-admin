@@ -11,6 +11,7 @@ import { Modal, Space } from 'ant-design-vue';
 import {
   useVbenVxeGrid,
   vxeCheckboxChecked,
+  type VxeGridDefines,
   type VxeGridProps,
   vxeSortEvent,
 } from '#/adapter/vxe-table';
@@ -87,7 +88,8 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
   gridEvents: {
-    sortChange: (sortParams) => vxeSortEvent(tableApi, sortParams),
+    sortChange: (sortParams: VxeGridDefines.SortChangeEventParams<any>) =>
+      vxeSortEvent(tableApi, sortParams),
   },
 });
 
