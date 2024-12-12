@@ -9,8 +9,8 @@ import { getPopupContainer } from '@vben/utils';
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import {
-  tableCheckboxEvent,
   useVbenVxeGrid,
+  vxeCheckboxChecked,
   type VxeGridProps,
 } from '#/adapter/vxe-table';
 import { postExport, postList, postRemove } from '#/api/system/post';
@@ -79,14 +79,9 @@ const gridOptions: VxeGridProps = {
   id: 'system-post-index',
 };
 
-const checked = ref(false);
 const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
-  gridEvents: {
-    checkboxChange: tableCheckboxEvent(checked),
-    checkboxAll: tableCheckboxEvent(checked),
-  },
 });
 
 const [PostDrawer, drawerApi] = useVbenDrawer({
@@ -118,7 +113,6 @@ function handleMultiDelete() {
     onOk: async () => {
       await postRemove(ids);
       await tableApi.query();
-      checked.value = false;
     },
   });
 }
@@ -153,7 +147,7 @@ function handleDownloadExcel() {
             {{ $t('pages.common.export') }}
           </a-button>
           <a-button
-            :disabled="!checked"
+            :disabled="!vxeCheckboxChecked(tableApi)"
             danger
             type="primary"
             v-access:code="['system:post:delete']"

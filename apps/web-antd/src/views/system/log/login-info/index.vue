@@ -9,8 +9,8 @@ import { getPopupContainer } from '@vben/utils';
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import {
-  tableCheckboxEvent,
   useVbenVxeGrid,
+  vxeCheckboxChecked,
   type VxeGridDefines,
   type VxeGridProps,
 } from '#/adapter/vxe-table';
@@ -77,7 +77,6 @@ const gridOptions: VxeGridProps = {
   id: 'system-logininfo-index',
 };
 
-const checked = ref(false);
 const canUnlock = ref(false);
 const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
@@ -85,10 +84,8 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
   gridEvents: {
     checkboxChange: (e: VxeGridDefines.CheckboxChangeEventParams) => {
       const records = e.$table.getCheckboxRecords();
-      checked.value = records.length > 0;
       canUnlock.value = records.length === 1 && records[0]?.status === '1';
     },
-    checkboxAll: tableCheckboxEvent(checked),
   },
 });
 
@@ -125,7 +122,6 @@ function handleMultiDelete() {
     onOk: async () => {
       await loginInfoRemove(ids);
       await tableApi.query();
-      checked.value = false;
     },
   });
 }
@@ -138,7 +134,6 @@ async function handleUnlock() {
   const { userName } = records[0];
   await userUnlock(userName);
   await tableApi.query();
-  checked.value = false;
   canUnlock.value = false;
   tableApi.grid.clearCheckboxRow();
 }
@@ -167,7 +162,7 @@ function handleDownloadExcel() {
             {{ $t('pages.common.export') }}
           </a-button>
           <a-button
-            :disabled="!checked"
+            :disabled="!vxeCheckboxChecked(tableApi)"
             danger
             type="primary"
             @click="handleMultiDelete"

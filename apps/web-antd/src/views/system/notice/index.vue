@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import { ref } from 'vue';
-
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import {
-  tableCheckboxEvent,
   useVbenVxeGrid,
+  vxeCheckboxChecked,
   type VxeGridProps,
 } from '#/adapter/vxe-table';
 import { noticeList, noticeRemove } from '#/api/system/notice';
@@ -58,14 +56,9 @@ const gridOptions: VxeGridProps = {
   id: 'system-notice-index',
 };
 
-const checked = ref(false);
 const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
-  gridEvents: {
-    checkboxChange: tableCheckboxEvent(checked),
-    checkboxAll: tableCheckboxEvent(checked),
-  },
 });
 
 const [NoticeModal, modalApi] = useVbenModal({
@@ -97,7 +90,6 @@ function handleMultiDelete() {
     onOk: async () => {
       await noticeRemove(ids);
       await tableApi.query();
-      checked.value = false;
     },
   });
 }
@@ -109,7 +101,7 @@ function handleMultiDelete() {
       <template #toolbar-actions>
         <Space>
           <a-button
-            :disabled="!checked"
+            :disabled="!vxeCheckboxChecked(tableApi)"
             danger
             type="primary"
             @click="handleMultiDelete"

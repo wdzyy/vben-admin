@@ -3,8 +3,6 @@ import type { Recordable } from '@vben/types';
 
 import type { OperationLog } from '#/api/system/operlog/model';
 
-import { ref } from 'vue';
-
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
@@ -12,8 +10,8 @@ import { Modal, Space } from 'ant-design-vue';
 import { isEmpty } from 'lodash-es';
 
 import {
-  tableCheckboxEvent,
   useVbenVxeGrid,
+  vxeCheckboxChecked,
   type VxeGridProps,
 } from '#/adapter/vxe-table';
 import {
@@ -88,7 +86,6 @@ const gridOptions: VxeGridProps<OperationLog> = {
   id: 'system-operatelog-index',
 };
 
-const checked = ref(false);
 const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
@@ -96,8 +93,6 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
     sortChange: () => {
       tableApi.query();
     },
-    checkboxChange: tableCheckboxEvent(checked),
-    checkboxAll: tableCheckboxEvent(checked),
   },
 });
 
@@ -138,7 +133,6 @@ async function handleDelete() {
     onOk: async () => {
       await operLogDelete(ids);
       await tableApi.query();
-      checked.value = false;
     },
   });
 }
@@ -162,7 +156,7 @@ function handleDownloadExcel() {
             {{ $t('pages.common.export') }}
           </a-button>
           <a-button
-            :disabled="!checked"
+            :disabled="!vxeCheckboxChecked(tableApi)"
             danger
             type="primary"
             @click="handleDelete"
