@@ -29,6 +29,7 @@ export {
   Fullscreen,
   Github,
   Grip,
+  GripVertical,
   Inbox,
   Info,
   InspectionPanel,
