@@ -1,8 +1,8 @@
+import type { FormSchemaGetter } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { getPopupContainer } from '@vben/utils';
 
-import { type FormSchemaGetter } from '#/adapter/form';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';
 import { renderDict } from '#/utils/render';

@@ -1,7 +1,8 @@
 import type { DictData } from '#/api/system/dict/dict-data-model';
+import type { Option } from '#/store/dict';
 
 import { dictDataInfo } from '#/api/system/dict/dict-data';
-import { type Option, useDictStore } from '#/store/dict';
+import { useDictStore } from '#/store/dict';
 
 // todo 重复代码的封装
 export function getDict(dictName: string): DictData[] {

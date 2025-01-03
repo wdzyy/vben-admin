@@ -27,17 +27,17 @@ export interface StateInterFace {
   indicatorsAsCol: CheckedType;
 }
 
-export type Row = {
+export type Row = IRowDimension & {
   selected: boolean;
-} & IRowDimension;
-export type Column = {
+};
+export type Column = IColumnDimension & {
   selected: boolean;
-} & IColumnDimension;
-export type Indicator = {
+};
+export type Indicator = IIndicator & {
   selected: boolean;
-} & IIndicator;
-export type PivotTableOptions = {
+};
+export type PivotTableOptions = PivotTableConstructorOptions & {
   columns: Column[];
   indicators: Indicator[];
   rows: Row[];
-} & PivotTableConstructorOptions;
+};

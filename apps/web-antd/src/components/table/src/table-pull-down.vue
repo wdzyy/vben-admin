@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import type { Recordable } from '@vben/types';
+
 import type { ConfirmEvent, TablePullDownProps } from './types';
 
 import type { VbenFormProps } from '#/adapter/form';
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 
 import { onMounted, ref } from 'vue';
-
-import { type Recordable } from '@vben/types';
 
 import { Input, Popover } from 'ant-design-vue';
 import { cloneDeep } from 'lodash-es';

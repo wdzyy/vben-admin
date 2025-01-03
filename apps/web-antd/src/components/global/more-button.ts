@@ -1,11 +1,13 @@
+import type { ButtonType } from 'ant-design-vue/es/button/buttonTypes';
 import type { MenuItemType } from 'ant-design-vue/es/menu/src/interface';
 
-import { defineComponent, h, type PropType } from 'vue';
+import type { PropType } from 'vue';
+
+import { defineComponent, h } from 'vue';
 
 import { $t } from '@vben/locales';
 
 import { Dropdown, Menu, MenuItem } from 'ant-design-vue';
-import { type ButtonType } from 'ant-design-vue/es/button/buttonTypes';
 
 import { GhostButton } from './button';
 
