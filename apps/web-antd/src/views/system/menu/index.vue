@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { eachTree, getPopupContainer } from '@vben/utils';
 
 import { Button, Popconfirm, Space } from 'ant-design-vue';
 
-import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { menuList, menuRemove } from '#/api/system/menu';
 
 import menuDrawer from './menu-drawer.vue';

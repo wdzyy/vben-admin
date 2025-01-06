@@ -1,9 +1,9 @@
+import type { FormSchemaGetter } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { DescItem } from '#/components/description';
 
 import { Tag } from 'ant-design-vue';
 
-import { type FormSchemaGetter } from '#/adapter/form';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';
 import { renderDict, renderHttpMethodTag } from '#/utils/render';

@@ -3,7 +3,9 @@ import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface';
 import type { DataNode } from 'ant-design-vue/es/tree';
 import type { CheckInfo } from 'ant-design-vue/es/vc-tree/props';
 
-import { computed, nextTick, onMounted, type PropType, ref, watch } from 'vue';
+import type { PropType } from 'vue';
+
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
 import { findGroupParentIds, treeToList } from '@vben/utils';
 
@@ -108,8 +110,8 @@ const stop = watch([checkedKeys, () => props.treeData], () => {
  * @param info info.halfCheckedKeys为父节点的ID
  */
 type CheckedState<T = number | string> =
-  | { checked: T[]; halfChecked: T[] }
-  | T[];
+  | T[]
+  | { checked: T[]; halfChecked: T[] };
 function handleChecked(checkedStateKeys: CheckedState, info: CheckInfo) {
   // 数组的话为节点关联
   if (Array.isArray(checkedStateKeys)) {

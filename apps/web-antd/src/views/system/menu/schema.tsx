@@ -1,9 +1,11 @@
+import type { FormSchemaGetter } from '#/adapter/form';
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
 import { IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { getPopupContainer } from '@vben/utils';
 
-import { type FormSchemaGetter, z } from '#/adapter/form';
-import { type VxeGridProps } from '#/adapter/vxe-table';
+import { z } from '#/adapter/form';
 import { dictDataInfo } from '#/api/system/dict/dict-data';
 import { DictEnum } from '#/constants';
 import { getDictOptions } from '#/utils/dict';

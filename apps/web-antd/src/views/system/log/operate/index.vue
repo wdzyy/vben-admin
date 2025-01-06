@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
+import type { VxeGridDefines, VxeGridProps } from '#/adapter/vxe-table';
 import type { OperationLog } from '#/api/system/operlog/model';
 
-import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Modal, Space } from 'ant-design-vue';
@@ -11,8 +13,6 @@ import { Modal, Space } from 'ant-design-vue';
 import {
   useVbenVxeGrid,
   vxeCheckboxChecked,
-  type VxeGridDefines,
-  type VxeGridProps,
   vxeSortEvent,
 } from '#/adapter/vxe-table';
 import {

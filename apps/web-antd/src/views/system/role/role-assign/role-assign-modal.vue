@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '#/adapter/form';
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { type VbenFormProps } from '#/adapter/form';
-import { useVbenVxeGrid, type VxeGridProps } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { roleSelectAll, roleUnallocatedList } from '#/api/system/role';
 
 import { columns, querySchema } from './schema';

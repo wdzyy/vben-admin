@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
 import type { DeptTree } from '#/api/system/user/model';
 
-import { onMounted, type PropType, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { RotateCw } from '@vben/icons';
 

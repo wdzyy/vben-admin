@@ -1,9 +1,11 @@
-import { defineComponent, h, type PropType } from 'vue';
+import type { ButtonType } from 'ant-design-vue/es/button/buttonTypes';
+
+import type { PropType } from 'vue';
+
+import { defineComponent, h } from 'vue';
 
 import { Button } from 'ant-design-vue';
-import buttonProps, {
-  type ButtonType,
-} from 'ant-design-vue/es/button/buttonTypes';
+import buttonProps from 'ant-design-vue/es/button/buttonTypes';
 import { omit } from 'lodash-es';
 
 /**

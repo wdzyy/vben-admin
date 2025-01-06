@@ -1,16 +1,15 @@
 <script setup lang="ts">
+import type { VbenFormProps } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
+import { Page, useVbenModal } from '@vben/common-ui';
 import { getPopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
-import {
-  useVbenVxeGrid,
-  vxeCheckboxChecked,
-  type VxeGridProps,
-} from '#/adapter/vxe-table';
+import { useVbenVxeGrid, vxeCheckboxChecked } from '#/adapter/vxe-table';
 import { noticeList, noticeRemove } from '#/api/system/notice';
 
 import noticeModal from './notice-modal.vue';
