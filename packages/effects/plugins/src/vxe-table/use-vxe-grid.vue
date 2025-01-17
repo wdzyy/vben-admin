@@ -8,6 +8,8 @@ import type {
   VxeToolbarPropTypes,
 } from 'vxe-table';
 
+import type { SetupContext } from 'vue';
+
 import type { VbenFormProps } from '@vben-core/form-ui';
 
 import type { ExtendedVxeGridApi, VxeGridProps } from './types';
@@ -68,18 +70,18 @@ const {
 
 const { isMobile } = usePreferences();
 
-const slots = useSlots();
+const slots: SetupContext['slots'] = useSlots();
 
 const [Form, formApi] = useTableForm({
   compact: true,
   handleSubmit: async () => {
-    const formValues = formApi.form.values;
+    const formValues = await formApi.getValues();
     formApi.setLatestSubmissionValues(toRaw(formValues));
     props.api.reload(formValues);
   },
   handleReset: async () => {
     await formApi.resetForm();
-    const formValues = formApi.form.values;
+    const formValues = await formApi.getValues();
     formApi.setLatestSubmissionValues(formValues);
     props.api.reload(formValues);
   },
@@ -91,9 +93,7 @@ const [Form, formApi] = useTableForm({
   collapsed: true,
   showCollapseButton: true,
   submitButtonOptions: {
-    content: $t('common.query'),
-    // antd 按钮原生类型 需要设置为submit才能在输入框回车提交
-    htmlType: 'submit',
+    content: computed(() => $t('common.search')),
   },
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
 });
@@ -249,7 +249,10 @@ async function init() {
   const autoLoad = defaultGridOptions.proxyConfig?.autoLoad;
   const enableProxyConfig = options.value.proxyConfig?.enabled;
   if (enableProxyConfig && autoLoad) {
-    props.api.grid.commitProxy?.('_init', formApi.form?.values ?? {});
+    props.api.grid.commitProxy?.(
+      '_init',
+      formOptions.value ? ((await formApi.getValues()) ?? {}) : {},
+    );
     // props.api.reload(formApi.form?.values ?? {});
   }
 

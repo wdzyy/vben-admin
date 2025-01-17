@@ -149,6 +149,7 @@ export class DrawerApi {
 
   setData<T>(payload: T) {
     this.sharedData.payload = payload;
+    return this;
   }
 
   setState(
@@ -161,5 +162,6 @@ export class DrawerApi {
     } else {
       this.store.setState((prev) => ({ ...prev, ...stateOrFn }));
     }
+    return this;
   }
 }
