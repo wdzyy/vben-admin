@@ -1789,6 +1789,9 @@ importers:
 
   packages/stores:
     dependencies:
+      '@vben-core/preferences':
+        specifier: workspace:*
+        version: link:../@core/preferences
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../@core/base/shared
