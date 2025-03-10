@@ -33,6 +33,7 @@ import { cloneDeep, cn, mergeWithArrayOverride } from '@vben/utils';
 
 import { VbenHelpTooltip, VbenLoading } from '@vben-core/shadcn-ui';
 
+import { VxeButton } from 'vxe-pc-ui';
 import { VxeGrid, VxeUI } from 'vxe-table';
 
 import { extendProxyOptions } from './extends';
@@ -115,7 +116,7 @@ const toolbarOptions = computed(() => {
   const slotTools = slots[TOOLBAR_TOOLS]?.();
   const searchBtn: VxeToolbarPropTypes.ToolConfig = {
     code: 'search',
-    icon: 'vxe-icon--search',
+    icon: 'vxe-icon-search',
     circle: true,
     status: showSearchForm.value ? 'primary' : undefined,
     title: $t('common.search'),
@@ -201,11 +202,15 @@ const options = computed(() => {
 
 function onToolbarToolClick(event: VxeGridDefines.ToolbarToolClickEventParams) {
   if (event.code === 'search') {
-    props.api?.toggleSearchForm?.();
+    onSearchBtnClick();
   }
   (
     gridEvents.value?.toolbarToolClick as VxeGridListeners['toolbarToolClick']
   )?.(event);
+}
+
+function onSearchBtnClick() {
+  props.api?.toggleSearchForm?.();
 }
 
 const events = computed(() => {
@@ -219,7 +224,11 @@ const delegatedSlots = computed(() => {
   const resultSlots: string[] = [];
 
   for (const key of Object.keys(slots)) {
-    if (!['empty', 'form', 'loading', TOOLBAR_ACTIONS].includes(key)) {
+    if (
+      !['empty', 'form', 'loading', TOOLBAR_ACTIONS, TOOLBAR_TOOLS].includes(
+        key,
+      )
+    ) {
       resultSlots.push(key);
     }
   }
@@ -345,13 +354,25 @@ onUnmounted(() => {
       >
         <slot :name="slotName" v-bind="slotProps"></slot>
       </template>
+      <template #toolbar-tools="slotProps">
+        <slot name="toolbar-tools" v-bind="slotProps"></slot>
+        <VxeButton
+          icon="vxe-icon-search"
+          circle
+          class="ml-2"
+          v-if="gridOptions?.toolbarConfig?.search && !!formOptions"
+          :status="showSearchForm ? 'primary' : undefined"
+          :title="$t('common.search')"
+          @click="onSearchBtnClick"
+        />
+      </template>
 
       <!-- form表单 -->
       <template #form>
         <div
           v-if="formOptions"
           v-show="showSearchForm !== false"
-          :class="cn('relative rounded py-3', isCompactForm ? 'pb-6' : 'pb-4')"
+          :class="cn('relative rounded py-3', isCompactForm ? 'pb-8' : 'pb-4')"
         >
           <slot name="form">
             <Form>
