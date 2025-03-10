@@ -25,6 +25,7 @@ export function useAntdDesignTokens() {
     colorSuccess: '',
     colorTextBase: '',
     colorWarning: '',
+    zIndexPopupBase: 2000, // 调整基础弹层层级，避免下拉等组件被弹窗或者最大化状态下的表格遮挡
   });
 
   const getCssVariableValue = (variable: string, isColor: boolean = true) => {
@@ -259,6 +260,9 @@ export function useElementPlusDesignTokens() {
         '--el-fill-color-blank': background,
         '--el-fill-color-light': getCssVariableValue('--accent'),
         '--el-fill-color-lighter': getCssVariableValue('--accent-lighter'),
+
+        '--el-fill-color-dark': getCssVariableValue('--accent-dark'),
+        '--el-fill-color-darker': getCssVariableValue('--accent-darker'),
 
         // 解决ElLoading背景色问题
         '--el-mask-color': isDark.value

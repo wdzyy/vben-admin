@@ -1,5 +1,6 @@
-import type { Recordable } from '@vben/types';
 import type { VxeGridProps, VxeUIExport } from 'vxe-table';
+
+import type { Recordable } from '@vben/types';
 
 import type { VxeGridApi } from './api';
 
@@ -43,7 +44,11 @@ function extendProxyOption(
     const data = await configFn(
       params,
       {
-        ...customValues,
+        /**
+         * 开启toolbarConfig.refresh功能
+         * 点击刷新按钮 这里的值为PointerEvent 会携带错误参数
+         */
+        ...(customValues instanceof PointerEvent ? {} : customValues),
         ...formValues,
       },
       ...args,

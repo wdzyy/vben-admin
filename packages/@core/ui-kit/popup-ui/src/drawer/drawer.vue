@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DrawerProps, ExtendedDrawerApi } from './drawer';
 
-import { provide, ref, useId, watch } from 'vue';
+import { computed, provide, ref, useId, watch } from 'vue';
 
 import {
   useIsMobile,
@@ -10,6 +10,7 @@ import {
 } from '@vben-core/composables';
 import { X } from '@vben-core/icons';
 import {
+  Separator,
   Sheet,
   SheetClose,
   SheetContent,
@@ -23,6 +24,7 @@ import {
   VbenLoading,
   VisuallyHidden,
 } from '@vben-core/shadcn-ui';
+import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
 
@@ -31,7 +33,11 @@ interface Props extends DrawerProps {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  appendToMain: false,
+  closeIconPlacement: 'right',
   drawerApi: undefined,
+  submitting: false,
+  zIndex: 1000,
 });
 
 const components = globalShareState.getComponents();
@@ -46,9 +52,11 @@ const { isMobile } = useIsMobile();
 const state = props.drawerApi?.useStore?.();
 
 const {
+  appendToMain,
   cancelText,
   class: drawerClass,
   closable,
+  closeIconPlacement,
   closeOnClickModal,
   closeOnPressEscape,
   confirmLoading,
@@ -62,11 +70,14 @@ const {
   loading: showLoading,
   modal,
   openAutoFocus,
+  overlayBlur,
   placement,
   showCancelButton,
   showConfirmButton,
+  submitting,
   title,
   titleTooltip,
+  zIndex,
 } = usePriorityValues(props, state);
 
 watch(
@@ -82,12 +93,12 @@ watch(
 );
 
 function interactOutside(e: Event) {
-  if (!closeOnClickModal.value) {
+  if (!closeOnClickModal.value || submitting.value) {
     e.preventDefault();
   }
 }
 function escapeKeyDown(e: KeyboardEvent) {
-  if (!closeOnPressEscape.value) {
+  if (!closeOnPressEscape.value || submitting.value) {
     e.preventDefault();
   }
 }
@@ -95,7 +106,11 @@ function escapeKeyDown(e: KeyboardEvent) {
 function pointerDownOutside(e: Event) {
   const target = e.target as HTMLElement;
   const dismissableDrawer = target?.dataset.dismissableDrawer;
-  if (!closeOnClickModal.value || dismissableDrawer !== id) {
+  if (
+    submitting.value ||
+    !closeOnClickModal.value ||
+    dismissableDrawer !== id
+  ) {
     e.preventDefault();
   }
 }
@@ -110,6 +125,12 @@ function handleFocusOutside(e: Event) {
   e.preventDefault();
   e.stopPropagation();
 }
+
+const getAppendTo = computed(() => {
+  return appendToMain.value
+    ? `#${ELEMENT_ID_MAIN_CONTENT}>div:not(.absolute)>div`
+    : undefined;
+});
 </script>
 <template>
   <Sheet
@@ -118,6 +139,7 @@ function handleFocusOutside(e: Event) {
     @update:open="() => drawerApi?.close()"
   >
     <SheetContent
+      :append-to="getAppendTo"
       :class="
         cn('flex w-[520px] flex-col', drawerClass, {
           '!w-full': isMobile || placement === 'bottom' || placement === 'top',
@@ -127,11 +149,15 @@ function handleFocusOutside(e: Event) {
       :modal="modal"
       :open="state?.isOpen"
       :side="placement"
+      :z-index="zIndex"
+      :overlay-blur="overlayBlur"
       @close-auto-focus="handleFocusOutside"
+      @closed="() => drawerApi?.onClosed()"
       @escape-key-down="escapeKeyDown"
       @focus-outside="handleFocusOutside"
       @interact-outside="interactOutside"
       @open-auto-focus="handerOpenAutoFocus"
+      @opened="() => drawerApi?.onOpened()"
       @pointer-down-outside="pointerDownOutside"
     >
       <SheetHeader
@@ -142,11 +168,30 @@ function handleFocusOutside(e: Event) {
             headerClass,
             {
               'px-4 py-3': closable,
+              'pl-2': closable && closeIconPlacement === 'left',
             },
           )
         "
       >
-        <div>
+        <div class="flex items-center">
+          <SheetClose
+            v-if="closable && closeIconPlacement === 'left'"
+            as-child
+            :disabled="submitting"
+            class="data-[state=open]:bg-secondary ml-[2px] cursor-pointer rounded-full opacity-80 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
+          >
+            <slot name="close-icon">
+              <VbenIconButton>
+                <X class="size-4" />
+              </VbenIconButton>
+            </slot>
+          </SheetClose>
+          <Separator
+            v-if="closable && closeIconPlacement === 'left'"
+            class="ml-1 mr-2 h-8"
+            decorative
+            orientation="vertical"
+          />
           <SheetTitle v-if="title" class="text-left">
             <slot name="title">
               {{ title }}
@@ -171,13 +216,16 @@ function handleFocusOutside(e: Event) {
         <div class="flex-center">
           <slot name="extra"></slot>
           <SheetClose
-            v-if="closable"
+            v-if="closable && closeIconPlacement === 'right'"
             as-child
+            :disabled="submitting"
             class="data-[state=open]:bg-secondary ml-[2px] cursor-pointer rounded-full opacity-80 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
           >
-            <VbenIconButton>
-              <X class="size-4" />
-            </VbenIconButton>
+            <slot name="close-icon">
+              <VbenIconButton>
+                <X class="size-4" />
+              </VbenIconButton>
+            </slot>
           </SheetClose>
         </div>
       </SheetHeader>
@@ -195,7 +243,11 @@ function handleFocusOutside(e: Event) {
           })
         "
       >
-        <VbenLoading v-if="showLoading" class="size-full" spinning />
+        <VbenLoading
+          v-if="showLoading || submitting"
+          class="size-full"
+          spinning
+        />
 
         <slot></slot>
       </div>
@@ -215,6 +267,7 @@ function handleFocusOutside(e: Event) {
             :is="components.DefaultButton || VbenButton"
             v-if="showCancelButton"
             variant="ghost"
+            :disabled="submitting"
             @click="() => drawerApi?.onCancel()"
           >
             <slot name="cancelText">
@@ -225,7 +278,7 @@ function handleFocusOutside(e: Event) {
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"
-            :loading="confirmLoading"
+            :loading="confirmLoading || submitting"
             @click="() => drawerApi?.onConfirm()"
           >
             <slot name="confirmText">

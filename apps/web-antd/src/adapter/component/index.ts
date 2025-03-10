@@ -3,12 +3,14 @@
  * 可用于 vben-form、vben-modal、vben-drawer 等组件使用,
  */
 
+import type { Component } from 'vue';
+
 import type { BaseFormComponentType } from '@vben/common-ui';
+import type { Recordable } from '@vben/types';
 
-import type { Component, SetupContext } from 'vue';
-import { h } from 'vue';
+import { defineComponent, getCurrentInstance, h, ref } from 'vue';
 
-import { globalShareState } from '@vben/common-ui';
+import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
@@ -40,20 +42,43 @@ const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
 ) => {
-  return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
-    const placeholder = props?.placeholder || $t(`ui.placeholder.${type}`);
-    return h(component, { ...props, ...attrs, placeholder }, slots);
-  };
+  return defineComponent({
+    inheritAttrs: false,
+    name: component.name,
+    setup: (props: any, { attrs, expose, slots }) => {
+      const placeholder =
+        props?.placeholder ||
+        attrs?.placeholder ||
+        $t(`ui.placeholder.${type}`);
+      // 透传组件暴露的方法
+      const innerRef = ref();
+      const publicApi: Recordable<any> = {};
+      expose(publicApi);
+      const instance = getCurrentInstance();
+      instance?.proxy?.$nextTick(() => {
+        for (const key in innerRef.value) {
+          if (typeof innerRef.value[key] === 'function') {
+            publicApi[key] = innerRef.value[key];
+          }
+        }
+      });
+      return () =>
+        h(component, { ...props, ...attrs, placeholder, ref: innerRef }, slots);
+    },
+  });
 };
 
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
+  | 'ApiSelect'
+  | 'ApiTreeSelect'
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
+  | 'IconPicker'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
@@ -77,7 +102,38 @@ async function initComponentAdapter() {
     // 如果你的组件体积比较大，可以使用异步加载
     // Button: () =>
     // import('xxx').then((res) => res.Button),
-
+    ApiSelect: (props, { attrs, slots }) => {
+      return h(
+        ApiComponent,
+        {
+          placeholder: $t('ui.placeholder.select'),
+          ...props,
+          ...attrs,
+          component: Select,
+          loadingSlot: 'suffixIcon',
+          visibleEvent: 'onDropdownVisibleChange',
+          modelPropName: 'value',
+        },
+        slots,
+      );
+    },
+    ApiTreeSelect: (props, { attrs, slots }) => {
+      return h(
+        ApiComponent,
+        {
+          placeholder: $t('ui.placeholder.select'),
+          ...props,
+          ...attrs,
+          component: TreeSelect,
+          fieldNames: { label: 'label', value: 'value', children: 'children' },
+          loadingSlot: 'suffixIcon',
+          modelPropName: 'value',
+          optionsPropName: 'treeData',
+          visibleEvent: 'onVisibleChange',
+        },
+        slots,
+      );
+    },
     AutoComplete,
     Checkbox,
     CheckboxGroup,
@@ -87,6 +143,19 @@ async function initComponentAdapter() {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
     Divider,
+    IconPicker: (props, { attrs, slots }) => {
+      return h(
+        IconPicker,
+        {
+          iconSlot: 'addonAfter',
+          inputComponent: Input,
+          modelValueProp: 'value',
+          ...props,
+          ...attrs,
+        },
+        slots,
+      );
+    },
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),

@@ -87,7 +87,7 @@ import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
-import { globalShareState } from '@vben/common-ui';
+import { globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
@@ -149,6 +149,7 @@ export type ComponentType =
   | 'TimePicker'
   | 'TreeSelect'
   | 'Upload'
+  | 'IconPicker';
   | BaseFormComponentType;
 
 async function initComponentAdapter() {
@@ -166,6 +167,7 @@ async function initComponentAdapter() {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
     Divider,
+    IconPicker,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),
@@ -277,20 +279,24 @@ const [Form, formApi] = useVbenForm({
 
 useVbenForm 返回的第二个参数，是一个对象，包含了一些表单的方法。
 
-| 方法名 | 描述 | 类型 |
-| --- | --- | --- |
-| submitForm | 提交表单 | `(e:Event)=>Promise<Record<string,any>>` |
-| validateAndSubmitForm | 提交并校验表单 | `(e:Event)=>Promise<Record<string,any>>` |
-| resetForm | 重置表单 | `()=>Promise<void>` |
-| setValues | 设置表单值, 默认会过滤不在schema中定义的field, 可通过filterFields形参关闭过滤 | `(fields: Record<string, any>, filterFields?: boolean, shouldValidate?: boolean) => Promise<void>` |
-| getValues | 获取表单值 | `(fields:Record<string, any>,shouldValidate: boolean = false)=>Promise<void>` |
-| validate | 表单校验 | `()=>Promise<void>` |
-| resetValidate | 重置表单校验 | `()=>Promise<void>` |
-| updateSchema | 更新formSchema | `(schema:FormSchema[])=>void` |
-| setFieldValue | 设置字段值 | `(field: string, value: any, shouldValidate?: boolean)=>Promise<void>` |
-| setState | 设置组件状态（props） | `(stateOrFn:\| ((prev: VbenFormProps) => Partial<VbenFormProps>)\| Partial<VbenFormProps>)=>Promise<void>` |
-| getState | 获取组件状态（props） | `()=>Promise<VbenFormProps>` |
-| form | 表单对象实例，可以操作表单，见 [useForm](https://vee-validate.logaretm.com/v4/api/use-form/) | - |
+| 方法名 | 描述 | 类型 | 版本号 |
+| --- | --- | --- | --- |
+| submitForm | 提交表单 | `(e:Event)=>Promise<Record<string,any>>` | - |
+| validateAndSubmitForm | 提交并校验表单 | `(e:Event)=>Promise<Record<string,any>>` | - |
+| resetForm | 重置表单 | `()=>Promise<void>` | - |
+| setValues | 设置表单值, 默认会过滤不在schema中定义的field, 可通过filterFields形参关闭过滤 | `(fields: Record<string, any>, filterFields?: boolean, shouldValidate?: boolean) => Promise<void>` | - |
+| getValues | 获取表单值 | `(fields:Record<string, any>,shouldValidate: boolean = false)=>Promise<void>` | - |
+| validate | 表单校验 | `()=>Promise<void>` | - |
+| validateField | 校验指定字段 | `(fieldName: string)=>Promise<ValidationResult<unknown>>` | - |
+| isFieldValid | 检查某个字段是否已通过校验 | `(fieldName: string)=>Promise<boolean>` | - |
+| resetValidate | 重置表单校验 | `()=>Promise<void>` | - |
+| updateSchema | 更新formSchema | `(schema:FormSchema[])=>void` | - |
+| setFieldValue | 设置字段值 | `(field: string, value: any, shouldValidate?: boolean)=>Promise<void>` | - |
+| setState | 设置组件状态（props） | `(stateOrFn:\| ((prev: VbenFormProps) => Partial<VbenFormProps>)\| Partial<VbenFormProps>)=>Promise<void>` | - |
+| getState | 获取组件状态（props） | `()=>Promise<VbenFormProps>` | - |
+| form | 表单对象实例，可以操作表单，见 [useForm](https://vee-validate.logaretm.com/v4/api/use-form/) | - | - |
+| getFieldComponentRef | 获取指定字段的组件实例 | `<T=unknown>(fieldName: string)=>T` | >5.5.3 |
+| getFocusedField | 获取当前已获得焦点的字段 | `()=>string\|undefined` | >5.5.3 |
 
 ## Props
 
@@ -304,16 +310,25 @@ useVbenForm 返回的第二个参数，是一个对象，包含了一些表单�
 | actionWrapperClass | 表单操作区域class | `any` | - |
 | handleReset | 表单重置回调 | `(values: Record<string, any>,) => Promise<void> \| void` | - |
 | handleSubmit | 表单提交回调 | `(values: Record<string, any>,) => Promise<void> \| void` | - |
+| handleValuesChange | 表单值变化回调 | `(values: Record<string, any>,) => void` | - |
+| actionButtonsReverse | 调换操作按钮位置 | `boolean` | `false` |
 | resetButtonOptions | 重置按钮组件参数 | `ActionButtonOptions` | - |
 | submitButtonOptions | 提交按钮组件参数 | `ActionButtonOptions` | - |
 | showDefaultActions | 是否显示默认操作按钮 | `boolean` | `true` |
-| collapsed | 是否折叠，在`是否展开，在showCollapseButton=true`时生效 | `boolean` | `false` |
+| collapsed | 是否折叠，在`showCollapseButton`为`true`时生效 | `boolean` | `false` |
 | collapseTriggerResize | 折叠时，触发`resize`事件 | `boolean` | `false` |
 | collapsedRows | 折叠时保持的行数 | `number` | `1` |
-| fieldMappingTime | 用于将表单内时间区域的应设成 2 个字段 | `[string, [string, string], string?][]` | - |
+| fieldMappingTime | 用于将表单内的数组值值映射成 2 个字段 | `[string, [string, string],Nullable<string>\|[string,string]\|((any,string)=>any)?][]` | - |
 | commonConfig | 表单项的通用配置，每个配置都会传递到每个表单项，表单项可覆盖 | `FormCommonConfig` | - |
-| schema | 表单项的每一项配置 | `FormSchema` | - |
+| schema | 表单项的每一项配置 | `FormSchema[]` | - |
 | submitOnEnter | 按下回车健时提交表单 | `boolean` | false |
+| submitOnChange | 字段值改变时提交表单(内部防抖，这个属性一般用于表格的搜索表单) | `boolean` | false |
+
+::: tip fieldMappingTime
+
+此属性用于将表单内的数组值映射成 2 个字段，它应当传入一个数组，数组的每一项是一个映射规则，规则的第一个成员是一个字符串，表示需要映射的字段名，第二个成员是一个数组，表示映射后的字段名，第三个成员是一个可选的格式掩码，用于格式化日期时间字段；也可以提供一个格式化函数（参数分别为当前值和当前字段名，返回格式化后的值）。如果明确地将格式掩码设为null，则原值映射而不进行格式化（适用于非日期时间字段）。例如：`[['timeRange', ['startTime', 'endTime'], 'YYYY-MM-DD']]`，`timeRange`应当是一个至少具有2个成员的数组类型的值。Form会将`timeRange`的值前两个值分别按照格式掩码`YYYY-MM-DD`格式化后映射到`startTime`和`endTime`字段上。每一项的第三个参数是一个可选的格式掩码，
+
+:::
 
 ### TS 类型说明
 
@@ -334,7 +349,7 @@ export interface ActionButtonOptions {
   /** 是否显示 */
   show?: boolean;
   /** 按钮文本 */
-  text?: string;
+  content?: string;
   /** 任意属性 */
   [key: string]: any;
 }
@@ -351,9 +366,20 @@ export interface FormCommonConfig {
    */
   componentProps?: ComponentProps;
   /**
+   * 是否紧凑模式(移除表单底部为显示校验错误信息所预留的空间)。
+   * 在有设置校验规则的场景下，建议不要将其设置为true
+   * 默认为false。但用作表格的搜索表单时，默认为true
+   * @default false
+   */
+  compact?: boolean;
+  /**
    * 所有表单项的控件样式
    */
   controlClass?: string;
+  /**
+   * 在表单项的Label后显示一个冒号
+   */
+  colon?: boolean;
   /**
    * 所有表单项的禁用状态
    * @default false
@@ -389,6 +415,11 @@ export interface FormCommonConfig {
    */
   labelWidth?: number;
   /**
+   * 所有表单项的model属性名。使用自定义组件时可通过此配置指定组件的model属性名。已经在modelPropNameMap中注册的组件不受此配置影响
+   * @default "modelValue"
+   */
+  modelPropName?: string;
+  /**
    * 所有表单项的wrapper样式
    */
   wrapperClass?: string;
@@ -413,13 +444,13 @@ export interface FormSchema<
   dependencies?: FormItemDependencies;
   /** 描述 */
   description?: string;
-  /** 字段名 */
+  /** 字段名，也作为自定义插槽的名称 */
   fieldName: string;
   /** 帮助信息 */
-  help?: string;
-  /** 表单项 */
-  label?: string;
-  // 自定义组件内部渲染
+  help?: CustomRenderType;
+  /** 表单的标签（如果是一个string，会用于默认必选规则的消息提示） */
+  label?: CustomRenderType;
+  /** 自定义组件内部渲染  */
   renderComponentContent?: RenderComponentContentType;
   /** 字段规则 */
   rules?: FormSchemaRuleType;
@@ -436,7 +467,7 @@ export interface FormSchema<
 
 ```ts
 dependencies: {
-  // 只有当 name 字段的值变化时，才会触发联动
+  // 触发字段。只有这些字段值变动时，联动才会触发
   triggerFields: ['name'],
   // 动态判断当前字段是否需要显示，不显示则直接销毁
   if(values,formApi){},
@@ -457,11 +488,11 @@ dependencies: {
 
 ### 表单校验
 
-表单联动需要通过 schema 内的 `rules` 属性进行配置。
+表单校验需要通过 schema 内的 `rules` 属性进行配置。
 
-rules的值可以是一个字符串，也可以是一个zod的schema。
+rules的值可以是字符串（预定义的校验规则名称），也可以是一个zod的schema。
 
-#### 字符串
+#### 预定义的校验规则
 
 ```ts
 // 表示字段必填，默认会根据适配器的required进行国际化
@@ -487,16 +518,43 @@ import { z } from '#/adapter/form';
   rules: z.string().min(1, { message: '请输入字符串' });
 }
 
-// 可选，并且携带默认值
+// 可选(可以是undefined)，并且携带默认值。注意zod的optional不包括空字符串''
 {
-   rules: z.string().default('默认值').optional(),
+  rules: z.string().default('默认值').optional();
+}
+
+// 可以是空字符串、undefined或者一个邮箱地址(两种不同的用法)
+{
+  rules: z.union([z.string().email().optional(), z.literal('')]);
+}
+
+{
+  rules: z.string().email().or(z.literal('')).optional();
 }
 
 // 复杂校验
 {
-   z.string().min(1, { message: "请输入" })
-            .refine((value) => value === "123", {
-              message: "值必须为123",
-            });
+  z.string()
+    .min(1, { message: '请输入' })
+    .refine((value) => value === '123', {
+      message: '值必须为123',
+    });
 }
 ```
+
+## Slots
+
+可以使用以下插槽在表单中插入自定义的内容
+
+| 插槽名        | 描述               |
+| ------------- | ------------------ |
+| reset-before  | 重置按钮之前的位置 |
+| submit-before | 提交按钮之前的位置 |
+| expand-before | 展开按钮之前的位置 |
+| expand-after  | 展开按钮之后的位置 |
+
+::: tip 字段插槽
+
+除了以上内置插槽之外，`schema`属性中每个字段的`fieldName`都可以作为插槽名称，这些字段插槽的优先级高于`component`定义的组件。也就是说，当提供了与`fieldName`同名的插槽时，这些插槽的内容将会作为这些字段的组件，此时`component`的值将会被忽略。
+
+:::

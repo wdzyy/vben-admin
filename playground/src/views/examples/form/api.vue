@@ -1,11 +1,19 @@
 <script lang="ts" setup>
+import type { RefSelectProps } from 'ant-design-vue/es/select';
+
+import { ref } from 'vue';
+
 import { Page } from '@vben/common-ui';
 
 import { Button, Card, message, Space } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 
+const isReverseActionButtons = ref(false);
+
 const [BaseForm, formApi] = useVbenForm({
+  // 翻转操作按钮的位置
+  actionButtonsReverse: isReverseActionButtons.value,
   // 所有表单项共用，可单独在表单内覆盖
   commonConfig: {
     // 所有表单项
@@ -76,6 +84,7 @@ function handleClick(
   action:
     | 'batchAddSchema'
     | 'batchDeleteSchema'
+    | 'componentRef'
     | 'disabled'
     | 'hiddenAction'
     | 'hiddenResetButton'
@@ -83,6 +92,7 @@ function handleClick(
     | 'labelWidth'
     | 'resetDisabled'
     | 'resetLabelWidth'
+    | 'reverseActionButtons'
     | 'showAction'
     | 'showResetButton'
     | 'showSubmitButton'
@@ -122,6 +132,11 @@ function handleClick(
       });
       break;
     }
+    case 'componentRef': {
+      // 获取下拉组件的实例，并调用它的focus方法
+      formApi.getFieldComponentRef<RefSelectProps>('fieldOptions')?.focus();
+      break;
+    }
     case 'disabled': {
       formApi.setState({ commonConfig: { disabled: true } });
       break;
@@ -158,6 +173,11 @@ function handleClick(
       });
       break;
     }
+    case 'reverseActionButtons': {
+      isReverseActionButtons.value = !isReverseActionButtons.value;
+      formApi.setState({ actionButtonsReverse: isReverseActionButtons.value });
+      break;
+    }
     case 'showAction': {
       formApi.setState({ showDefaultActions: true });
       break;
@@ -170,6 +190,7 @@ function handleClick(
       formApi.setState({ submitButtonOptions: { show: true } });
       break;
     }
+
     case 'updateActionAlign': {
       formApi.setState({
         // 可以自行调整class
@@ -226,6 +247,9 @@ function handleClick(
       <Button @click="handleClick('resetLabelWidth')">还原labelWidth</Button>
       <Button @click="handleClick('disabled')">禁用表单</Button>
       <Button @click="handleClick('resetDisabled')">解除禁用</Button>
+      <Button @click="handleClick('reverseActionButtons')">
+        翻转操作按钮位置
+      </Button>
       <Button @click="handleClick('hiddenAction')">隐藏操作按钮</Button>
       <Button @click="handleClick('showAction')">显示操作按钮</Button>
       <Button @click="handleClick('hiddenResetButton')">隐藏重置按钮</Button>
@@ -241,6 +265,7 @@ function handleClick(
       <Button @click="handleClick('batchDeleteSchema')">
         批量删除表单项
       </Button>
+      <Button @click="handleClick('componentRef')">下拉组件获取焦点</Button>
     </Space>
     <Card title="操作示例">
       <BaseForm />

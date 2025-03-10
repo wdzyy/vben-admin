@@ -1,7 +1,10 @@
 :root {
-  --font-family: -apple-system, blinkmacsystemfont, 'Segoe UI', roboto,
-    'Helvetica Neue', arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  /** 弹出层的基础层级 **/
+  --popup-z-index: 2000;
+  --font-family:
+    -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, 'Helvetica Neue',
+    arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 
   /* Default background color of <body />...etc */
   --background: 0 0% 100%;
@@ -58,6 +61,8 @@
 
   /* Used for accents such as hover effects on <DropdownMenuItem>, <SelectItem>...etc */
   --accent: 240 5% 96%;
+  --accent-dark: 216 14% 93%;
+  --accent-darker: 216 11% 91%;
   --accent-lighter: 240 0% 98%;
   --accent-hover: 200deg 10% 90%;
   --accent-foreground: 240 6% 10%;
