@@ -123,14 +123,6 @@ export class ModalApi {
     return this.setState({ submitting: isLocked });
   }
 
-  modalLoading(loading: boolean) {
-    this.store.setState((prev) => ({
-      ...prev,
-      confirmLoading: loading,
-      loading,
-    }));
-  }
-
   /**
    * 取消操作
    */
@@ -187,5 +179,13 @@ export class ModalApi {
       this.store.setState((prev) => ({ ...prev, ...stateOrFn }));
     }
     return this;
+  }
+
+  /**
+   * 解除弹窗的锁定状态
+   * @description 解除由lock方法设置的锁定状态，是lock(false)的别名
+   */
+  unlock() {
+    return this.lock(false);
   }
 }

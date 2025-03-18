@@ -1,7 +1,8 @@
 import { createApp, watchEffect } from 'vue';
 
 import { registerAccessDirective } from '@vben/access';
-import { initTippy } from '@vben/common-ui';
+import { initTippy, registerLoadingDirective } from '@vben/common-ui';
+import { MotionPlugin } from '@vben/plugins/motion';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
@@ -32,6 +33,12 @@ async function bootstrap(namespace: string) {
   // 注册Element Plus提供的v-loading指令
   app.directive('loading', ElLoading.directive);
 
+  // 注册Vben提供的v-loading和v-spinning指令
+  registerLoadingDirective(app, {
+    loading: false, // Vben提供的v-loading指令和Element Plus提供的v-loading指令二选一即可，此处false表示不注册Vben提供的v-loading指令
+    spinning: 'spinning',
+  });
+
   // 国际化 i18n 配置
   await setupI18n(app);
 
@@ -46,6 +53,9 @@ async function bootstrap(namespace: string) {
 
   // 配置路由及路由守卫
   app.use(router);
+
+  // 配置Motion插件
+  app.use(MotionPlugin);
 
   // 动态更新标题
   watchEffect(() => {

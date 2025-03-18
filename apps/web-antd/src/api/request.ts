@@ -192,7 +192,7 @@ function createRequestClient(baseURL: string) {
       const { code, data, msg, ...other } = axiosResponseData;
 
       // 业务状态码为200则请求成功
-      const hasSuccess = Reflect.has(axiosResponseData, 'code') && code === 200;
+      const hasSuccess = Reflect.has(axiosResponseData, 'code') && code === 0;
       if (hasSuccess) {
         let successMsg = msg;
 
