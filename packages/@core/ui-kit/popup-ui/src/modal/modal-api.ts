@@ -124,11 +124,7 @@ export class ModalApi {
   }
 
   modalLoading(loading: boolean) {
-    this.store.setState((prev) => ({
-      ...prev,
-      confirmLoading: loading,
-      loading,
-    }));
+    this.setState({ submitting: loading });
   }
 
   /**
