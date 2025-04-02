@@ -7,7 +7,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
-import { getPopupContainer } from '@vben/utils';
+import { getVxePopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
@@ -74,6 +74,7 @@ const gridOptions: VxeGridProps = {
     keyField: 'dictId',
   },
   id: 'system-dict-type-index',
+  rowClassName: 'hover:cursor-pointer',
 };
 
 const checked = ref(false);
@@ -173,7 +174,7 @@ function handleDownloadExcel() {
 
 <template>
   <div auto-content-height>
-    <BasicTable>
+    <BasicTable id="dict-type">
       <template #toolbar-actions>
         <Space>
           <a-button type="primary" @click="handleAdd">
@@ -204,7 +205,9 @@ function handleDownloadExcel() {
             {{ $t('pages.common.edit') }}
           </ghost-button>
           <Popconfirm
-            :get-popup-container="getPopupContainer"
+            :get-popup-container="
+              (node) => getVxePopupContainer(node, 'dict-type')
+            "
             placement="left"
             title="确认删除？"
             @confirm="handleDelete(row)"
@@ -219,3 +222,14 @@ function handleDownloadExcel() {
     <DictTypeModal @reload="tableApi.query()" />
   </div>
 </template>
+
+<style lang="scss">
+div#dict-type {
+  .vxe-body--row {
+    &.row--current {
+      // 选中行bold
+      @apply font-semibold;
+    }
+  }
+}
+</style>

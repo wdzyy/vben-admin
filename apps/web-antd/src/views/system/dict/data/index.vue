@@ -7,7 +7,7 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 import { ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
-import { getPopupContainer } from '@vben/utils';
+import { getVxePopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
@@ -136,7 +136,7 @@ function handleDownloadExcel() {
 
 <template>
   <div auto-content-height>
-    <BasicTable>
+    <BasicTable id="dict-data">
       <template #toolbar-actions>
         <Space>
           <a-button
@@ -165,7 +165,9 @@ function handleDownloadExcel() {
             {{ $t('pages.common.edit') }}
           </ghost-button>
           <Popconfirm
-            :get-popup-container="getPopupContainer"
+            :get-popup-container="
+              (node) => getVxePopupContainer(node, 'dict-data')
+            "
             placement="left"
             title="确认删除？"
             @confirm="handleDelete(row)"
