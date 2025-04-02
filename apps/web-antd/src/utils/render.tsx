@@ -6,7 +6,7 @@ import { Tag } from 'ant-design-vue';
 
 import { DictTag } from '#/components/dict';
 
-import { getDict } from './dict';
+import { getDictOptions } from './dict';
 
 /**
  * 渲染标签
@@ -101,7 +101,7 @@ export function renderDictTags(
  * @returns tag
  */
 export function renderDict(value: string, dictName: string) {
-  const dictInfo = getDict(dictName);
+  const dictInfo = getDictOptions(dictName);
   return renderDictTag(value, dictInfo);
 }
 

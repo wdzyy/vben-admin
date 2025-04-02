@@ -1,45 +1,63 @@
-import type { DictData } from '#/api/system/dict/dict-data-model';
-import type { Option } from '#/store/dict';
-
 import { dictDataInfo } from '#/api/system/dict/dict-data';
 import { useDictStore } from '#/store/dict';
 
-// todo 重复代码的封装
-export function getDict(dictName: string): DictData[] {
-  const { dictRequestCache, getDict, setDictInfo } = useDictStore();
-  // 这里拿到
-  const dictList = getDict(dictName);
+/**
+ * 抽取公共逻辑的基础方法
+ * @param dictName 字典名称
+ * @param dataGetter 获取字典数据的函数
+ * @param formatNumber 是否格式化字典value为number类型
+ * @returns 数据
+ */
+function fetchAndCacheDictData<T>(
+  dictName: string,
+  dataGetter: () => T[],
+  formatNumber = false,
+): T[] {
+  const { dictRequestCache, setDictInfo } = useDictStore();
+  // 有调用方决定如何获取数据
+  const dataList = dataGetter();
+
   // 检查请求状态缓存
-  if (dictList.length === 0 && !dictRequestCache.has(dictName)) {
+  if (dataList.length === 0 && !dictRequestCache.has(dictName)) {
     dictRequestCache.set(
       dictName,
-      dictDataInfo(dictName).then((resp) => {
-        // 缓存到store 这样就不用重复获取了
-        // 内部处理了push的逻辑 这里不用push
-        setDictInfo(dictName, resp);
-        // 移除请求状态缓存
-        dictRequestCache.delete(dictName);
-      }),
+      dictDataInfo(dictName)
+        .then((resp) => {
+          // 缓存到store 这样就不用重复获取了
+          // 内部处理了push的逻辑 这里不用push
+          setDictInfo(dictName, resp, formatNumber);
+        })
+        .catch(() => {
+          // 401时 移除字典缓存 下次登录重新获取
+          dictRequestCache.delete(dictName);
+        })
+        .finally(() => {
+          // 移除请求状态缓存
+          /**
+           * 这里主要判断字典item为空的情况(无奈兼容 不给字典item本来就是错误用法)
+           * 会导致if一直进入逻辑导致接口无限刷新
+           * 在这里dictList为空时 不删除缓存
+           */
+          if (dataList.length > 0) {
+            dictRequestCache.delete(dictName);
+          }
+        }),
     );
   }
-  return dictList;
+  return dataList;
 }
 
-export function getDictOptions(dictName: string): Option[] {
-  const { dictRequestCache, getDictOptions, setDictInfo } = useDictStore();
-  const dictOptionList = getDictOptions(dictName);
-  // 检查请求状态缓存
-  if (dictOptionList.length === 0 && !dictRequestCache.has(dictName)) {
-    dictRequestCache.set(
-      dictName,
-      dictDataInfo(dictName).then((resp) => {
-        // 缓存到store 这样就不用重复获取了
-        // 内部处理了push的逻辑 这里不用push
-        setDictInfo(dictName, resp);
-        // 移除请求状态缓存
-        dictRequestCache.delete(dictName);
-      }),
-    );
-  }
-  return dictOptionList;
+/**
+ * 一般是Select, Radio, Checkbox等组件使用
+ * @param dictName 字典名称
+ * @param formatNumber 是否格式化字典value为number类型
+ * @returns Options数组
+ */
+export function getDictOptions(dictName: string, formatNumber = false) {
+  const { getDictOptions } = useDictStore();
+  return fetchAndCacheDictData(
+    dictName,
+    () => getDictOptions(dictName),
+    formatNumber,
+  );
 }

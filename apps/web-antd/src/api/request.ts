@@ -44,7 +44,7 @@ function createRequestClient(baseURL: string) {
     baseURL,
     // 消息提示类型
     errorMessageMode: 'message',
-    // 是否返回原生响应 比如：需要获取响应头时使用该属性
+    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     isReturnNativeResponse: false,
     // 需要对返回数据进行处理
     isTransformResponse: true,
@@ -224,7 +224,7 @@ function createRequestClient(baseURL: string) {
         case 401: {
           // 已经在登出过程中 不再执行
           if (isLogoutProcessing) {
-            return;
+            throw new Error(timeoutMsg);
           }
           isLogoutProcessing = true;
           const _msg = $t('http.loginTimeout');
@@ -234,7 +234,7 @@ function createRequestClient(baseURL: string) {
             isLogoutProcessing = false;
           });
           // 不再执行下面逻辑
-          return;
+          throw new Error(_msg);
         }
         default: {
           if (msg) {
