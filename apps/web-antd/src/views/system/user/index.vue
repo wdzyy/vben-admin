@@ -63,7 +63,7 @@ const formOptions: VbenFormProps = {
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
   handleReset: async () => {
     selectDeptId.value = [];
-    // eslint-disable-next-line no-use-before-define
+
     const { formApi, reload } = tableApi;
     await formApi.resetForm();
     const formValues = formApi.form.values;
@@ -231,8 +231,9 @@ function handleDownloadExcel() {
         </template>
         <template #status="{ row }">
           <TableSwitch
-            v-model="row.status"
-            :api="() => (row.status === '1' ? '0' : '1')"
+            v-model:value="row.status"
+            :api="() => api(row)"
+            @reload="() => tableApi.query()"
             :disabled="row.userId === 1"
           />
         </template>

@@ -185,8 +185,9 @@ function handleDownloadExcel() {
       </template>
       <template #status="{ row }">
         <TableSwitch
-          v-model="row.status"
-          :api="() => (row.status === '1' ? '0' : '1')"
+          v-model:value="row.status"
+          :api="() => api(row)"
+          @reload="() => tableApi.query()"
         />
       </template>
       <template #action="{ row }">
