@@ -52,7 +52,7 @@ const loading = computed(() => {
     <component
       v-if="!loading"
       :is="tagComponent"
-      :class="`${cssClass} enter-x`"
+      :class="cssClass"
       :color="color"
     >
       {{ label }}
