@@ -46,9 +46,12 @@
   --vxe-ui-table-row-current-background-color: hsl(var(--accent));
   --vxe-ui-table-row-hover-current-background-color: hsl(var(--accent-hover));
 
-  height: auto !important;
-
   /* --vxe-ui-table-fixed-scrolling-box-shadow-color: rgb(0 0 0 / 80%); */
+
+  /** 右上角toolbar按钮色/翻页主题色保持一致 */
+  --vxe-ui-font-primary-lighten-color: hsl(var(--primary-500));
+
+  height: auto !important;
 }
 
 html[data-vxe-ui-theme='dark'] .vxe-grid {
