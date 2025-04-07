@@ -4,7 +4,7 @@ import type { DictData } from '#/api/system/dict/dict-data-model';
 
 import { computed } from 'vue';
 
-import { Tag } from 'ant-design-vue';
+import { Spin, Tag } from 'ant-design-vue';
 
 import { tagTypes } from './data';
 
@@ -41,12 +41,22 @@ const label = computed<number | string>(() => {
 });
 
 const tagComponent = computed(() => (color.value ? Tag : 'div'));
+
+const loading = computed(() => {
+  return props.dicts?.length === 0;
+});
 </script>
 
 <template>
   <div>
-    <component :is="tagComponent" :class="cssClass" :color="color">
+    <component
+      v-if="!loading"
+      :is="tagComponent"
+      :class="`${cssClass} enter-x`"
+      :color="color"
+    >
       {{ label }}
     </component>
+    <Spin v-else :spinning="true" size="small" />
   </div>
 </template>
