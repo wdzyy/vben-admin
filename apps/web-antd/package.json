@@ -53,7 +53,8 @@
     "lodash-es": "^4.17.21",
     "pinia": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "vue3-colorpicker": "^2.3.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
