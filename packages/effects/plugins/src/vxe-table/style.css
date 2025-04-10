@@ -46,6 +46,8 @@
   --vxe-ui-table-row-current-background-color: hsl(var(--accent));
   --vxe-ui-table-row-hover-current-background-color: hsl(var(--accent-hover));
 
+  height: auto !important;
+
   /* --vxe-ui-table-fixed-scrolling-box-shadow-color: rgb(0 0 0 / 80%); */
 }
 
@@ -109,4 +111,12 @@ html[data-vxe-ui-theme='dark'] .vxe-grid {
 
 .vxe-tools--operate:not(:has(button)) {
   margin-left: 0;
+}
+
+.vxe-grid--layout-header-wrapper {
+  overflow: visible;
+}
+
+.vxe-grid--layout-body-content-wrapper {
+  overflow: hidden;
 }
