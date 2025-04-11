@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+import { $t } from '@vben/locales';
 
 import { Modal, Switch } from 'ant-design-vue';
 import { isFunction } from 'lodash-es';
@@ -7,7 +9,15 @@ import { isFunction } from 'lodash-es';
 type CheckedType = boolean | number | string;
 
 interface Props {
+  /**
+   * 选中的文本
+   * @default i18n 启用
+   */
   checkedText?: string;
+  /**
+   * 未选中的文本
+   * @default i18n 禁用
+   */
   unCheckedText?: string;
   checkedValue?: CheckedType;
   unCheckedValue?: CheckedType;
@@ -30,8 +40,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  checkedText: '启用',
-  unCheckedText: '禁用',
+  checkedText: undefined,
+  unCheckedText: undefined,
   checkedValue: '0',
   unCheckedValue: '1',
   confirm: false,
@@ -39,6 +49,15 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ reload: [] }>();
+
+// 修改为computed 支持语言切换
+const checkedTextComputed = computed(() => {
+  return props.checkedText ?? $t('pages.common.enable');
+});
+
+const unCheckedTextComputed = computed(() => {
+  return props.unCheckedText ?? $t('pages.common.disable');
+});
 
 const currentChecked = defineModel<CheckedType>('value', {
   default: false,
@@ -106,9 +125,9 @@ async function handleChange(checked: CheckedType, e: Event) {
     :loading="loading"
     :disabled="disabled"
     :checked="currentChecked"
-    :checked-children="checkedText"
+    :checked-children="checkedTextComputed"
     :checked-value="checkedValue"
-    :un-checked-children="unCheckedText"
+    :un-checked-children="unCheckedTextComputed"
     :un-checked-value="unCheckedValue"
     @change="handleChange"
   />
