@@ -86,7 +86,8 @@ export class DrawerApi {
   }
 
   /**
-   * 关闭弹窗
+   * 关闭抽屉
+   * @description 关闭抽屉时会调用 onBeforeClose 钩子函数，如果 onBeforeClose 返回 false，则不关闭弹窗
    */
   async close() {
     // 通过 onBeforeClose 钩子函数来判断是否允许关闭弹窗
